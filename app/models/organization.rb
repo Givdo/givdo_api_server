@@ -7,7 +7,7 @@ class Organization < ActiveRecord::Base
     self['state'] = ograph['location']['state']
     self['zip'] = ograph['location']['zip']
     self['street'] = ograph['location']['street']
-    self['picture'] = graph.get_picture(self['facebook_id'])
+    self['picture'] = graph.get_picture(self['facebook_id'], {type: "large"})
     self['mission'] = ograph['mission']
   end
    

@@ -13,7 +13,7 @@ module FacebookGraph
     organization['state'] = ograph['location']['state']
     organization['zip'] = ograph['location']['zip']
     organization['street'] = ograph['location']['street']
-    organization['picture'] = graph.get_picture(organization.facebook_id)
+    organization['picture'] = graph.get_picture(organization.facebook_id, {type: "large"})
     organization['mission'] = ograph['mission']
     organization['cached'] = true
     organization.save
