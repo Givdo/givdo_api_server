@@ -96,6 +96,7 @@ GEM
       omniauth (~> 1.2)
     orm_adapter (0.5.0)
     rack (1.6.4)
+    rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.1)
@@ -170,6 +171,7 @@ DEPENDENCIES
   devise_token_auth
   koala (~> 2.2)
   omniauth-facebook
+  rack-cors
   rails (= 4.2.1)
   rspec-rails
   spring

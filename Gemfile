@@ -10,6 +10,7 @@ gem 'omniauth-facebook'
 gem 'koala', '~> 2.2'
 
 gem 'unicorn'
+gem 'rack-cors', require: 'rack/cors'
 
 group :development, :test do
   gem 'byebug'
