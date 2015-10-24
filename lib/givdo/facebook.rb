@@ -16,9 +16,9 @@ module Givdo
         if organization.cached?
           puts "organization " + organization.name + " is already cached"
         else
-          puts "caching organization with FB ID " + organization['facebook_id']
+          puts "caching organization with FB ID #{organization.facebook_id}"
           UpdateOrganizationJob.perform_later(organization)
-          puts "organization " + organization['name'] + " was cached successfully!"
+          puts "organization #{organization.name} was cached successfully!"
         end
       end
     end
