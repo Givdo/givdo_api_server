@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151022015638) do
+ActiveRecord::Schema.define(version: 20151026233102) do
 
   create_table "organizations", force: :cascade do |t|
     t.string   "facebook_id"
@@ -22,9 +22,9 @@ ActiveRecord::Schema.define(version: 20151022015638) do
     t.string   "zip"
     t.string   "street"
     t.string   "mission"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.boolean  "cached",      default: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.datetime "cached_at"
   end
 
   create_table "users", force: :cascade do |t|

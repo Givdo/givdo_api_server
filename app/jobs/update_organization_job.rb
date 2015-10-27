@@ -6,6 +6,8 @@ class UpdateOrganizationJob < ActiveJob::Base
   def perform(organization)
     ograph = Givdo::Facebook.graph.get_object(organization.facebook_id)
 
+    organization.cache!
+
     organization.name    = ograph['name']
     organization.mission = ograph['mission']
 
@@ -17,7 +19,6 @@ class UpdateOrganizationJob < ActiveJob::Base
     end
 
     organization.picture = Givdo::Facebook.graph.get_picture(organization.facebook_id, {type: "large"})
-    organization.cached  = true
 
     organization.save
   end
