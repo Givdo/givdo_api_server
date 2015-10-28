@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.0.0'
 
 gem 'rails', '4.2.1'
 
@@ -8,6 +9,7 @@ gem 'devise_token_auth'
 gem 'omniauth-facebook'
 # Facebook graph API gem
 gem 'koala', '~> 2.2'
+gem 'braintree'
 
 gem 'unicorn'
 gem 'rack-cors', require: 'rack/cors'
