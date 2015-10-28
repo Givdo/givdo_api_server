@@ -20,4 +20,5 @@ group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'timecop'
+  gem 'factory_girl_rails'
 end
