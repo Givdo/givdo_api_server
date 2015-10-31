@@ -4,7 +4,7 @@ ruby '2.0.0'
 gem 'rails', '4.2.1'
 
 # App Logic
-gem 'devise_token_auth'
+gem 'devise_token_auth', github: 'xjunior/devise_token_auth'
 # Facebook omniauth authentication
 gem 'omniauth-facebook'
 # Facebook graph API gem
