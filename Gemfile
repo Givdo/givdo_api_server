@@ -10,6 +10,7 @@ gem 'omniauth-facebook'
 # Facebook graph API gem
 gem 'koala', '~> 2.2'
 gem 'braintree'
+gem 'active_model_serializers', '~>0.10.0.rc3'
 
 gem 'unicorn'
 gem 'rack-cors', require: 'rack/cors'
