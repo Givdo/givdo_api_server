@@ -11,12 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151102202601) do
+ActiveRecord::Schema.define(version: 20151102211752) do
 
   create_table "answers", id: false, force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "option_id"
-    t.datetime "updated_at", null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "correct",    default: false, null: false
   end
 
   add_index "answers", ["option_id"], name: "index_answers_on_option_id"
@@ -38,8 +39,9 @@ ActiveRecord::Schema.define(version: 20151102202601) do
 
   create_table "trivia", force: :cascade do |t|
     t.text     "question"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "correct_option_id"
   end
 
   create_table "trivia_options", force: :cascade do |t|

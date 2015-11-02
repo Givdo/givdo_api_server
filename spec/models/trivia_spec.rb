@@ -6,13 +6,25 @@ RSpec.describe Trivia, type: :model do
     let(:trivia) { create(:trivia) }
     let(:option) { trivia.options.create }
 
-    it 'creates an answer for the user with the given option' do
-      answer = trivia.answer! user, option.id
+    subject { answer = trivia.answer!(user, option.id) }
 
-      expect(answer.user).to eql user
-      expect(answer.option).to eql option
-      expect(answer).to be_persisted
-      expect(answer).to be_a(Answer)
+    it 'creates an answer for the user with the given option' do
+      expect(subject.user).to eql user
+      expect(subject.option).to eql option
+      expect(subject).to be_persisted
+      expect(subject).to be_a(Answer)
+    end
+
+    it 'marks the answer as correct when it is the correct option' do
+      trivia.correct_option_id = option.id
+
+      expect(subject).to be_correct
+    end
+
+    it 'marks the answer as incorrect when it is not the correct option' do
+      trivia.correct_option_id = option.id + 10
+
+      expect(subject).to_not be_correct
     end
   end
 end
