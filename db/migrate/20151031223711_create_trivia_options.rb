@@ -4,7 +4,7 @@ class CreateTriviaOptions < ActiveRecord::Migration
       t.string :text
       t.references :trivia
 
-      t.timestamps null: false
+      t.timestamps :null => false
     end
   end
 end

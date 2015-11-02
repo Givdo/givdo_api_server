@@ -11,7 +11,7 @@ class CreateOrganizations < ActiveRecord::Migration
       t.string :street
       t.string :mission
 
-      t.timestamps null: false
+      t.timestamps :null => false
     end
   end
 end

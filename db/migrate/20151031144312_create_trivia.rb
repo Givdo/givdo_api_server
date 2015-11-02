@@ -3,7 +3,7 @@ class CreateTrivia < ActiveRecord::Migration
     create_table :trivia do |t|
       t.text :question
 
-      t.timestamps null: false
+      t.timestamps :null => false
     end
   end
 end
