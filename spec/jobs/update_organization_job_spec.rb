@@ -1,10 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe UpdateOrganizationJob, type: :job do
-  let(:graph) { double(:get_object => {}, :get_picture => nil) }
   let(:organization) { Organization.new(facebook_id: 'facebook id') }
-  before do
-    allow(Givdo::Facebook).to receive(:graph).and_return(graph)
+  let(:graph) { double(:get_object => {}, :get_picture => nil) }
+  before { allow(Givdo::Facebook).to receive(:graph).and_return(graph) }
+
+  describe 'facebook error' do
+    let(:error) { Koala::Facebook::ClientError.new(nil, nil) }
+    before { allow(graph).to receive(:get_object).and_raise error }
+
+    it 'logs and ignore the error' do
+      expect(subject.logger).to receive(:error).with(error)
+
+      subject.perform(organization)
+    end
   end
 
   describe "organization data update" do
@@ -14,9 +23,7 @@ RSpec.describe UpdateOrganizationJob, type: :job do
         'mission' => 'Save the rainforest'
       }
     end
-    before do
-      allow(graph).to receive(:get_object).with('facebook id').and_return(facebook_data)
-    end
+    before { allow(graph).to receive(:get_object).with('facebook id').and_return(facebook_data) }
 
     it 'saves the cached organization' do
       subject.perform(organization)
