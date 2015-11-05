@@ -1,3 +1,7 @@
+Answer.destroy_all
+Trivia.destroy_all
+
+# Organizations
 [
   '6204742571', '24472055070', '10004746836', '100235282316', '10150097369190298', '10150115436950364',
   '103927839658987', '108147600393', '110875278993891', '111049572241728', '111263655567366', '114527438605257',
@@ -13,6 +17,26 @@
   '6769347911', '71679985558', '71800720352', '72724474789', '76025018070', '76025018070', '77249738079', '77943343461',
   '7972952490', '80880151683', '81081806187', '81250541096', '85576047938', '89181104843', '8978324743', '91821375381',
   '91990961868', '9217584365', '94121835955', '95295732841', '95784413698', '97261063097'
-].map do |facebook_id|
+].each do |facebook_id|
   Organization.where(:facebook_id => facebook_id).first_or_create
+end
+
+# Trivias
+[
+  ['What is the most common litter on beaches?', 'Glass Aluminum', 'Plastic'],
+  ['How much water on Earth is clean enough to drink?', '1%', '40%', '15%'],
+  ['How much of the Earth\'s oceans are polluted?', '80%', '1%', '32%'],
+  ['How many people have gained access to clean water since 1990?', '2.6 billion people', '1.4 million people', '860,000'],
+  ['Recycling one aluminum can saves enough energy to...', 'run a TV for three hours', 'run an electric car for 12 miles', 'run a laptop for an hour'],
+  ['How many times can an alumnium can be recycled?', 'ad infinitum', '3 times', '10 times'],
+  ['How many aluminum cans do we consume in a year?', '80 trillion', '25 trillion', '600 billion'],
+  ['The worlds tallest tree is in...', 'California', 'Montana', 'Washington'],
+  ['Recycling a single run of the Sunday New York Times would save...', '75 million trees', '10 thousand trees', '1 million'],
+  ['On average, how many bags does ONE supermarket go through in one year', '60,500,000', '5,000,000,000', '15,000,000']
+].each do |args|
+  trivia = Trivia.create(question: args.shift)
+  options = args.map do |option|
+    trivia.options.create(text: option)
+  end
+  trivia.update_attribute(:correct_option_id, options.first.id)
 end
