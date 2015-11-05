@@ -7,6 +7,9 @@ Rails.application.routes.draw do
         member do
           post '/answer', :action => :answer
         end
+        collection do
+          get '/raffle', :action => :raffle
+        end
       end
       resources :organizations, :only => [:index]
       resources :payments, :only => [:create] do

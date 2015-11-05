@@ -10,6 +10,10 @@ class TriviaController < ApplicationController
     render json: answer
   end
 
+  def raffle
+    render json: TriviaRaffle.next(current_user)
+  end
+
   private
 
   def trivia

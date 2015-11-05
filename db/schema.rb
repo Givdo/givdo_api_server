@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151102211752) do
+ActiveRecord::Schema.define(version: 20151105205401) do
 
-  create_table "answers", id: false, force: :cascade do |t|
+  create_table "answers", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "option_id"
     t.datetime "updated_at",                 null: false
