@@ -23,7 +23,7 @@ end
 
 # Trivias
 [
-  ['What is the most common litter on beaches?', 'Glass Aluminum', 'Plastic'],
+  ['What is the most common litter on beaches?', 'Glass', 'Aluminum', 'Plastic'],
   ['How much water on Earth is clean enough to drink?', '1%', '40%', '15%'],
   ['How much of the Earth\'s oceans are polluted?', '80%', '1%', '32%'],
   ['How many people have gained access to clean water since 1990?', '2.6 billion people', '1.4 million people', '860,000'],
