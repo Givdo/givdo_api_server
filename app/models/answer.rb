@@ -18,7 +18,7 @@ class Answer < ActiveRecord::Base
   belongs_to :user
   belongs_to :option, :class_name => 'TriviaOption'
 
-  delegate :trivia, :trivia_id, :to => :option, :prefix => false
+  delegate :trivia, :trivia_id, :to => :option, :prefix => false, :allow_nil => true
 
   default_scope { includes(:option) }
 
