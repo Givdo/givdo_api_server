@@ -17,6 +17,8 @@
 #
 
 class Organization < ActiveRecord::Base
+  scope :not_cached, -> { where(cached_at: nil) }
+
   def cache!
     self.cached_at = Time.current
   end

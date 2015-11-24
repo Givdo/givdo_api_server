@@ -3,6 +3,14 @@ require 'givdo/facebook'
 namespace :organization do
   desc "Cache data from Facebook API to database"
   task :cache => :environment do
-    Givdo::Facebook.cache_organizations
+    Organization.not_cached.find_each do |organization|
+      print "Caching #{organization.name} (#{organization.facebook_id}) ... "
+      begin
+        UpdateOrganizationJob.perform_later(organization)
+        puts "OK"
+      rescue => e
+        puts "ERROR [#{e.message}]"
+      end
+    end
   end
 end
