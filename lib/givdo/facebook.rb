@@ -7,20 +7,9 @@ module Givdo
       end
     end
 
-    def self.graph
-      Koala::Facebook::API.new oauth.get_app_access_token
-    end
-
-    def self.cache_organizations
-      Organization.find_each do |organization|
-        if organization.cached?
-          puts "organization " + organization.name + " is already cached"
-        else
-          puts "caching organization with FB ID #{organization.facebook_id}"
-          UpdateOrganizationJob.perform_later(organization)
-          puts "organization #{organization.name} was cached successfully!"
-        end
-      end
+    def self.graph(user=nil)
+      token = user ? user.provider_access_token : oauth.get_app_access_token
+      Koala::Facebook::API.new token
     end
   end
 end

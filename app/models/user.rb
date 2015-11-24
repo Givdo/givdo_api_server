@@ -44,4 +44,8 @@ class User < ActiveRecord::Base
   has_many :answers
 
   serialize :provider_token
+
+  def provider_access_token
+    provider_token.try(:fetch, 'token')
+  end
 end
