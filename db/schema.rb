@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151105205401) do
+ActiveRecord::Schema.define(version: 20151124175738) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "user_id"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 20151105205401) do
     t.text     "tokens"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "provider_token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email"

@@ -25,6 +25,7 @@
 #  tokens                 :text
 #  created_at             :datetime
 #  updated_at             :datetime
+#  provider_token         :text
 #
 # Indexes
 #
@@ -41,4 +42,6 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_many :answers
+
+  serialize :provider_token
 end
