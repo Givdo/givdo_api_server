@@ -2,17 +2,6 @@ require 'rails_helper'
 require 'givdo/facebook'
 
 RSpec.describe Givdo::Facebook, type: :lib do
-  # def self.oauth
-  #   @_oauth ||= begin
-  #     credentials = Rails.application.secrets.facebook.values_at('app_id', 'secret')
-  #     Koala::Facebook::OAuth.new *credentials
-  #   end
-  # end
-
-  # def self.graph(token=nil)
-  #   Koala::Facebook::API.new token || oauth.get_app_access_token
-  # end
-
   describe 'oauth' do
     it 'is a koala facebook oauth using the secrets credentials' do
       allow(Rails.application.secrets).to receive(:facebook).and_return({
@@ -25,7 +14,7 @@ RSpec.describe Givdo::Facebook, type: :lib do
     end
   end
 
-  describe 'graph' do
+  describe '.graph(user)' do
     context 'when a token is not given' do
       it 'is a koala facebook client with the app token' do
         expect(subject).to receive(:oauth).and_return(double(get_app_access_token: 'app token'))

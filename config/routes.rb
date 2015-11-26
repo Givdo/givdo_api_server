@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         end
       end
       resources :organizations, :only => [:index]
+      resources :friends, :only => [:index]
       resources :payments, :only => [:create] do
         collection do
           get '/token', :action => :token
