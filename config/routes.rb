@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
   scope '/api' do
     scope '/v1' do
-      mount_devise_token_auth_for 'User', :at => 'auth', :controllers => {
-        :omniauth_callbacks => 'oauth_callback',
-      }
+      post '/oauth/:provider/callback' => 'oauth_callback#callback'
 
       resources :trivia, :only => [:show] do
         member do
@@ -14,7 +12,11 @@ Rails.application.routes.draw do
         end
       end
       resources :organizations, :only => [:index]
-      resources :friends, :only => [:index]
+      resources :friends, :only => [:index] do
+        collection do
+          post '/invite', :action => :invite
+        end
+      end
       resources :payments, :only => [:create] do
         collection do
           get '/token', :action => :token

@@ -1,6 +1,12 @@
 module ApiHelper
+  def auth_header(token)
+    ActionController::HttpAuthentication::Token.encode_credentials(token)
+  end
+
   def api_user(user)
-  	request.headers.merge!(user.create_new_auth_token)
+    token = UserToken.generate(user, false)
+    request.env['HTTP_AUTHORIZATION'] = auth_header(token)
+    allow(UserToken).to receive(:authenticate).with(token).and_return(user)
   end
 
   def serialize(object, serializer_klass)

@@ -1,7 +1,8 @@
-class OauthCallbackController < DeviseTokenAuth::OmniauthCallbacksController
-  def assign_provider_attrs(user, auth_hash)
-    super
+class OauthCallbackController < ApplicationController
+  def callback
+    user = User.for_provider(params[:provider],  params[:uid], params[:access_token])
+    token = UserToken.generate(user, params[:expires_in].to_i)
 
-    user.assign_attributes(:provider_token => auth_hash['credentials'])
+    render :json => {:token => token}
   end
 end
