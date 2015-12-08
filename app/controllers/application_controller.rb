@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :null_session
+  protect_from_forgery :with => :null_session
+  rescue_from UserToken::InvalidToken, :with => :access_denied
 
   protected
 
@@ -13,5 +14,11 @@ class ApplicationController < ActionController::Base
     @current_user ||= authenticate_with_http_token do |token, _|
       UserToken.authenticate(token)
     end
+  end
+
+  private
+
+  def access_denied
+    head :status => :unauthorized
   end
 end

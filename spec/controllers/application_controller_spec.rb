@@ -38,6 +38,13 @@ RSpec.describe ApplicationController, :type => :controller do
     end
     subject { get :index }
 
+    it 'denies the access when the user sends an invalid token' do
+      api_user(user)
+      allow(UserToken).to receive(:authenticate).and_raise(UserToken::InvalidToken)
+
+      expect(subject.code).to eql '401'
+    end
+
     it 'is the user when it is valid' do
       api_user(user)
 
