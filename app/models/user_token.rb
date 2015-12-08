@@ -26,7 +26,7 @@ class UserToken
 
   def generate(user, expire_in)
     data = {:data => user.id}
-    data[:exp] = (Time.now.to_i + expire_in) if expire_in
+    data[:exp] = (Time.current.to_i + expire_in) if expire_in
 
     JWT.encode(data, @salt, @algorithm)
   end

@@ -12,9 +12,9 @@ RSpec.describe UserToken, :type => :model do
     end
 
     it 'generates a token after the given number of seconds' do
-      allow(Time).to receive(:now).and_return(Time.new(0))
-
-      expect(subject.generate(user_10, 70)).to eql 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoxMCwiZXhwIjotNjIxNjcyMDgzMzB9.yLz8w7-tIj4znhgjdZnKprr9Y2TTOkrKHTJbg752E8o'
+      Timecop.freeze(Time.new(0)) do
+        expect(subject.generate(user_10, 70)).to eql 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoxMCwiZXhwIjotNjIxNjcyMDgzMzB9.yLz8w7-tIj4znhgjdZnKprr9Y2TTOkrKHTJbg752E8o'
+      end
     end
   end
 
