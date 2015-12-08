@@ -15,8 +15,8 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe '.for_provider' do
-    subject { User.for_provider('facebook', 'facebook id', 'token') }
+  describe '.for_provider!' do
+    subject { User.for_provider!('facebook', 'facebook id', 'token') }
 
     it 'is the existing user by the provider and provider id' do
       user = create(:user, {
@@ -32,7 +32,7 @@ RSpec.describe User, type: :model do
     it 'is an initialized user with the provider and provider id if one does not exist' do
       User.where(:provider => 'facebook', :uid => 'facebook id').destroy_all
 
-      expect(subject).to_not be_persisted
+      expect(subject).to be_persisted
       expect(subject.provider).to eql 'facebook'
       expect(subject.uid).to eql 'facebook id'
       expect(subject.provider_token).to eql 'token'

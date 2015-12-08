@@ -24,9 +24,10 @@ class User < ActiveRecord::Base
 
   serialize :provider_token
 
-  def self.for_provider(provider, uid, access_token)
+  def self.for_provider!(provider, uid, access_token)
     where(:uid => uid, :provider => provider).first_or_initialize.tap do |user|
       user.provider_token = access_token
+      user.save!
     end
   end
 
