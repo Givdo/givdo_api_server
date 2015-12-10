@@ -1,6 +1,18 @@
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
+RSpec.describe User, :type => :model do
+  it 'is not valid without the uid' do
+    subject.uid = nil
+    expect(subject).to_not be_valid
+    expect(subject.errors[:uid]).to eql ['can\'t be blank']
+  end
+
+  it 'is not valid without the provider' do
+    subject.provider = nil
+    expect(subject).to_not be_valid
+    expect(subject.errors[:provider]).to eql ['can\'t be blank']
+  end
+
   describe "provider_access_token" do
     it 'is the token from the provider token hash' do
       subject.provider_token = {'token' => 'user token'}

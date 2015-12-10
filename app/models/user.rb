@@ -3,8 +3,8 @@
 # Table name: users
 #
 #  id             :integer          not null, primary key
-#  provider       :string           default("email"), not null
-#  uid            :string           default(""), not null
+#  provider       :string           not null
+#  uid            :string           not null
 #  name           :string
 #  nickname       :string
 #  image          :string
@@ -20,6 +20,9 @@
 #
 
 class User < ActiveRecord::Base
+  validates :uid, :presence => :true
+  validates :provider, :presence => :true
+
   has_many :answers
 
   serialize :provider_token
