@@ -38,4 +38,21 @@ RSpec.describe User, type: :model do
       expect(subject.provider_token).to eql 'token'
     end
   end
+
+  describe '.for_provider_batch!' do
+    let(:user1) { User.create(:provider => 'facebook', :uid => 'existing-uid-1') }
+    let(:user2) { User.create(:provider => 'facebook', :uid => 'existing-uid-2') }
+    subject { User.for_provider_batch!('facebook', [user1.uid, user2.uid, 'unexisting-user']) }
+
+    it 'includes all existing users' do
+      expect(subject).to include(user1, user2)
+    end
+
+    it 'creates a user for the unexisting uids' do
+      user = subject.find {|u| u.uid.eql?('unexisting-user')}
+
+      expect(user.provider).to eql 'facebook'
+      expect(user).to be_persisted
+    end
+  end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151203202601) do
+ActiveRecord::Schema.define(version: 20151209231104) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "user_id"
@@ -22,6 +22,22 @@ ActiveRecord::Schema.define(version: 20151203202601) do
 
   add_index "answers", ["option_id"], name: "index_answers_on_option_id"
   add_index "answers", ["user_id"], name: "index_answers_on_user_id"
+
+  create_table "games", force: :cascade do |t|
+    t.integer  "creator_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "games", ["creator_id"], name: "index_games_on_creator_id"
+
+  create_table "games_users", id: false, force: :cascade do |t|
+    t.integer "game_id"
+    t.integer "user_id"
+  end
+
+  add_index "games_users", ["game_id"], name: "index_games_users_on_game_id"
+  add_index "games_users", ["user_id"], name: "index_games_users_on_user_id"
 
   create_table "organizations", force: :cascade do |t|
     t.string   "facebook_id"
