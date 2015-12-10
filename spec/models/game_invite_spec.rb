@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe GameInvite, :type => :model do
-  let(:user) { User.new }
+  let(:user) { build(:user) }
   let(:invite) { GameInvite.new(user, 'facebook', ['12345', '54321']) }
 
   describe '#invite!' do
@@ -20,11 +20,11 @@ RSpec.describe GameInvite, :type => :model do
     end
 
     it 'creates a user for unexisting users' do
-      user_12345, user_54321 = User.new(uid: '12345'), User.new(uid: '54321')
+      user1, user2 = build(:user), build(:user)
 
-      expect(User).to receive(:for_provider_batch!).with('facebook', ['12345', '54321']).and_return([user_12345, user_54321])
+      expect(User).to receive(:for_provider_batch!).with('facebook', ['12345', '54321']).and_return([user1, user2])
 
-      expect(subject.players).to include(user_12345, user_54321)
+      expect(subject.players).to include(user1, user2)
     end
   end
 end
