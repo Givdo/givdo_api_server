@@ -22,3 +22,7 @@ group :development, :test do
   gem 'timecop'
   gem 'factory_girl_rails'
 end
+
+group :production do
+  gem 'mysql2'
+end
