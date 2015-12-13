@@ -18,7 +18,7 @@ class UpdateOrganizationJob < ActiveJob::Base
       organization.street  = location['street']
     end
 
-    organization.picture = Givdo::Facebook.graph.get_picture(organization.facebook_id, {type: "large"})
+    organization.picture = Givdo::Facebook.graph.get_picture(organization.facebook_id, {:type => "large"})
 
     organization.save
   rescue Koala::Facebook::ClientError => error

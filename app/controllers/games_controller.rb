@@ -3,6 +3,6 @@ class GamesController < ApplicationController
 
   def invite
     provider, invitees = params.require(:provider), params.require(:invitees)
-    render json: GameInvite.invite!(current_user, provider, invitees)
+    render :json => GameInvite.invite!(current_user, provider, invitees)
   end
 end

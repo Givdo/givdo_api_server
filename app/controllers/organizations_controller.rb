@@ -3,7 +3,7 @@ class OrganizationsController < ApplicationController
     @organizations = Organization.page(params[:page]).per(per_page)
     @organizations.each(&method(:update_cache_if_needed))
 
-    render json: @organizations
+    render :json => @organizations
   end
 
   private

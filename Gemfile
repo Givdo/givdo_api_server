@@ -11,7 +11,7 @@ gem 'kaminari'
 gem 'jwt'
 
 gem 'unicorn'
-gem 'rack-cors', require: 'rack/cors'
+gem 'rack-cors', :require => 'rack/cors'
 
 group :development, :test do
   gem 'annotate'

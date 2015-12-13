@@ -9,6 +9,6 @@ class PaymentsController < ApplicationController
   def create
     ProcessPaymentJob.perform_later(current_user, 'credit-card-nonce', '10.00')
 
-    render :json => {success: true}
+    render :json => {:success => true}
   end
 end

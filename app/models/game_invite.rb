@@ -14,7 +14,10 @@ class GameInvite
   private
 
   def game
-    @game ||= Game.new(:creator => @inviter, :players => [@inviter] + invitees_users)
+    @game ||= Game.new({
+      :creator => @inviter,
+      :players => [@inviter] + invitees_users
+    })
   end
 
   def invitees_users
