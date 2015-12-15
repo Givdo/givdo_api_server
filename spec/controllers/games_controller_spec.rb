@@ -1,26 +1,40 @@
 require 'rails_helper'
 
 RSpec.describe GamesController, :type => :controller do
-  describe 'POST /invite' do
+  describe 'POST /' do
     let(:game) { Game.new }
     let(:user) { User.new }
-    subject do
-      post(:invite, {
-        :provider => 'facebook',
-        :invitees => ['1231244', '12312314', '12312414']
-      })
+    before do
+      allow(Game).to receive(:create!).with(creator: user).and_return(game)
     end
 
-    it_behaves_like 'an authenticated only action'
+    it_behaves_like 'an authenticated only action' do
+      subject { post(:create) }
+    end
 
-    it 'creates an invite from the current user to its invitees' do
-      api_user(user)
+    context 'when request to invite users' do
+      it 'creates the game with invitees' do
+        api_user(user)
+        expect(GameInvite).to receive(:invite!).with(game, 'facebook', ['1231244', '12312314', '12312414'])
 
-      expect(GameInvite).to receive(:invite!)
-        .with(user, 'facebook', ['1231244', '12312314', '12312414'])
-        .and_return(game)
+        post(:create, {
+          :provider => 'facebook',
+          :invitees => ['1231244', '12312314', '12312414']
+        })
 
-      expect(subject.body).to serialize_object(game).with(GameSerializer)
+        expect(response.body).to serialize_object(game).with(GameSerializer)
+      end
+    end
+
+    context 'when no invites are sent' do
+      it 'creates the game' do
+        api_user(user)
+        expect(GameInvite).to_not receive(:invite!)
+
+        post(:create)
+
+        expect(response.body).to serialize_object(game).with(GameSerializer)
+      end
     end
   end
 end

@@ -3,11 +3,7 @@ Rails.application.routes.draw do
     scope '/v1' do
       post '/oauth/:provider/callback' => 'oauth_callback#callback'
 
-      resources :games, :only => [] do
-        collection do
-          post '/invite', :action => :invite
-        end
-      end
+      resources :games, :only => [:create]
       resources :trivia, :only => [:show] do
         member do
           post '/answer', :action => :answer

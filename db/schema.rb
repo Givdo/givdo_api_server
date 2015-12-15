@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151210191903) do
+ActiveRecord::Schema.define(version: 20151214145040) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "user_id"
@@ -52,6 +52,18 @@ ActiveRecord::Schema.define(version: 20151210191903) do
     t.datetime "updated_at",  null: false
     t.datetime "cached_at"
   end
+
+  create_table "players", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "game_id"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "players", ["game_id"], name: "index_players_on_game_id"
+  add_index "players", ["organization_id"], name: "index_players_on_organization_id"
+  add_index "players", ["user_id"], name: "index_players_on_user_id"
 
   create_table "trivia", force: :cascade do |t|
     t.text     "question"

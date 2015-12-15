@@ -3,24 +3,14 @@ class GameInvite
     new(*args).invite!
   end
 
-  def initialize(inviter, provider, invitees)
-    @inviter, @provider, @invitees = inviter, provider, invitees
+  def initialize(game, provider, invitees)
+    @game, @provider, @invitees = game, provider, invitees
   end
 
   def invite!
-    game.tap(&:save!)
-  end
-
-  private
-
-  def game
-    @game ||= Game.new({
-      :creator => @inviter,
-      :players => [@inviter] + invitees_users
-    })
-  end
-
-  def invitees_users
-    User.for_provider_batch!(@provider, @invitees)
+    User.for_provider_batch!(@provider, @invitees).each do |user|
+      @game.players.build(:user => user)
+    end
+    @game.tap(&:save!)
   end
 end

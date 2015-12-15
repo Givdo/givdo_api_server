@@ -10,6 +10,7 @@ gem 'active_model_serializers', '~>0.10.0.rc3'
 gem 'kaminari'
 gem 'jwt'
 
+# App Server
 gem 'unicorn'
 gem 'rack-cors', :require => 'rack/cors'
 

@@ -14,5 +14,14 @@
 
 class Game < ActiveRecord::Base
   belongs_to :creator, :class_name => 'User'
-  has_and_belongs_to_many :players, :class_name => 'User'
+  has_many :players
+  has_many :users, :through => :players
+
+  private
+
+  before_create :setup_creators_player
+
+  def setup_creators_player
+    self.players.build(:user => creator)
+  end
 end
