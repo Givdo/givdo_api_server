@@ -30,21 +30,4 @@ RSpec.describe TriviaController, type: :controller do
       expect(subject.body).to serialize_object(trivia).with(TriviaSerializer)
     end
   end
-
-  describe 'POST /:id/answer' do
-    let(:answer) { build(:answer) }
-    subject { post :answer, :id => 10, :option_id => 10, :format => :json }
-    before { allow(Trivia).to receive(:find).with('10').and_return(trivia) }
-
-    it_behaves_like 'an authenticated only action'
-
-    it 'answers the trivia with the current user' do
-      api_user current_user
-
-      expect(trivia).to receive(:answer!).with(current_user, 10).and_return(answer)
-
-      expect(subject).to be_success
-      expect(subject.body).to serialize_object(answer).with(AnswerSerializer)
-    end
-  end
 end

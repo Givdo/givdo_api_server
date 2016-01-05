@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe TriviaSerializer, type: :serializer do
   let(:trivia) { build(:trivia, :with_options, :correct_option_id => 15) }
-  let(:answer) { build(:answer, :correct => true, :option => trivia.options.first) }
+  let(:answer) { build(:answer, :correct => true, :trivia => trivia) }
 
   subject { serialize(answer, AnswerSerializer) }
 

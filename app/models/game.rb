@@ -14,8 +14,13 @@
 
 class Game < ActiveRecord::Base
   belongs_to :creator, :class_name => 'User'
+  has_many :answers
   has_many :players
   has_many :users, :through => :players
+
+  def answer!(user, params)
+    self.answers.create!(params.merge(:user => user))
+  end
 
   private
 
