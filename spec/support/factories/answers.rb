@@ -2,7 +2,8 @@
 
 FactoryGirl.define do
   factory :answer do
-    user nil
-    option nil
+    user { create(:user) }
+    option { create(:trivia_option) }
+    game { create(:game) }
   end
 end

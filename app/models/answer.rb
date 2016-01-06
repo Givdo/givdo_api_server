@@ -33,9 +33,9 @@ class Answer < ActiveRecord::Base
 
   private
 
-  before_save :correct_answer
+  before_save :review_answer
 
-  def correct_answer
+  def review_answer
     self.correct = option_id.eql?(trivia.correct_option_id)
     return true
   end

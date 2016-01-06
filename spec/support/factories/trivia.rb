@@ -4,7 +4,7 @@ FactoryGirl.define do
 
     trait :with_options do
       options { build_list :trivia_option, 3 }
-      correct_option_id { options.first.id }
+      correct_option { options.first }
     end
   end
 end
