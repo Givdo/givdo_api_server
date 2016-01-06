@@ -23,6 +23,14 @@ class Game < ActiveRecord::Base
     self.answers.create!(params.merge(:user => user))
   end
 
+  def has_rounds?(user)
+    rounds > user_rounds(user).count
+  end
+
+  def user_rounds(user)
+    answers.where(:user => user)
+  end
+
   private
 
   before_create :setup_creators_player
