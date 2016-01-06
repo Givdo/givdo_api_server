@@ -6,6 +6,7 @@
 #  creator_id :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  rounds     :integer          default(10)
 #
 # Indexes
 #
