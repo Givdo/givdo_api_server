@@ -1,9 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe GamesController, :type => :controller do
+  let(:game) { Game.new(:id => 10) }
+  let(:user) { User.new }
+  before do
+    allow(Game).to receive(:find).with('10').and_return(game)
+  end
+
   describe 'POST /' do
-    let(:game) { Game.new }
-    let(:user) { User.new }
     before do
       allow(Game).to receive(:create!).with(creator: user).and_return(game)
     end
@@ -35,6 +39,21 @@ RSpec.describe GamesController, :type => :controller do
 
         expect(response.body).to serialize_object(game).with(GameSerializer)
       end
+    end
+  end
+
+  describe 'GET /raffle' do
+    let(:trivia) { build(:trivia) }
+    subject { get :raffle, :id => 10 }
+
+    it_behaves_like 'an authenticated only action'
+
+    it 'raffles in the current user scope' do
+      expect(TriviaRaffle).to receive(:next).with(user, game).and_return(trivia)
+
+      api_user user
+
+      expect(subject.body).to serialize_object(trivia).with(TriviaSerializer)
     end
   end
 end

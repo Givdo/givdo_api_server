@@ -8,9 +8,17 @@ class GamesController < ApplicationController
     render :json => game
   end
 
+  def raffle
+    render :json => TriviaRaffle.next(current_user, game)
+  end
+
   private
 
   def has_invite?
     params.has_key?(:invitees)
+  end
+
+  def game
+    Game.find(params[:id])
   end
 end
