@@ -17,7 +17,8 @@ module Givdo
 
         User.for_provider!(:facebook,  profile['id'], {
           :image => picture,
-          :name => profile['name']
+          :name => profile['name'],
+          :provider_token => @access_token
         })
       rescue Koala::Facebook::AuthenticationError => e
         raise Givdo::OAuth::Error, e

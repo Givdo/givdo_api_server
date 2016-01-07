@@ -30,6 +30,16 @@ RSpec.describe Givdo::OAuth::Facebook, :type => :model do
       expect(subject).to eql 'user'
     end
 
+    it 'saves the new token' do
+      expect(graph).to receive(:get_picture).with('me').and_return('picture')
+
+      expect(User).to receive(:for_provider!).with(anything, anything, a_hash_including({
+        :provider_token => 'access token'
+      })).and_return('user')
+
+      expect(subject).to eql 'user'
+    end
+
     it 'raises an OAuth::Error in case of any problem' do
       expect(graph).to receive(:get_object).and_raise(Koala::Facebook::AuthenticationError.new(10, 'message'))
 
