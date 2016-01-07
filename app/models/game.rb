@@ -34,6 +34,10 @@ class Game < ActiveRecord::Base
     answers.where(:user => user)
   end
 
+  def finished?
+    (rounds * players.count) <= answers.count
+  end
+
   private
 
   before_create :setup_creators_player

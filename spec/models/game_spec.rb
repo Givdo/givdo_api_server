@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Game, :type => :model do
+  let(:trivia) { create(:trivia, :with_options) }
   let(:user) { create(:user) }
   let(:game) { Game.create(:creator => user, :rounds => 2) }
 
@@ -19,9 +20,30 @@ RSpec.describe Game, :type => :model do
     expect(game).to_not be_single
   end
 
-  describe '#answer!' do
-    let(:trivia) { create(:trivia, :with_options) }
+  describe '#finished?' do
+    it 'is finished when every round for every player was played' do
+      game.update_attribute(:rounds, 1)
+      game.answer!(user, {
+        :trivia_id => trivia.id,
+        :option_id => trivia.correct_option_id
+      })
 
+      expect(game).to be_finished
+    end
+
+    it 'is not finished when any player still have rounds left' do
+      game.update_attribute(:rounds, 1)
+      game.players.create(:user => create(:user))
+      game.answer!(user, {
+        :trivia_id => trivia.id,
+        :option_id => trivia.correct_option_id
+      })
+
+      expect(game).to_not be_finished
+    end
+  end
+
+  describe '#answer!' do
     subject do
       game.answer!(user, {
         :trivia_id => trivia.id,
