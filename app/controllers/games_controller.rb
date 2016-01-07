@@ -1,6 +1,10 @@
 class GamesController < ApplicationController
   before_filter :authenticate_user!
 
+  def single
+    render :json => current_user.current_single_game
+  end
+
   def create
     game = Game.create! creator: current_user
     GameInvite.invite!(game, params.require(:provider), params[:invitees]) if has_invite?

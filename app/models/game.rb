@@ -7,6 +7,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  rounds     :integer          default(10)
+#  single     :boolean          default(FALSE)
 #
 # Indexes
 #
@@ -18,6 +19,8 @@ class Game < ActiveRecord::Base
   has_many :answers
   has_many :players
   has_many :users, :through => :players
+
+  scope :single, -> { where(:single => true) }
 
   def answer!(user, params)
     self.answers.create!(params.merge(:user => user))
@@ -34,8 +37,14 @@ class Game < ActiveRecord::Base
   private
 
   before_create :setup_creators_player
+  before_save :set_single_flag
 
   def setup_creators_player
     self.players.build(:user => creator)
+  end
+
+  def set_single_flag
+    self.single = self.players.size < 2
+    return true
   end
 end

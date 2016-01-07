@@ -8,6 +8,17 @@ RSpec.describe Game, :type => :model do
     expect(game.users).to match_array [user]
   end
 
+  it 'is single when no other user is playing' do
+    expect(game).to be_single
+  end
+
+  it 'is not single when when played with more users' do
+    game.players.create(:user => create(:user))
+    game.save!
+
+    expect(game).to_not be_single
+  end
+
   describe '#answer!' do
     let(:trivia) { create(:trivia, :with_options) }
 

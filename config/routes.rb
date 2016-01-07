@@ -5,6 +5,9 @@ Rails.application.routes.draw do
 
       resources :games, :only => [:create] do
         resources :answers, :only => [:create]
+        collection do
+          get '/single', :action => :single
+        end
         member do
           get '/raffle', :action => :raffle
         end

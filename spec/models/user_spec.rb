@@ -53,4 +53,26 @@ RSpec.describe User, :type => :model do
       expect(user).to be_persisted
     end
   end
+
+  describe '#current_single_game' do
+    let(:finished_game) { double('finished game', :finished? => true) }
+    subject { create(:user) }
+
+    it 'is the last single game when it is not yet finished' do
+      open_game = double('finished game', :finished? => false)
+
+      allow(subject.owned_games).to receive(:single).and_return([finished_game, open_game])
+
+      expect(subject.current_single_game).to be open_game
+    end
+
+    it 'is a new game when the last single game is finished' do
+      new_game = double('new game')
+
+      allow(subject.owned_games).to receive(:single).and_return([finished_game])
+      expect(Game).to receive(:create).with(:creator => subject).and_return(new_game)
+
+      expect(subject.current_single_game).to be new_game
+    end
+  end
 end

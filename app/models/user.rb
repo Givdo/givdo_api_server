@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
   validates :provider, :presence => :true
 
   has_many :answers
+  has_many :owned_games, :class_name => 'Game', :foreign_key => :creator_id
 
   def self.for_provider!(provider, uid, params)
     where(:uid => uid, :provider => provider).first_or_initialize.tap do |user|
@@ -38,5 +39,10 @@ class User < ActiveRecord::Base
     new_users = uids_to_create.map {|uid| {:provider => provider, :uid => uid} }
 
     User.create(new_users) + existing_users
+  end
+
+  def current_single_game
+    last_single = owned_games.single.last
+    last_single.finished? ? Game.create(:creator => self) : last_single
   end
 end

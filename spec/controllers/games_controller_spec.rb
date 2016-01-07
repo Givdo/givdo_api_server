@@ -7,6 +7,20 @@ RSpec.describe GamesController, :type => :controller do
     allow(Game).to receive(:find).with('10').and_return(game)
   end
 
+  describe 'GET /single' do
+    subject { get :single }
+
+    it_behaves_like 'an authenticated only action'
+
+    it 'gets the user current signel player game' do
+      expect(user).to receive(:current_single_game).and_return(game)
+
+      api_user user
+
+      expect(subject.body).to serialize_object(game).with(GameSerializer)
+    end
+  end
+
   describe 'POST /' do
     before do
       allow(Game).to receive(:create!).with(creator: user).and_return(game)
