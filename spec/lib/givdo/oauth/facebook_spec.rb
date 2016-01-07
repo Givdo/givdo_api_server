@@ -29,5 +29,11 @@ RSpec.describe Givdo::OAuth::Facebook, :type => :model do
 
       expect(subject).to eql 'user'
     end
+
+    it 'raises an OAuth::Error in case of any problem' do
+      expect(graph).to receive(:get_object).and_raise(Koala::Facebook::AuthenticationError.new(10, 'message'))
+
+      expect { subject }.to raise_error Givdo::OAuth::Error, 'message [HTTP 10]'
+    end
   end
 end

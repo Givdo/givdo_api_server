@@ -19,6 +19,8 @@ module Givdo
           :image => picture,
           :name => profile['name']
         })
+      rescue Koala::Facebook::AuthenticationError => e
+        raise Givdo::OAuth::Error, e
       end
 
       private

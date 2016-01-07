@@ -19,5 +19,12 @@ RSpec.describe OauthCallbackController, :type => :controller do
       expect(subject).to be_success
       expect(subject.body).to eql '{"token":"generated token"}'
     end
+
+    it 'formats oauth errors' do
+      expect(Givdo::OAuth::Facebook).to receive(:validate!).and_raise(Givdo::OAuth::Error, 'error message')
+
+      expect(subject.code).to eql '400'
+      expect(subject.body).to eql '{"error":"error message"}'
+    end
   end
 end
