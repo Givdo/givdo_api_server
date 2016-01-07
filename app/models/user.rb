@@ -25,11 +25,9 @@ class User < ActiveRecord::Base
 
   has_many :answers
 
-  serialize :provider_token
-
-  def self.for_provider!(provider, uid, access_token=nil)
+  def self.for_provider!(provider, uid, params)
     where(:uid => uid, :provider => provider).first_or_initialize.tap do |user|
-      user.provider_token = access_token
+      user.assign_attributes(params)
       user.save!
     end
   end
@@ -40,9 +38,5 @@ class User < ActiveRecord::Base
     new_users = uids_to_create.map {|uid| {:provider => provider, :uid => uid} }
 
     User.create(new_users) + existing_users
-  end
-
-  def provider_access_token
-    provider_token.try(:fetch, 'token')
   end
 end

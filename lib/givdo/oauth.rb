@@ -1,0 +1,1 @@
+require 'givdo/oauth/facebook'

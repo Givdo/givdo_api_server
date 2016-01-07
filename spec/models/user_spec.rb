@@ -13,22 +13,8 @@ RSpec.describe User, :type => :model do
     expect(subject.errors[:provider]).to eql ['can\'t be blank']
   end
 
-  describe "provider_access_token" do
-    it 'is the token from the provider token hash' do
-      subject.provider_token = {'token' => 'user token'}
-
-      expect(subject.provider_access_token).to eql 'user token'
-    end
-
-    it 'is nil if the user has no token' do
-      subject.provider_token = nil
-
-      expect(subject.provider_access_token).to be_nil
-    end
-  end
-
   describe '.for_provider!' do
-    subject { User.for_provider!('facebook', 'facebook id', 'token') }
+    subject { User.for_provider!('facebook', 'facebook id', {:provider_token => 'token'}) }
 
     it 'is the existing user by the provider and provider id' do
       user = create(:user, {

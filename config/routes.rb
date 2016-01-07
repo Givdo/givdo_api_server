@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   scope '/api' do
     scope '/v1' do
-      post '/oauth/:provider/callback' => 'oauth_callback#callback'
+      post '/oauth/:action/callback' => 'oauth_callback#callback'
 
       resources :games, :only => [:create] do
         resources :answers, :only => [:create]

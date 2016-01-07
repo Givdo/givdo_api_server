@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe OauthCallbackController, :type => :controller do
-  describe 'POST /oauth/:provider/callback' do
+  describe 'POST /oauth/facebook/callback' do
     let(:user) { double(User) }
     subject do
-      post :callback, {
+      post :facebook, {
         :provider => 'facebook',
         :uid => 'facebook id',
         :access_token => 'token 123',
@@ -13,7 +13,7 @@ RSpec.describe OauthCallbackController, :type => :controller do
     end
 
     it 'generates a token with the provider user' do
-      expect(User).to receive(:for_provider!).with('facebook', 'facebook id', 'token 123').and_return(user)
+      expect(Givdo::OAuth::Facebook).to receive(:validate!).with('token 123').and_return(user)
       expect(UserToken).to receive(:generate).with(user, 5184000).and_return 'generated token'
 
       expect(subject).to be_success

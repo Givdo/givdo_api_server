@@ -9,13 +9,13 @@ module Givdo
       end
     end
 
-    def self.graph(user=nil)
-      token = user ? user.provider_access_token : oauth.get_app_access_token
+    def self.graph(user_token=nil)
+      token = user_token || oauth.get_app_access_token
       Koala::Facebook::API.new token
     end
 
     def self.invitable_friends(user, params)
-      PaginatedConnections.new(graph(user), 'invitable_friends', params)
+      PaginatedConnections.new(graph(user.provider_token), 'invitable_friends', params)
     end
   end
 end

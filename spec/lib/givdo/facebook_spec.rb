@@ -14,7 +14,7 @@ RSpec.describe Givdo::Facebook, type: :lib do
     end
   end
 
-  describe '.graph(user)' do
+  describe '.graph(token)' do
     context 'when a token is not given' do
       it 'is a koala facebook client with the app token' do
         expect(subject).to receive(:oauth).and_return(double(get_app_access_token: 'app token'))
@@ -27,11 +27,10 @@ RSpec.describe Givdo::Facebook, type: :lib do
     end
 
     context 'when a token given' do
-      it 'is a koala facebook client with the user token' do
+      it 'is a koala facebook client with the token token' do
         expect(subject).to_not receive(:oauth)
 
-        user = double(provider_access_token: 'user token')
-        graph = subject.graph(user)
+        graph = subject.graph('user token')
 
         expect(graph).to be_a Koala::Facebook::API
         expect(graph.access_token).to eql 'user token'
