@@ -8,7 +8,6 @@ class GamesController < ApplicationController
   def create
     game = Game.create! creator: current_user
     GameInvite.invite!(game, params.require(:provider), params[:invitees]) if has_invite?
-
     render :json => game
   end
 

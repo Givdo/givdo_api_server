@@ -43,6 +43,7 @@ class User < ActiveRecord::Base
 
   def current_single_game
     last_single = owned_games.single.last
-    last_single.finished? ? Game.create(:creator => self) : last_single
+    return last_single if last_single.present? && last_single.try(:unfinished?)
+    Game.create(:creator => self)
   end
 end

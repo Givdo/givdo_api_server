@@ -27,15 +27,23 @@ class Game < ActiveRecord::Base
   end
 
   def has_rounds?(user)
-    rounds > user_rounds(user).count
+    rounds_left(user) > 0
+  end
+
+  def rounds_left(user)
+    rounds - user_rounds(user).count
   end
 
   def user_rounds(user)
     answers.where(:user => user)
   end
 
-  def finished?
-    (rounds * players.count) <= answers.count
+  def unfinished?
+    (rounds * players.count) > answers.count
+  end
+
+  def player(user)
+    players.find_by(:user => user)
   end
 
   private

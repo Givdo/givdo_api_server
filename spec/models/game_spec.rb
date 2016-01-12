@@ -20,18 +20,34 @@ RSpec.describe Game, :type => :model do
     expect(game).to_not be_single
   end
 
-  describe '#finished?' do
-    it 'is finished when every round for every player was played' do
+  describe '#player' do
+    it 'is the player of the user in the game' do
+      user = create(:user)
+      player = game.players.create(:user => user)
+
+      expect(game.player(user)).to eql player
+    end
+
+    it 'is nil if the user has no player in the game' do
+      user = create(:user)
+      game.players.where(:user => user).destroy_all
+
+      expect(game.player(user)).to be_nil
+    end
+  end
+
+  describe '#unfinished?' do
+    it 'is unfinished when every round for every player was played' do
       game.update_attribute(:rounds, 1)
       game.answer!(user, {
         :trivia_id => trivia.id,
         :option_id => trivia.correct_option_id
       })
 
-      expect(game).to be_finished
+      expect(game).to_not be_unfinished
     end
 
-    it 'is not finished when any player still have rounds left' do
+    it 'is not unfinished when any player still have rounds left' do
       game.update_attribute(:rounds, 1)
       game.players.create(:user => create(:user))
       game.answer!(user, {
@@ -39,7 +55,7 @@ RSpec.describe Game, :type => :model do
         :option_id => trivia.correct_option_id
       })
 
-      expect(game).to_not be_finished
+      expect(game).to be_unfinished
     end
   end
 

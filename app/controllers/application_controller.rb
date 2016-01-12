@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery :with => :null_session
   rescue_from UserToken::InvalidToken, :with => :access_denied
+  serialization_scope :current_user
 
   protected
 

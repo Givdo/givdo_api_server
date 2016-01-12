@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       post '/oauth/:action/callback', :controller => 'oauth_callback'
 
       resources :games, :only => [:create] do
+        resource :player, :only => [:update], :controller => :player
         resources :answers, :only => [:create]
         collection do
           get '/single', :action => :single
