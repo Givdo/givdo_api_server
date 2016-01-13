@@ -27,7 +27,7 @@ module GivdoApiServer
       allow do
         origins '*'
         resource '*', {
-          :methods => [:get, :post, :options, :put, :delete],
+          :methods => [:get, :post, :options, :put, :patch, :delete],
           :headers => :any,
           :expose => ['access-token', 'expiry', 'token-type', 'uid', 'client']
         }
