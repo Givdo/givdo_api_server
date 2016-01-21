@@ -4,11 +4,6 @@ RSpec.describe TriviaOptionSerializer, type: :serializer do
   let(:option) { build(:trivia_option, text: 'text', id: 15) }
   subject { serialize(option, TriviaOptionSerializer) }
 
-  it 'includes the id' do
-    expect(subject[:id]).to eql 15
-  end
-
-  it 'includes the text' do
-    expect(subject[:text]).to eql 'text'
-  end
+  it { is_expected.to serialize_id_and_type('15', 'trivia_options') }
+  it { is_expected.to serialize_attribute(:text).with('text') }
 end

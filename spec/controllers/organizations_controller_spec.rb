@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe OrganizationsController, type: :controller do
   describe 'GET /' do
     before { allow(UpdateOrganizationJob).to receive(:perform_later) }
-    let(:body) { JSON.parse(subject.body) }
     let(:greenpeace) { build(:organization, :name => 'Greenpeace') }
     let(:i_wisth) { build(:organization, :name => 'I wish') }
     let(:pagination) { double(per: [greenpeace, i_wisth]) }
@@ -12,9 +11,7 @@ RSpec.describe OrganizationsController, type: :controller do
     it 'renders a json the returned organizations' do
       allow(Organization).to receive(:page).and_return pagination
 
-      names = body.map{|o| o['name']}
-
-      expect(names).to match_array ['Greenpeace', 'I wish']
+      expect(subject.body).to serialize_collection([greenpeace, i_wisth]).with(OrganizationSerializer)
     end
 
     it 'perform a organization update for each organization' do

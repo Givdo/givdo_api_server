@@ -31,6 +31,8 @@ class Answer < ActiveRecord::Base
 
   scope :from_past, -> (time_window) { where('updated_at > ?', time_window) }
 
+  delegate :correct_option_id, :to => :trivia, :prefix => false, :allow_nil => true
+
   private
 
   before_save :review_answer

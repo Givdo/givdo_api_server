@@ -30,7 +30,7 @@ RSpec.describe AnswersController, :type => :controller do
         }).and_return(answer)
 
         expect(subject).to be_success
-        expect(subject.body).to serialize_object(answer).with(AnswerSerializer)
+        expect(subject.body).to serialize_object(answer).with(AnswerSerializer, :include => 'game,game.trivia,game.trivia.options')
       end
     end
   end

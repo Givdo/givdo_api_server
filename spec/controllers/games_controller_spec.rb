@@ -17,7 +17,7 @@ RSpec.describe GamesController, :type => :controller do
 
       api_user user
 
-      expect(subject.body).to serialize_object(game).with(GameSerializer)
+      expect(subject.body).to serialize_object(game).with(GameSerializer, :include => 'player,trivia,trivia.options')
     end
   end
 
@@ -40,7 +40,7 @@ RSpec.describe GamesController, :type => :controller do
           :invitees => ['1231244', '12312314', '12312414']
         })
 
-        expect(response.body).to serialize_object(game).with(GameSerializer)
+        expect(response.body).to serialize_object(game).with(GameSerializer, :include => 'player,trivia,trivia.options')
       end
     end
 
@@ -51,23 +51,8 @@ RSpec.describe GamesController, :type => :controller do
 
         post(:create)
 
-        expect(response.body).to serialize_object(game).with(GameSerializer)
+        expect(response.body).to serialize_object(game).with(GameSerializer, :include => 'player,trivia,trivia.options')
       end
-    end
-  end
-
-  describe 'GET /raffle' do
-    let(:trivia) { build(:trivia) }
-    subject { get :raffle, :id => 10 }
-
-    it_behaves_like 'an authenticated only action'
-
-    it 'raffles in the current user scope' do
-      expect(TriviaRaffle).to receive(:next).with(user, game).and_return(trivia)
-
-      api_user user
-
-      expect(subject.body).to serialize_object(trivia).with(TriviaSerializer)
     end
   end
 end

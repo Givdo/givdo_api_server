@@ -9,9 +9,13 @@ module ApiHelper
     allow(UserToken).to receive(:authenticate).with(token).and_return(user)
   end
 
-  def serialize(object, serializer_klass)
-    serializer = serializer_klass.new(object)
-    adapter = ActiveModel::Serializer::Adapter.create(serializer)
+  def serialize(object, serializer_klass, options={})
+    if object.respond_to?(:each)
+      options = options.merge({:serializer => serializer_klass})
+      serializer_klass = ActiveModel::Serializer::CollectionSerializer
+    end
+    serializer = serializer_klass.new(object, options)
+    adapter = ActiveModel::Serializer::Adapter.create(serializer, options)
     adapter.as_json
   end
 end

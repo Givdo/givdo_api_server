@@ -1,16 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe TriviaSerializer, type: :serializer do
+RSpec.describe AnswerSerializer, :type => :serializer do
+  let(:game) { build(:game, :id => 10) }
   let(:trivia) { build(:trivia, :with_options, :correct_option_id => 15) }
-  let(:answer) { build(:answer, :correct => true, :trivia => trivia) }
+  let(:answer) { build(:answer, :correct => true, :trivia => trivia, :game => game) }
 
-  subject { serialize(answer, AnswerSerializer) }
+  subject { serialize(answer, AnswerSerializer, :include => 'game') }
 
-  it 'includes the correctness of the answer' do
-    expect(subject[:correct]).to be true
-  end
+  it { is_expected.to serialize_attribute(:correct).with(true) }
+  it { is_expected.to serialize_attribute(:correct_option_id).with(15) }
 
-  it 'includes the correct option id' do
-    expect(subject[:correct_option_id]).to eql 15
-  end
+  it { is_expected.to serialize_included(game).with(GameSerializer) }
 end
