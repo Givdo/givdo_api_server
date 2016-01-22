@@ -86,9 +86,9 @@ GEM
     minitest (5.8.3)
     multi_json (1.11.2)
     multipart-post (2.0.0)
-    mysql2 (0.4.2)
     nokogiri (1.6.7.1)
       mini_portile2 (~> 2.0.0.rc2)
+    pg (0.18.4)
     rack (1.6.4)
     rack-cors (0.4.0)
     rack-handlers (0.7.1)
@@ -114,6 +114,11 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
+    rails_12factor (0.0.3)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_serve_static_assets (0.0.4)
+    rails_stdout_logging (0.0.4)
     railties (4.2.5)
       actionpack (= 4.2.5)
       activesupport (= 4.2.5)
@@ -169,10 +174,11 @@ DEPENDENCIES
   jwt
   kaminari
   koala (~> 2.2)
-  mysql2
+  pg
   rack-cors
   rack-handlers
   rails (= 4.2.5)
+  rails_12factor
   rspec-rails
   spring
   sqlite3
