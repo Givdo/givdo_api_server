@@ -11,18 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160107124049) do
+ActiveRecord::Schema.define(version: 20160122235928) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "option_id"
-    t.datetime "updated_at",                 null: false
-    t.boolean  "correct",    default: false, null: false
+    t.integer  "trivia_option_id"
+    t.datetime "updated_at",                       null: false
+    t.boolean  "correct",          default: false, null: false
     t.integer  "trivia_id"
     t.integer  "game_id"
   end
 
-  add_index "answers", ["option_id"], name: "index_answers_on_option_id"
+  add_index "answers", ["trivia_option_id"], name: "index_answers_on_trivia_option_id"
   add_index "answers", ["user_id"], name: "index_answers_on_user_id"
 
   create_table "games", force: :cascade do |t|

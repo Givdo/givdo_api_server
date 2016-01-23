@@ -41,7 +41,7 @@ RSpec.describe Game, :type => :model do
       game.update_attribute(:rounds, 1)
       game.answer!(user, {
         :trivia_id => trivia.id,
-        :option_id => trivia.correct_option_id
+        :trivia_option_id => trivia.correct_option_id
       })
 
       expect(game).to_not be_unfinished
@@ -52,7 +52,7 @@ RSpec.describe Game, :type => :model do
       game.players.create(:user => create(:user))
       game.answer!(user, {
         :trivia_id => trivia.id,
-        :option_id => trivia.correct_option_id
+        :trivia_option_id => trivia.correct_option_id
       })
 
       expect(game).to be_unfinished
@@ -63,7 +63,7 @@ RSpec.describe Game, :type => :model do
     subject do
       game.answer!(user, {
         :trivia_id => trivia.id,
-        :option_id => trivia.correct_option_id
+        :trivia_option_id => trivia.correct_option_id
       })
     end
 
@@ -76,7 +76,7 @@ RSpec.describe Game, :type => :model do
     end
 
     it 'answers with the trivia and option' do
-      expect(subject.option).to eql trivia.correct_option
+      expect(subject.trivia_option).to eql trivia.correct_option
     end
   end
 
@@ -86,22 +86,22 @@ RSpec.describe Game, :type => :model do
     let(:trivia3) { create(:trivia, :with_options) }
 
     it 'has rounds when the number of answers is less than the number of rounds' do
-      game.answer!(user, {:trivia => trivia1, :option => trivia1.correct_option})
+      game.answer!(user, {:trivia => trivia1, :trivia_option => trivia1.correct_option})
 
       expect(game).to have_rounds(user)
     end
 
     it 'does not have rounds when the number of answers is equal to the number of rounds' do
-      game.answer!(user, {:trivia => trivia1, :option => trivia1.correct_option})
-      game.answer!(user, {:trivia => trivia2, :option => trivia2.correct_option})
+      game.answer!(user, {:trivia => trivia1, :trivia_option => trivia1.correct_option})
+      game.answer!(user, {:trivia => trivia2, :trivia_option => trivia2.correct_option})
 
       expect(game).to_not have_rounds(user)
     end
 
     it 'does not have rounds when the number of answers is over the number of rounds' do
-      game.answer!(user, {:trivia => trivia1, :option => trivia1.correct_option})
-      game.answer!(user, {:trivia => trivia2, :option => trivia2.correct_option})
-      game.answer!(user, {:trivia => trivia2, :option => trivia3.correct_option})
+      game.answer!(user, {:trivia => trivia1, :trivia_option => trivia1.correct_option})
+      game.answer!(user, {:trivia => trivia2, :trivia_option => trivia2.correct_option})
+      game.answer!(user, {:trivia => trivia2, :trivia_option => trivia3.correct_option})
 
       expect(game).to_not have_rounds(user)
     end
