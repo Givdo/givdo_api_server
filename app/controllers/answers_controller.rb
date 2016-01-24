@@ -13,6 +13,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.permit(:trivia_id, :option_id)
+    params.permit(:trivia_id, :trivia_option_id)
   end
 end

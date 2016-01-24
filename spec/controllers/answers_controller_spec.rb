@@ -18,7 +18,7 @@ RSpec.describe AnswersController, :type => :controller do
         post(:create, {
           :game_id => 10,
           :trivia_id => 15,
-          :option_id => 25,
+          :trivia_option_id => 25,
           :format => :json
         })
       end
@@ -26,7 +26,7 @@ RSpec.describe AnswersController, :type => :controller do
       it 'answers the trivia in the current game' do
         expect(game).to receive(:answer!).with(user, {
           :trivia_id => 15,
-          :option_id => 25
+          :trivia_option_id => 25
         }).and_return(answer)
 
         expect(subject).to be_success
