@@ -33,5 +33,7 @@ module GivdoApiServer
         }
       end
     end
+
+    Rails.application.routes.default_url_options = config.action_mailer.default_url_options = { :host => Rails.application.secrets.host }
   end
 end
