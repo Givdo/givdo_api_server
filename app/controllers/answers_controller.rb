@@ -3,7 +3,7 @@ class AnswersController < ApplicationController
 
   def create
     answer = current_game.answer! current_user, answer_params
-    render :json => answer, :include => 'game,game.trivia,game.trivia.options'
+    render :json => answer, :include => 'player,game,game.trivia,game.trivia.options'
   end
 
   private
