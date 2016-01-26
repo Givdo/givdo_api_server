@@ -28,20 +28,24 @@ class Player < ActiveRecord::Base
   end
 
   def rounds_left
-    game.rounds - self.answers(true).count
+    game.rounds - answers.count
   end
 
   def score
-    self.answers.correct.count
+    answers.correct.count
   end
 
   def answer!(params)
-    self.answers.create!(params) do
-      finish! unless has_rounds?
-    end
+    answer = answers.create!(params)
+    finish! unless has_rounds?
+    answer
   end
 
   def finish!
     touch(:finished_at)
+  end
+
+  def finished?
+    finished_at.present?
   end
 end

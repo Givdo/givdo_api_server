@@ -22,6 +22,35 @@ RSpec.describe Player, :type => :model do
     end
   end
 
+  describe '#answer!' do
+    let(:player) { create(:player) }
+    let(:trivia) { create(:trivia, :with_options)}
+    let(:game) { player.game }
+    subject! do
+      game.update_attribute(:rounds, 1)
+      player.answer!({
+        :trivia_id => trivia.id,
+        :trivia_option_id => trivia.correct_option_id
+      })
+    end
+
+    it 'finishes the player participation when answers reach the rounds limit' do
+      expect(player.finished_at).to_not be_nil
+    end
+
+    it 'answers with the given user' do
+      expect(subject.player).to eql player
+    end
+
+    it 'answers with the trivia and option' do
+      expect(subject.trivia).to eql trivia
+    end
+
+    it 'answers with the trivia and option' do
+      expect(subject.trivia_option).to eql trivia.correct_option
+    end
+  end
+
   describe '#has_rounds?' do
     let(:trivia1) { create(:trivia, :with_options) }
     let(:trivia2) { create(:trivia, :with_options) }

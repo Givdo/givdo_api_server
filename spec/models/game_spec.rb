@@ -49,26 +49,4 @@ RSpec.describe Game, :type => :model do
       expect(game).to_not be_finished
     end
   end
-
-  describe '#answer!' do
-    let(:player) { game.player(user) }
-    subject do
-      game.answer!(user, {
-        :trivia_id => trivia.id,
-        :trivia_option_id => trivia.correct_option_id
-      })
-    end
-
-    it 'answers with the given user' do
-      expect(subject.player).to eql player
-    end
-
-    it 'answers with the trivia and option' do
-      expect(subject.trivia).to eql trivia
-    end
-
-    it 'answers with the trivia and option' do
-      expect(subject.trivia_option).to eql trivia.correct_option
-    end
-  end
 end
