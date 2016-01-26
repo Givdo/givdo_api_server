@@ -16,31 +16,17 @@
 
 class Game < ActiveRecord::Base
   belongs_to :creator, :class_name => 'User'
-  has_many :answers
   has_many :players
   has_many :users, :through => :players
 
   scope :single, -> { where(:single => true) }
 
   def answer!(user, params)
-    user_rounds(user).create!(params)
+    player(user).answer! params
   end
 
-  def has_rounds?(user)
-    rounds_left(user) > 0
-  end
-
-  def rounds_left(user)
-    rounds - user_rounds(user).count
-  end
-
-  def user_rounds(user)
-    player = player(user)
-    answers.where(:player => player)
-  end
-
-  def unfinished?
-    (rounds * players.count) > answers.count
+  def finished?
+    players(true).pluck(:finished_at).all?
   end
 
   def player(user)

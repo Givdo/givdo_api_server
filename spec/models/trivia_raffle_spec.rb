@@ -4,7 +4,7 @@ describe TriviaRaffle do
   let(:user) { create(:user) }
   let(:another_game) { create(:game, :creator => user) }
   let(:game) { create(:game, :creator => user, :rounds => 2) }
-  subject { TriviaRaffle.new(user, game) }
+  subject { TriviaRaffle.new(game.players.first) }
 
   describe ".next" do
     let!(:trivia1) { create(:trivia, :with_options) }

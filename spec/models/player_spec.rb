@@ -2,15 +2,53 @@ require 'rails_helper'
 
 RSpec.describe Player, :type => :model do
   describe '#rounds_left' do
-    it 'is the number of rounds left for the user in the game' do
-      user = build(:user)
-      game = build(:game)
-      subject.game = game
-      subject.user = user
+    it 'is the number of rounds a game allows minus the number of rounds the player have played' do
+      subject.game = build(:game, :rounds => 5)
+      subject.answers << build(:answer) << build(:answer)
+      subject.save
 
-      expect(game).to receive(:rounds_left).with(user).and_return(5)
+      expect(subject.rounds_left).to eql 3
+    end
+  end
 
-      expect(subject.rounds_left).to eql 5
+  describe '#finish!' do
+    it 'updates the finished at timestamp' do
+      Timecop.freeze(frozen_time = Time.utc(2016, 01, 30, 20, 0, 0))
+      player = create(:player)
+
+      player.finish!
+
+      expect(player.finished_at.to_s).to eql frozen_time.utc.to_s
+    end
+  end
+
+  describe '#has_rounds?' do
+    let(:trivia1) { create(:trivia, :with_options) }
+    let(:trivia2) { create(:trivia, :with_options) }
+    let(:trivia3) { create(:trivia, :with_options) }
+    let(:user) { create(:user) }
+    let(:game) { create(:game, :creator => user, :rounds => 2) }
+    let(:player) { game.player(user) }
+
+    it 'has rounds when the number of answers is less than the number of rounds' do
+      game.answer!(user, {:trivia => trivia1, :trivia_option => trivia1.correct_option})
+
+      expect(player).to have_rounds
+    end
+
+    it 'does not have rounds when the number of answers is equal to the number of rounds' do
+      game.answer!(user, {:trivia => trivia1, :trivia_option => trivia1.correct_option})
+      game.answer!(user, {:trivia => trivia2, :trivia_option => trivia2.correct_option})
+
+      expect(player).to_not have_rounds
+    end
+
+    it 'does not have rounds when the number of answers is over the number of rounds' do
+      game.answer!(user, {:trivia => trivia1, :trivia_option => trivia1.correct_option})
+      game.answer!(user, {:trivia => trivia2, :trivia_option => trivia2.correct_option})
+      game.answer!(user, {:trivia => trivia2, :trivia_option => trivia3.correct_option})
+
+      expect(player).to_not have_rounds
     end
   end
 end

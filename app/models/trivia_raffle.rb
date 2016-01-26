@@ -3,14 +3,14 @@ class TriviaRaffle
     new(*args).next
   end
 
-  def initialize(user, game)
-    @user, @game = user, game
+  def initialize(player)
+    @player = player
   end
 
   def next
-    return unless @game.has_rounds?(@user)
+    return unless @player.has_rounds?
 
-    played_trivias = @game.user_rounds(@user).pluck(:trivia_id)
+    played_trivias = @player.answers.pluck(:trivia_id)
     remaining_trivias = Trivia.excluding(played_trivias)
 
     rnd = rand(remaining_trivias.count)

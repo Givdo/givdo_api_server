@@ -11,14 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160126005345) do
+ActiveRecord::Schema.define(version: 20160126123256) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "trivia_option_id"
     t.datetime "updated_at",                       null: false
     t.boolean  "correct",          default: false, null: false
     t.integer  "trivia_id"
-    t.integer  "game_id"
     t.integer  "player_id"
   end
 
@@ -63,6 +62,7 @@ ActiveRecord::Schema.define(version: 20160126005345) do
     t.integer  "organization_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.datetime "finished_at"
   end
 
   add_index "players", ["game_id"], name: "index_players_on_game_id"

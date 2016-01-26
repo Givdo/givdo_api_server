@@ -8,10 +8,10 @@ class GameSerializer < ActiveModel::Serializer
   end
 
   def player
-    object.player(scope)
+    @player ||= object.player(scope)
   end
 
   def trivia
-    @trivia ||= TriviaRaffle.next(scope, object)
+    @trivia ||= TriviaRaffle.next(player) if player
   end
 end

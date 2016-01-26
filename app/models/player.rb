@@ -8,6 +8,7 @@
 #  organization_id :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#  finished_at     :datetime         default(NULL)
 #
 # Indexes
 #
@@ -22,7 +23,25 @@ class Player < ActiveRecord::Base
   belongs_to :organization
   has_many :answers
 
+  def has_rounds?
+    rounds_left > 0
+  end
+
   def rounds_left
-    self.game.rounds_left(self.user)
+    game.rounds - self.answers(true).count
+  end
+
+  def score
+    self.answers.correct.count
+  end
+
+  def answer!(params)
+    self.answers.create!(params) do
+      finish! unless has_rounds?
+    end
+  end
+
+  def finish!
+    touch(:finished_at)
   end
 end

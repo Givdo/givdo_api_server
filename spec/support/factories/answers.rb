@@ -2,8 +2,9 @@
 
 FactoryGirl.define do
   factory :answer do
-    player { create(:player) }
-    trivia_option { create(:trivia_option) }
-    game { create(:game) }
+    player
+    trivia
+    trivia_option
+    game
   end
 end

@@ -55,13 +55,13 @@ RSpec.describe User, :type => :model do
   end
 
   describe '#current_single_game' do
-    let(:unfinished_game) { double('unfinished game', :unfinished? => false) }
+    let(:finished_game) { double('finished game', :finished? => true) }
     subject { create(:user) }
 
     it 'is the last single game when it is not yet unfinished' do
-      open_game = double('unfinished game', :unfinished? => true)
+      open_game = double('unfinished game', :finished? => false)
 
-      allow(subject.owned_games).to receive(:single).and_return([unfinished_game, open_game])
+      allow(subject.owned_games).to receive(:single).and_return([finished_game, open_game])
 
       expect(subject.current_single_game).to be open_game
     end
@@ -69,7 +69,7 @@ RSpec.describe User, :type => :model do
     it 'is a new game when the last single game is unfinished' do
       new_game = double('new game')
 
-      allow(subject.owned_games).to receive(:single).and_return([unfinished_game])
+      allow(subject.owned_games).to receive(:single).and_return([finished_game])
       expect(Game).to receive(:create).with(:creator => subject).and_return(new_game)
 
       expect(subject.current_single_game).to be new_game

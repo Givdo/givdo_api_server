@@ -7,8 +7,9 @@ RSpec.describe AnswersController, :type => :controller do
     end
 
     describe 'successful call' do
-      let(:answer) { build(:answer) }
-      let(:user) { build(:user) }
+      let(:player) { build(:player) }
+      let(:user) { player.user }
+      let(:answer) { build(:answer, :player => player) }
       let(:game) { double }
       before do
         allow(Game).to receive(:find).with('10').and_return(game)
@@ -30,7 +31,7 @@ RSpec.describe AnswersController, :type => :controller do
         }).and_return(answer)
 
         expect(subject).to be_success
-        expect(subject.body).to serialize_object(answer).with(AnswerSerializer, :include => 'game,game.trivia,game.trivia.options')
+        expect(subject.body).to serialize_object(answer).with(AnswerSerializer, :scope => user, :include => 'game,game.trivia,game.trivia.options')
       end
     end
   end

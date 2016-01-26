@@ -7,7 +7,6 @@
 #  updated_at       :datetime         not null
 #  correct          :boolean          default(FALSE), not null
 #  trivia_id        :integer
-#  game_id          :integer
 #  player_id        :integer
 #
 # Indexes
@@ -18,18 +17,18 @@
 
 class Answer < ActiveRecord::Base
   belongs_to :player
-  belongs_to :game
   belongs_to :trivia
   belongs_to :trivia_option
+  has_one :game, :through => :player
 
   validates :trivia, :presence => true
-  validates :game,   :presence => true
   validates :trivia_option, :presence => true
   validates :player,   :presence => true
 
   default_scope { includes(:trivia_option) }
 
   scope :from_past, -> (time_window) { where('updated_at > ?', time_window) }
+  scope :correct, -> { where(:correct => true) }
 
   delegate :correct_option_id, :to => :trivia, :prefix => false, :allow_nil => true
 
