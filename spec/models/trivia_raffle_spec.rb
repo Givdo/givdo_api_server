@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe TriviaRaffle do
-  let(:another_game) { create(:game) }
-  let(:game) { create(:game, :rounds => 2) }
   let(:user) { create(:user) }
+  let(:another_game) { create(:game, :creator => user) }
+  let(:game) { create(:game, :creator => user, :rounds => 2) }
   subject { TriviaRaffle.new(user, game) }
 
   describe ".next" do

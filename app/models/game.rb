@@ -23,7 +23,7 @@ class Game < ActiveRecord::Base
   scope :single, -> { where(:single => true) }
 
   def answer!(user, params)
-    self.answers.create!(params.merge(:user => user))
+    user_rounds(user).create!(params)
   end
 
   def has_rounds?(user)
@@ -35,7 +35,8 @@ class Game < ActiveRecord::Base
   end
 
   def user_rounds(user)
-    answers.where(:user => user)
+    player = player(user)
+    answers.where(:player => player)
   end
 
   def unfinished?

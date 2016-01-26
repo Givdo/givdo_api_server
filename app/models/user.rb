@@ -23,7 +23,8 @@ class User < ActiveRecord::Base
   validates :uid, :presence => :true
   validates :provider, :presence => :true
 
-  has_many :answers
+  has_many :players
+  has_many :games, :through => :players
   has_many :owned_games, :class_name => 'Game', :foreign_key => :creator_id
 
   def self.for_provider!(provider, uid, params)

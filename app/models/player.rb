@@ -20,6 +20,7 @@ class Player < ActiveRecord::Base
   belongs_to :user
   belongs_to :game
   belongs_to :organization
+  has_many :answers
 
   def rounds_left
     self.game.rounds_left(self.user)

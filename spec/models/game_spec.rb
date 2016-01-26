@@ -22,10 +22,10 @@ RSpec.describe Game, :type => :model do
 
   describe '#player' do
     it 'is the player of the user in the game' do
-      user = create(:user)
-      player = game.players.create(:user => user)
+      another_user = create(:user)
+      player = game.players.create(:user => another_user)
 
-      expect(game.player(user)).to eql player
+      expect(game.player(another_user)).to eql player
     end
 
     it 'is nil if the user has no player in the game' do
@@ -60,6 +60,7 @@ RSpec.describe Game, :type => :model do
   end
 
   describe '#answer!' do
+    let(:player) { game.player(user) }
     subject do
       game.answer!(user, {
         :trivia_id => trivia.id,
@@ -68,7 +69,7 @@ RSpec.describe Game, :type => :model do
     end
 
     it 'answers with the given user' do
-      expect(subject.user).to eql user
+      expect(subject.player).to eql player
     end
 
     it 'answers with the trivia and option' do

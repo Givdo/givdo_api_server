@@ -3,21 +3,21 @@
 # Table name: answers
 #
 #  id               :integer          not null, primary key
-#  user_id          :integer
 #  trivia_option_id :integer
 #  updated_at       :datetime         not null
 #  correct          :boolean          default(FALSE), not null
 #  trivia_id        :integer
 #  game_id          :integer
+#  player_id        :integer
 #
 # Indexes
 #
+#  index_answers_on_player_id         (player_id)
 #  index_answers_on_trivia_option_id  (trivia_option_id)
-#  index_answers_on_user_id           (user_id)
 #
 
 class Answer < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :player
   belongs_to :game
   belongs_to :trivia
   belongs_to :trivia_option
@@ -25,7 +25,7 @@ class Answer < ActiveRecord::Base
   validates :trivia, :presence => true
   validates :game,   :presence => true
   validates :trivia_option, :presence => true
-  validates :user,   :presence => true
+  validates :player,   :presence => true
 
   default_scope { includes(:trivia_option) }
 
