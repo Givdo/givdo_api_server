@@ -1,6 +1,6 @@
 class AddFinishedToPlayers < ActiveRecord::Migration
   def up
-    add_column :players, :finished_at, :datetime, :default => false
+    add_column :players, :finished_at, :datetime
 
     Player.all.each do |player|
       player.touch(:finished_at) if !player.has_rounds?

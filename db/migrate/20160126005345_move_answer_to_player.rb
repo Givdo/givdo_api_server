@@ -11,20 +11,18 @@ class MoveAnswerToPlayer < ActiveRecord::Migration
     end
 
     remove_reference :answers, :user
-    remove_column :answers, :user_id
   end
 
   def down
-      add_reference :answers, :user
-      add_index :answers, [:user_id]
+    add_reference :answers, :user
+    add_index :answers, [:user_id]
 
-      Answer.all.each do |answer|
-        next unless answer.game
-        player = Player.find(answer.player_id)
-        answer.update_attribute :user_id, player.user_id
-      end
+    Answer.all.each do |answer|
+      next unless answer.game
+      player = Player.find(answer.player_id)
+      answer.update_attribute :user_id, player.user_id
+    end
 
-      remove_reference :answers, :player
-      remove_column :answers, :player_id
+    remove_reference :answers, :player
   end
 end
