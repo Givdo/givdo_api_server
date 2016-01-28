@@ -1,4 +1,5 @@
 class GameSerializer < ActiveModel::Serializer
+  has_many :players
   has_one :player
   has_one :trivia
 

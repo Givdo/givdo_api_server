@@ -18,6 +18,6 @@ class GamesController < ApplicationController
   end
 
   def game
-    Game.find(params[:id])
+    current_user.games.find(params[:id])
   end
 end
