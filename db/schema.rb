@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160126123256) do
+ActiveRecord::Schema.define(version: 20160202205449) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "trivia_option_id"
@@ -84,8 +84,8 @@ ActiveRecord::Schema.define(version: 20160126123256) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "provider",       null: false
-    t.string   "uid",            null: false
+    t.string   "provider",        null: false
+    t.string   "uid",             null: false
     t.string   "name"
     t.string   "nickname"
     t.string   "image"
@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 20160126123256) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "provider_token"
+    t.integer  "organization_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email"

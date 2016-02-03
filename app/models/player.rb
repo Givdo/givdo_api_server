@@ -48,4 +48,12 @@ class Player < ActiveRecord::Base
   def finished?
     finished_at.present?
   end
+
+  private
+
+  before_validation :copy_user_organization
+
+  def copy_user_organization
+    self.organization ||= user.try(:organization)
+  end
 end

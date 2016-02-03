@@ -4,6 +4,5 @@ FactoryGirl.define do
   factory :player do
     user { build(:user) }
     game { build(:game) }
-    organization nil
   end
 end

@@ -2,11 +2,11 @@
 
 FactoryGirl.define do
   factory :game do
-    association :creator, :factory => :user
+    creator { build(:user) }
 
     trait :two_players do
       players do
-        [build(:player, :user => build(:user))]
+        [build(:player)]
       end
     end
 

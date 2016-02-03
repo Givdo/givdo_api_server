@@ -2,16 +2,17 @@
 #
 # Table name: users
 #
-#  id             :integer          not null, primary key
-#  provider       :string           not null
-#  uid            :string           not null
-#  name           :string
-#  nickname       :string
-#  image          :string
-#  email          :string
-#  created_at     :datetime
-#  updated_at     :datetime
-#  provider_token :text
+#  id              :integer          not null, primary key
+#  provider        :string           not null
+#  uid             :string           not null
+#  name            :string
+#  nickname        :string
+#  image           :string
+#  email           :string
+#  created_at      :datetime
+#  updated_at      :datetime
+#  provider_token  :text
+#  organization_id :integer
 #
 # Indexes
 #
@@ -23,6 +24,7 @@ class User < ActiveRecord::Base
   validates :uid, :presence => :true
   validates :provider, :presence => :true
 
+  belongs_to :organization
   has_many :players
   has_many :games, :through => :players
   has_many :owned_games, :class_name => 'Game', :foreign_key => :creator_id

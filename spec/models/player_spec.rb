@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Player, :type => :model do
+  let(:user) { subject.user }
+  subject { build(:player) }
+
   describe '#rounds_left' do
     it 'is the number of rounds a game allows minus the number of rounds the player have played' do
       subject.game = build(:game, :rounds => 5)
@@ -55,7 +58,6 @@ RSpec.describe Player, :type => :model do
     let(:trivia1) { create(:trivia, :with_options) }
     let(:trivia2) { create(:trivia, :with_options) }
     let(:trivia3) { create(:trivia, :with_options) }
-    let(:user) { create(:user) }
     let(:game) { create(:game, :creator => user, :rounds => 2) }
     let(:player) { game.player(user) }
 
@@ -79,5 +81,13 @@ RSpec.describe Player, :type => :model do
 
       expect(player).to_not have_rounds
     end
+  end
+
+  it 'sets the organization to the user current organization' do
+    user.organization = create(:organization)
+
+    player = Player.create(:user => user)
+
+    expect(player.organization).to eql user.organization
   end
 end
