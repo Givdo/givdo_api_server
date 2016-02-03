@@ -5,7 +5,6 @@ gem 'rails', '4.2.5'
 
 # App Logic
 gem 'koala', '~> 2.2'
-gem 'braintree'
 gem 'active_model_serializers', :github => 'rails-api/active_model_serializers'
 gem 'kaminari'
 gem 'jwt'
