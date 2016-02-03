@@ -15,7 +15,7 @@ module Givdo
     end
 
     def self.invitable_friends(user, params)
-      PaginatedConnections.new(graph(user.provider_token), 'invitable_friends', params)
+      Friends.new(graph(user.provider_token), params)
     end
   end
 end

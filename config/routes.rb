@@ -20,6 +20,8 @@ Rails.application.routes.draw do
           get '/token', :action => :token
         end
       end
+
+      resources :friends, :only => [:index]
     end
   end
 end

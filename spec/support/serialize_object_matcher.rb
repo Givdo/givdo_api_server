@@ -1,7 +1,20 @@
+def actual_json(actual)
+  case actual
+  when String
+    actual
+  when Array
+    actual.to_json
+  when Hash
+    actual.to_json
+  else
+    actual.body
+  end
+end
+
 RSpec::Matchers.define :serialize_object do |object|
   match do |actual|
     expected = serialize(object, @serializer_klass, @options).to_json
-    expected.eql?(actual.is_a?(String) ? actual : actual.to_json)
+    expected.eql?(actual_json(actual))
   end
 
   chain :with do |serializer_klass, options={}|
