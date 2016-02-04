@@ -1,3 +1,5 @@
+require 'givdo/facebook/paginated_connections'
+
 module Givdo
   module Facebook
     class Friends < PaginatedConnections

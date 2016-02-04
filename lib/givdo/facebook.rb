@@ -1,4 +1,4 @@
-require 'givdo/facebook/paginated_connections'
+require 'givdo/facebook/friends'
 
 module Givdo
   module Facebook
