@@ -8,9 +8,14 @@ module Givdo
       end
 
       def users
-        @users ||= begin
-          uids = list.map{|friend| friend['id']}
-          User.for_provider_batch!(:facebook, uids)
+        @users ||= User.for_provider_batch!(:facebook, list_with_picture)
+      end
+
+      private
+
+      def list_with_picture
+        list.map do |friend|
+          friend.merge({'image' => "https://graph.facebook.com/#{friend['id']}/picture"})
         end
       end
     end

@@ -16,7 +16,7 @@ RSpec.describe FriendsController, :type => :controller do
       before { api_user(user) }
 
       it { is_expected.to have_http_status(:success) }
-      it { is_expected.to serialize_object(friends).with(FriendsSerializer, :scope => user) }
+      it { is_expected.to serialize_object(friends).with(FriendsSerializer, :scope => user, :include => 'users') }
     end
   end
 end

@@ -36,10 +36,14 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.for_provider_batch!(provider, uids)
+  def self.for_provider_batch!(provider, user_data=[])
+    uids = user_data.map{|data| data['id']}
     existing_users = where(:provider => provider, :uid => uids).all
     uids_to_create = (uids - existing_users.map(&:uid))
-    new_users = uids_to_create.map {|uid| {:provider => provider, :uid => uid} }
+    new_users = uids_to_create.map do |uid|
+      extra_data = user_data.find{|data| data['id'].eql?(uid)} || {}
+      {:provider => provider, :uid => uid}.merge(extra_data.slice('name'))
+    end
 
     User.create(new_users) + existing_users
   end

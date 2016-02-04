@@ -1,11 +1,11 @@
-require 'givdo/facebook'
+require_dependency 'givdo/facebook'
 
 class FriendsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
     render :json => Givdo::Facebook.friends(current_user, filter_params),
-            :serializer => FriendsSerializer
+            :serializer => FriendsSerializer, :include => 'users'
   end
 
   private

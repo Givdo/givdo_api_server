@@ -40,7 +40,7 @@ RSpec.describe User, :type => :model do
   describe '.for_provider_batch!' do
     let(:user1) { User.create(:provider => 'facebook', :uid => 'existing-uid-1') }
     let(:user2) { User.create(:provider => 'facebook', :uid => 'existing-uid-2') }
-    subject { User.for_provider_batch!('facebook', [user1.uid, user2.uid, 'unexisting-user']) }
+    subject { User.for_provider_batch!('facebook', [{'id' => user1.uid}, {'id' => user2.uid}, {'id' => 'unexisting-user'}]) }
 
     it 'includes all existing users' do
       expect(subject).to include(user1, user2)
@@ -51,6 +51,21 @@ RSpec.describe User, :type => :model do
 
       expect(user.provider).to eql 'facebook'
       expect(user).to be_persisted
+    end
+
+    context 'with extra data' do
+      subject do
+        User.for_provider_batch!('facebook', [
+          {'id' => 'unexisting-user-1', 'name' => 'Hernando Herrera'},
+          {'id' => 'unexisting-user-2'}
+        ])
+      end
+
+      it 'adds extra data when given to the user' do
+        user = subject.find {|u| u.uid.eql?('unexisting-user-1')}
+
+        expect(subject.map(&:name)).to match_array ['Hernando Herrera', nil]
+      end
     end
   end
 

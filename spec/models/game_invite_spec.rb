@@ -11,7 +11,7 @@ RSpec.describe GameInvite, :type => :model do
     before do
       user1, user2 = build(:user), build(:user)
       allow(User).to receive(:for_provider_batch!).
-                        with('facebook', ['12345', '54321']).
+                        with('facebook', [{'id' => '12345'}, {'id' => '54321'}]).
                         and_return([invitee_user1, invitee_user2])
       subject.invite!
     end

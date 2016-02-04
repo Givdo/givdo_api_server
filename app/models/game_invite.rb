@@ -8,7 +8,8 @@ class GameInvite
   end
 
   def invite!
-    User.for_provider_batch!(@provider, @invitees).each do |user|
+    invitees = @invitees.map{|id| {'id' => id}}
+    User.for_provider_batch!(@provider, invitees).each do |user|
       @game.players.build(:user => user)
     end
     @game.tap(&:save!)
