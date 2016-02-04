@@ -14,7 +14,7 @@ module Givdo
       Koala::Facebook::API.new token
     end
 
-    def self.invitable_friends(user, params)
+    def self.friends(user, params)
       Friends.new(graph(user.provider_token), params)
     end
   end

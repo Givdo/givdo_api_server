@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FriendsController, type: :controller do
+RSpec.describe FriendsController, :type => :controller do
   let(:user) { build(:user) }
 
   describe "GET #index" do
@@ -11,7 +11,8 @@ RSpec.describe FriendsController, type: :controller do
     describe 'authenticated user' do
       let(:friends) { Givdo::Facebook::Friends.new(nil, nil) }
       before { allow(friends).to receive(:next_page_params).and_return({}) }
-      before { allow(Givdo::Facebook).to receive(:invitable_friends).with(user, {}).and_return(friends) }
+      before { allow(friends).to receive(:users).and_return([user]) }
+      before { allow(Givdo::Facebook).to receive(:friends).with(user, {}).and_return(friends) }
       before { api_user(user) }
 
       it { is_expected.to have_http_status(:success) }
