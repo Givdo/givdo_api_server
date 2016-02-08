@@ -57,7 +57,7 @@ RSpec.describe User, :type => :model do
       subject do
         User.for_provider_batch!('facebook', [
           {'id' => 'unexisting-user-1', 'name' => 'Hernando Herrera'},
-          {'id' => 'unexisting-user-2'}
+          {'id' => 'unexisting-user-2', 'image' => 'http://www.givdo.com/image.jpg'}
         ])
       end
 
@@ -65,6 +65,7 @@ RSpec.describe User, :type => :model do
         user = subject.find {|u| u.uid.eql?('unexisting-user-1')}
 
         expect(subject.map(&:name)).to match_array ['Hernando Herrera', nil]
+        expect(subject.map(&:image)).to match_array [nil, 'http://www.givdo.com/image.jpg']
       end
     end
   end
