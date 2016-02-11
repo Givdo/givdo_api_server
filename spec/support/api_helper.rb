@@ -7,6 +7,7 @@ module ApiHelper
     token = UserToken.generate(user, false)
     request.env['HTTP_AUTHORIZATION'] = auth_header(token)
     allow(UserToken).to receive(:authenticate).with(token).and_return(user)
+    allow(BetaAccess).to receive(:granted?).and_return(true)
   end
 
   def serialize(object, serializer_klass, options={})

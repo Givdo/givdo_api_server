@@ -5,14 +5,20 @@ class OauthCallbackController < ApplicationController
 
   def facebook
     user = Givdo::OAuth::Facebook.validate!(params[:access_token])
-    token = UserToken.generate(user, params[:expires_in].to_i)
+    if BetaAccess.granted?(user)
+      token = UserToken.generate(user, params[:expires_in].to_i)
 
-    render :json => {:token => token}
+      render :json => {:token => token}
+    else
+      render :json => {:error => 'Beta access not granted', :code => :beta},
+             :status => :unauthorized
+    end
   end
 
   private
 
   def oauth_error(error)
-    render :json => {:error => error.message}, :status => 400
+    render :json => {:error => error.message, :code => :oauth},
+           :status => :bad_request
   end
 end

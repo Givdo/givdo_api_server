@@ -14,16 +14,25 @@ RSpec.describe ApplicationController, :type => :controller do
 
     describe 'authenticate_user!' do
       subject { get :index }
+      before { allow(BetaAccess).to receive(:granted?).and_return(true) }
 
-      it 'does not authorized unidentified access' do
-        expect(subject.code).to eql '401'
+      it 'does not authorize unidentified access' do
+        expect(subject).to be_unauthorized
       end
 
       it 'authorizes identified user' do
         api_user(user)
 
-        expect(subject.code).to eql '200'
+        expect(subject).to be_success
         expect(subject.body).to eql 'you are in'
+      end
+
+      it 'does not authorize users without beta access' do
+        api_user(user)
+
+        expect(BetaAccess).to receive(:granted?).with(user).and_return(false)
+
+        expect(subject).to be_unauthorized
       end
     end
   end

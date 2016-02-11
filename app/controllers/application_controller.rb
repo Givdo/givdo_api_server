@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user!
     authenticate_or_request_with_http_token do |token, _|
-      current_user.present?
+      current_user.present? && BetaAccess.granted?(current_user)
     end
   end
 
