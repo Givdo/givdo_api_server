@@ -8,6 +8,8 @@ gem 'koala', '~> 2.2'
 gem 'active_model_serializers', :github => 'rails-api/active_model_serializers'
 gem 'kaminari'
 gem 'jwt'
+gem 'activeadmin', :github => 'activeadmin'
+gem 'devise' # Used for activeadmin only
 
 # App Server
 gem 'unicorn'
