@@ -8,7 +8,8 @@
 #  organization_id :integer
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  finished_at     :datetime         default(NULL)
+#  finished_at     :datetime
+#  score           :integer          default(0)
 #
 # Indexes
 #
@@ -29,10 +30,6 @@ class Player < ActiveRecord::Base
 
   def rounds_left
     game.rounds - answers.count
-  end
-
-  def score
-    answers.correct.count
   end
 
   def answer!(params)

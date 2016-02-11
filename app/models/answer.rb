@@ -35,9 +35,13 @@ class Answer < ActiveRecord::Base
   private
 
   before_save :review_answer
-
   def review_answer
     self.correct = trivia_option_id.eql?(trivia.correct_option_id)
     return true
+  end
+
+  after_save :update_player_score
+  def update_player_score
+    self.player.increment!(:score) if correct?
   end
 end
