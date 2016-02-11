@@ -12,8 +12,16 @@
 class BetaAccess < ActiveRecord::Base
   belongs_to :user
 
+  def self.user_beta_access(user)
+    where(:user => user).first_or_create
+  end
+
   def self.granted?(user)
-    where(:user => user).first.try(:granted?)
+    user_beta_access(user).granted?
+  end
+
+  def self.grant!(user)
+    user_beta_access(user).grant!
   end
 
   def granted?

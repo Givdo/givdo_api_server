@@ -21,5 +21,19 @@ RSpec.describe BetaAccess, :type => :model do
 
       expect(BetaAccess).to_not be_granted(user)
     end
+
+    it 'creates a beta access if one does not exist' do
+      BetaAccess.destroy_all(:user => user)
+
+      expect { BetaAccess.granted?(user) }.to change { BetaAccess.where(:user => user).count }.by(1)
+    end
+  end
+
+  describe '.grant!' do
+    it 'grants access to the user' do
+      BetaAccess.grant! user
+
+      expect(BetaAccess).to be_granted(user)
+    end
   end
 end
