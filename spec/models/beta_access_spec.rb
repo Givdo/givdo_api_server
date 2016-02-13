@@ -3,6 +3,15 @@ require 'rails_helper'
 RSpec.describe BetaAccess, :type => :model do
   let(:user) { create(:user, :provider => 'facebook', :uid => '123456') }
 
+  describe '.awaiting' do
+    it 'is the collection of beta access request awaiting to be granted' do
+      granted = create(:beta_access, :granted_at => 1.day.ago)
+      not_granted = create(:beta_access, :granted_at => nil)
+
+      expect(BetaAccess.awaiting.pluck(:id)).to match_array [not_granted.id]
+    end
+  end
+
   describe '.granted?' do
     it 'is granted when the provider/uid pair have been granted beta access' do
       BetaAccess.create(:user => user).grant!

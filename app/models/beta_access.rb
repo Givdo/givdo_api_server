@@ -12,6 +12,11 @@
 class BetaAccess < ActiveRecord::Base
   belongs_to :user
 
+  delegate :name, :to => :user, :prefix => true, :allow_nil => true
+  delegate :image, :to => :user, :prefix => true, :allow_nil => true
+
+  scope :awaiting, -> { where(:granted_at => nil) }
+
   def self.user_beta_access(user)
     where(:user => user).first_or_create
   end
