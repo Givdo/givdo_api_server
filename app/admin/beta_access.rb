@@ -1,5 +1,6 @@
 ActiveAdmin.register BetaAccess do
   scope :awaiting, :default => true
+  scope :granted, :default => true
   filter :user_name, :as => :string
 
   actions :all, except: [:new, :create, :edit, :update]
@@ -22,7 +23,7 @@ ActiveAdmin.register BetaAccess do
     end
     column :user_name
     actions :defaults => true do |request|
-      link_to 'Grant Access', grant_admin_beta_access_path(request), :method => :put, :data => {:confirm => "Grant access to #{request.user_name}?"}
+      link_to 'Grant Access', grant_admin_beta_access_path(request), :method => :put, :data => {:confirm => "Grant access to #{request.user_name}?"} unless request.granted?
     end
   end
 
@@ -38,6 +39,6 @@ ActiveAdmin.register BetaAccess do
     active_admin_comments
   end
   action_item :grant, :only => :show do
-    link_to 'Grant Access', grant_admin_beta_access_path(resource), :method => :put, :data => {:confirm => "Grant access to #{resource.user_name}?"}
+    link_to 'Grant Access', grant_admin_beta_access_path(resource), :method => :put, :data => {:confirm => "Grant access to #{resource.user_name}?"} unless resource.granted?
   end
 end

@@ -16,6 +16,7 @@ class BetaAccess < ActiveRecord::Base
   delegate :image, :to => :user, :prefix => true, :allow_nil => true
 
   scope :awaiting, -> { where(:granted_at => nil) }
+  scope :granted, -> { where.not(:granted_at => nil) }
 
   def self.user_beta_access(user)
     where(:user => user).first_or_create
