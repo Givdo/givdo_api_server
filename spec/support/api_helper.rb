@@ -10,6 +10,10 @@ module ApiHelper
     allow(BetaAccess).to receive(:granted?).and_return(true)
   end
 
+  def api_logout
+    allow(UserToken).to receive(:authenticate).and_return(nil)
+  end
+
   def serialize(object, serializer_klass, options={})
     if object.respond_to?(:each)
       options = options.merge({:serializer => serializer_klass})

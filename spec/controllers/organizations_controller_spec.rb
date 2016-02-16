@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe OrganizationsController, type: :controller do
   describe 'GET /' do
     before { allow(UpdateOrganizationJob).to receive(:perform_later) }
+    let(:user) { build(:user) }
     let(:greenpeace) { build(:organization, :name => 'Greenpeace') }
     let(:i_wisth) { build(:organization, :name => 'I wish') }
     let(:pagination) { double('pagination', per: [greenpeace, i_wisth]) }
@@ -10,7 +11,10 @@ RSpec.describe OrganizationsController, type: :controller do
     let(:ransack) { double('ransack', :result => result) }
     before { allow(Organization).to receive(:ransack).and_return ransack }
     before { allow(Organization).to receive(:page).and_return pagination }
+    before { api_user user }
     subject { get :index, :format => :json }
+
+    it_behaves_like 'an authenticated only action'
 
     it 'renders a json the returned organizations' do
       expect(subject.body).to serialize_collection([greenpeace, i_wisth]).with(OrganizationSerializer)

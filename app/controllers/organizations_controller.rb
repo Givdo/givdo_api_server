@@ -1,4 +1,6 @@
 class OrganizationsController < ApplicationController
+  before_filter :authenticate_user!
+
   def index
     current_page = organizations.page(page_number).per(page_size)
     current_page.each(&method(:update_cache_if_needed))
