@@ -5,9 +5,12 @@ RSpec.describe OrganizationsController, type: :controller do
     before { allow(UpdateOrganizationJob).to receive(:perform_later) }
     let(:greenpeace) { build(:organization, :name => 'Greenpeace') }
     let(:i_wisth) { build(:organization, :name => 'I wish') }
-    let(:pagination) { double(per: [greenpeace, i_wisth]) }
-    subject { get :index, :format => :json }
+    let(:pagination) { double('pagination', per: [greenpeace, i_wisth]) }
+    let(:result) { double('result', :page => pagination)}
+    let(:ransack) { double('ransack', :result => result) }
+    before { allow(Organization).to receive(:ransack).and_return ransack }
     before { allow(Organization).to receive(:page).and_return pagination }
+    subject { get :index, :format => :json }
 
     it 'renders a json the returned organizations' do
       expect(subject.body).to serialize_collection([greenpeace, i_wisth]).with(OrganizationSerializer)
@@ -21,6 +24,12 @@ RSpec.describe OrganizationsController, type: :controller do
     end
 
     describe 'pagination' do
+      it 'searches by the given term' do
+        expect(Organization).to receive(:ransack).with('i wish').and_return(ransack)
+
+        get :index, :search => 'i wish'
+      end
+
       it 'paginates to the given page' do
         expect(Organization).to receive(:page).with(10).and_return pagination
 

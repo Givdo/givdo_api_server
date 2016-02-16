@@ -10,6 +10,7 @@ gem 'kaminari'
 gem 'jwt'
 gem 'activeadmin', :github => 'activeadmin'
 gem 'devise' # Used for activeadmin only
+gem 'ransack'
 
 # App Server
 gem 'unicorn'
