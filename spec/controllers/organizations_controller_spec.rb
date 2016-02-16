@@ -7,16 +7,13 @@ RSpec.describe OrganizationsController, type: :controller do
     let(:i_wisth) { build(:organization, :name => 'I wish') }
     let(:pagination) { double(per: [greenpeace, i_wisth]) }
     subject { get :index, :format => :json }
+    before { allow(Organization).to receive(:page).and_return pagination }
 
     it 'renders a json the returned organizations' do
-      allow(Organization).to receive(:page).and_return pagination
-
       expect(subject.body).to serialize_collection([greenpeace, i_wisth]).with(OrganizationSerializer)
     end
 
     it 'perform a organization update for each organization' do
-      allow(Organization).to receive(:page).and_return pagination
-
       expect(UpdateOrganizationJob).to receive(:perform_later).once.with(greenpeace)
       expect(UpdateOrganizationJob).to receive(:perform_later).once.with(i_wisth)
 
@@ -25,23 +22,21 @@ RSpec.describe OrganizationsController, type: :controller do
 
     describe 'pagination' do
       it 'paginates to the given page' do
-        allow(Organization).to receive(:page).with(10).and_return pagination
+        expect(Organization).to receive(:page).with(10).and_return pagination
 
-        get :index, :page => 10, :format => :json
+        get :index, :page => {:number => 10}, :format => :json
       end
 
       it 'defaults to 10 organizations per page' do
-        allow(Organization).to receive(:page).and_return pagination
         expect(pagination).to receive(:per).with(10).and_return []
 
         get :index, :format => :json
       end
 
       it 'accepts arbitrary number of organizations per page' do
-        allow(Organization).to receive(:page).and_return pagination
         expect(pagination).to receive(:per).with(15).and_return []
 
-        get :index, :per_page => 15, :format => :json
+        get :index, :page => {:size => 15}, :format => :json
       end
     end
   end

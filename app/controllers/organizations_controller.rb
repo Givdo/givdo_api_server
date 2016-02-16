@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
   def index
-    @organizations = Organization.page(params[:page]).per(per_page)
+    @organizations = Organization.page(page_number).per(page_size)
     @organizations.each(&method(:update_cache_if_needed))
 
     render :json => @organizations
@@ -12,7 +12,11 @@ class OrganizationsController < ApplicationController
     UpdateOrganizationJob.perform_later(organization) unless organization.cached?
   end
 
-  def per_page
-    params[:per_page] || 10
+  def page_size
+    params[:page].try(:[], :size) || 10
+  end
+
+  def page_number
+    params[:page].try(:[], :number)
   end
 end
