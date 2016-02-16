@@ -12,19 +12,24 @@ module Givdo
       end
 
       def validate!
-        profile = graph.get_object('me')
-        picture = graph.get_picture('me')
-
-        User.for_provider!(:facebook,  profile['id'], {
-          :image => picture,
-          :name => profile['name'],
-          :provider_token => @access_token
-        })
+        update_user_data
       rescue Koala::Facebook::AuthenticationError => e
         raise Givdo::OAuth::Error, e
       end
 
       private
+
+      def update_user_data
+        profile = graph.get_object('me', :fields => 'id,name,cover')
+        picture = graph.get_picture('me')
+
+        User.for_provider!(:facebook,  profile['id'], {
+          :image => picture,
+          :cover => profile['cover'].try(:fetch, 'source'),
+          :name => profile['name'],
+          :provider_token => @access_token
+        })
+      end
 
       def graph
         @graph ||= Givdo::Facebook.graph(@access_token)
