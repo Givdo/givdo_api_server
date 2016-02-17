@@ -52,7 +52,9 @@ end
 
 RSpec::Matchers.define :serialize_link do |name|
   match do |json|
-    expect(json[:data][:links][name][:href]).to eql @href
+    link = json[:data][:links][name]
+    url = link[:href] rescue link
+    expect(url).to eql @href
   end
 
   chain :with do |href|
