@@ -100,4 +100,40 @@ RSpec.describe User, :type => :model do
       expect(subject.current_single_game).to be new_game
     end
   end
+
+  describe '#current_game_versus' do
+    let(:new_game) { double('new game') }
+    let(:open_game) { double('unfinished game', :finished? => false) }
+    let(:finished_game) { double('finished game', :finished? => true) }
+    let(:friend) { create(:user, :provider => :facebook, :uid => '9876543') }
+    let(:user) { create(:user) }
+    subject { user.current_game_versus(friend) }
+
+    it 'is the last game versus the friend when it is not yet unfinished' do
+      allow(user.owned_games).to receive(:versus).with(friend).and_return([finished_game, open_game])
+      expect(user.owned_games).to_not receive(:create)
+
+      expect(subject).to be open_game
+    end
+
+    it 'is a new game when the last single game is unfinished' do
+      allow(user.owned_games).to receive(:versus).with(friend).and_return([finished_game])
+      expect(user.owned_games).to receive(:create).and_return(new_game)
+
+      expect(subject).to be new_game
+    end
+
+    it 'includes the friend user as a player' do
+      allow(user.owned_games).to receive(:versus).with(friend).and_return([finished_game])
+
+      expect(subject.players.pluck(:user_id)).to match_array [user.id, friend.id]
+    end
+
+    it 'is a new game when user has no game' do
+      allow(user.owned_games).to receive(:single).and_return([])
+      expect(user.owned_games).to receive(:create).and_return(new_game)
+
+      expect(subject).to be new_game
+    end
+  end
 end

@@ -20,6 +20,7 @@ class Game < ActiveRecord::Base
   has_many :users, :through => :players
 
   scope :single, -> { where(:single => true) }
+  scope :versus, -> (user) { joins(:players).where(:single => false).where('players.user_id' => user.id) }
 
   def answer!(user, params)
     player(user).answer! params

@@ -15,44 +15,26 @@ RSpec.describe GamesController, :type => :controller do
     it 'gets the user current signel player game' do
       expect(user).to receive(:current_single_game).and_return(game)
 
-      api_user user
+      api_user(user)
 
-      expect(subject.body).to serialize_object(game).with(GameSerializer, :include => 'player,trivia,trivia.options')
+      expect(subject).to serialize_object(game).with(GameSerializer, :include => 'player,trivia,trivia.options')
     end
   end
 
-  describe 'POST /' do
-    before do
-      allow(Game).to receive(:create!).with(creator: user).and_return(game)
-    end
+  describe 'GET /versus/:uid' do
+    let(:friend) { User.new }
+    subject { get(:versus, :uid => '12345') }
 
-    it_behaves_like 'an authenticated only action' do
-      subject { post(:create) }
-    end
+    it_behaves_like 'an authenticated only action'
 
-    context 'when request to invite users' do
-      it 'creates the game with invitees' do
-        api_user(user)
-        expect(GameInvite).to receive(:invite!).with(game, 'facebook', ['1231244', '12312314', '12312414'])
+    it 'gets the last game of the current user versus the friend given its uid and the user provider' do
+      user.provider = 'facebook'
+      expect(User).to receive(:for_provider!).with('facebook', '12345').and_return(friend)
+      expect(user).to receive(:current_game_versus).with(friend).and_return(game)
 
-        post(:create, {
-          :provider => 'facebook',
-          :invitees => ['1231244', '12312314', '12312414']
-        })
+      api_user(user)
 
-        expect(response.body).to serialize_object(game).with(GameSerializer, :include => 'player,trivia,trivia.options')
-      end
-    end
-
-    context 'when no invites are sent' do
-      it 'creates the game' do
-        api_user(user)
-        expect(GameInvite).to_not receive(:invite!)
-
-        post(:create)
-
-        expect(response.body).to serialize_object(game).with(GameSerializer, :include => 'player,trivia,trivia.options')
-      end
+      expect(subject).to serialize_object(game).with(GameSerializer, :include => 'player,trivia,trivia.options')
     end
   end
 end

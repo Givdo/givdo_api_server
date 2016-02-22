@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   has_many :games, :through => :players
   has_many :owned_games, :class_name => 'Game', :foreign_key => :creator_id
 
-  def self.for_provider!(provider, uid, params)
+  def self.for_provider!(provider, uid, params={})
     where(:uid => uid, :provider => provider).first_or_initialize.tap do |user|
       user.assign_attributes(params)
       user.save!
@@ -53,5 +53,13 @@ class User < ActiveRecord::Base
     last_single = owned_games.single.last
     return last_single if last_single.present? && !last_single.finished?
     Game.create(:creator => self)
+  end
+
+  def current_game_versus(user)
+    last_game = owned_games.versus(user).last
+    return last_game if last_game.present? && !last_game.finished?
+    owned_games.create do |game|
+      game.players.build(:user => user)
+    end
   end
 end
