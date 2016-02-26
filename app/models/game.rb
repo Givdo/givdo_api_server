@@ -42,7 +42,7 @@ class Game < ActiveRecord::Base
   end
 
   def rounds
-    @rounds || trivias.size
+    @rounds || 10
   end
 
   def add_player(user)
