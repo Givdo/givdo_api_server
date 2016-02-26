@@ -7,10 +7,10 @@ class GameSerializer < ActiveModel::Serializer
   link(:player) { game_player_url(object) }
 
   def player
-    @player ||= object.player(scope)
+    @player ||= object.player(scope) if scope
   end
 
   def trivia
-    @trivia ||= TriviaRaffle.next(player) if player
+    @trivia ||= object.next_trivia(scope) if scope
   end
 end

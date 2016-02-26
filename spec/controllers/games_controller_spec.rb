@@ -4,6 +4,7 @@ RSpec.describe GamesController, :type => :controller do
   let(:game) { Game.new(:id => 10) }
   let(:user) { User.new }
   before do
+    allow(game).to receive(:next_trivia).and_return(nil)
     allow(Game).to receive(:find).with('10').and_return(game)
   end
 

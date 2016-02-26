@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160216032230) do
+ActiveRecord::Schema.define(version: 20160226191930) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -66,13 +66,17 @@ ActiveRecord::Schema.define(version: 20160216032230) do
 
   create_table "games", force: :cascade do |t|
     t.integer  "creator_id"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.integer  "rounds",     default: 10
-    t.boolean  "single",     default: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "single",     default: true
   end
 
   add_index "games", ["creator_id"], name: "index_games_on_creator_id"
+
+  create_table "games_trivia", id: false, force: :cascade do |t|
+    t.integer "game_id"
+    t.integer "trivia_id"
+  end
 
   create_table "games_users", id: false, force: :cascade do |t|
     t.integer "game_id"

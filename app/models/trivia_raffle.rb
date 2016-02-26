@@ -1,19 +1,12 @@
-class TriviaRaffle
-  def self.next(*args)
-    new(*args).next
+class TriviaRaffle < Struct.new(:game, :limit)
+  def self.raffle(*args)
+    new(*args).raffle
   end
 
-  def initialize(player)
-    @player = player
-  end
-
-  def next
-    return unless @player.has_rounds?
-
-    played_trivias = @player.answers.pluck(:trivia_id)
-    remaining_trivias = Trivia.excluding(played_trivias)
-
-    rnd = rand(remaining_trivias.count)
-    remaining_trivias.offset(rnd).first
+  def raffle
+    current_trivias = game.trivias.map(&:id)
+    remaining_trivias = Trivia.excluding(current_trivias)
+    rnd = rand(remaining_trivias.count - limit)
+    remaining_trivias.offset(rnd).limit(limit)
   end
 end

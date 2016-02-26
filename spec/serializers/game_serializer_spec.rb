@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe GameSerializer, :type => :serializer do
   let(:game) { create(:game, :two_players) }
   let(:trivia) { create(:trivia) }
-  before { allow(TriviaRaffle).to receive(:next).with(game.player(game.creator)).and_return(trivia) }
+  before { allow(game).to receive(:next_trivia).with(game.creator).and_return(trivia) }
   subject { serialize(game, GameSerializer, :scope => game.creator, :include => 'player,trivia') }
 
   it { is_expected.to serialize_id_and_type(game.id.to_s, 'games') }

@@ -6,7 +6,6 @@
 #  creator_id :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  rounds     :integer          default(10)
 #  single     :boolean          default(FALSE)
 #
 # Indexes
@@ -18,12 +17,20 @@ class Game < ActiveRecord::Base
   belongs_to :creator, :class_name => 'User'
   has_many :players
   has_many :users, :through => :players
+  has_and_belongs_to_many :trivias
+
+  attr_accessor :rounds
 
   scope :single, -> { where(:single => true) }
   scope :versus, -> (user) { joins(:players).where(:single => false).where('players.user_id' => user.id) }
 
   def answer!(user, params)
     player(user).answer! params
+  end
+
+  def next_trivia(user)
+    answered = player(user).answers.pluck(:trivia_id)
+    trivias.excluding(answered).first
   end
 
   def finished?
@@ -34,17 +41,27 @@ class Game < ActiveRecord::Base
     players.find_by(:user => user)
   end
 
+  def rounds
+    @rounds || trivias.size
+  end
+
+  def add_player(user)
+    players.build(:user => user).tap do
+      self.single = players.size < 2
+    end
+  end
+
   private
 
   before_create :setup_creators_player
-  before_save :set_single_flag
+  before_save :raffle_trivias
+
+  def raffle_trivias
+    missing = self.rounds - self.trivias.size
+    self.trivias << TriviaRaffle.raffle(self, missing)
+  end
 
   def setup_creators_player
     self.players.build(:user => creator)
-  end
-
-  def set_single_flag
-    self.single = self.players.size < 2
-    return true
   end
 end

@@ -59,7 +59,7 @@ class User < ActiveRecord::Base
     last_game = owned_games.versus(user).last
     return last_game if last_game.present? && !last_game.finished?
     owned_games.create do |game|
-      game.players.build(:user => user)
+      game.add_player(user)
     end
   end
 end
