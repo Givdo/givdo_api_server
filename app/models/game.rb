@@ -62,6 +62,6 @@ class Game < ActiveRecord::Base
   end
 
   def setup_creators_player
-    self.players.build(:user => creator)
+    add_player(creator)
   end
 end
