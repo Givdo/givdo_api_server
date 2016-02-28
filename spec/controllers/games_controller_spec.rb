@@ -18,7 +18,7 @@ RSpec.describe GamesController, :type => :controller do
 
       api_user(user)
 
-      expect(subject).to serialize_object(game).with(GameSerializer, :include => 'player,trivia,trivia.options')
+      expect(subject).to serialize_object(game).with(GameSerializer, :include => 'players,trivia,trivia.options')
     end
   end
 
@@ -35,7 +35,7 @@ RSpec.describe GamesController, :type => :controller do
 
       api_user(user)
 
-      expect(subject).to serialize_object(game).with(GameSerializer, :include => 'player,trivia,trivia.options')
+      expect(subject).to serialize_object(game).with(GameSerializer, :include => 'players,trivia,trivia.options')
     end
   end
 end
