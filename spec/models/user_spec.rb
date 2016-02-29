@@ -86,7 +86,7 @@ RSpec.describe User, :type => :model do
       new_game = double('new game')
 
       allow(subject.owned_games).to receive(:single).and_return([finished_game])
-      expect(Game).to receive(:create).with(:creator => subject).and_return(new_game)
+      expect(subject.owned_games).to receive(:create).and_return(new_game)
 
       expect(subject.current_single_game).to be new_game
     end
@@ -95,7 +95,7 @@ RSpec.describe User, :type => :model do
       new_game = double('new game')
 
       allow(subject.owned_games).to receive(:single).and_return([])
-      expect(Game).to receive(:create).with(:creator => subject).and_return(new_game)
+      expect(subject.owned_games).to receive(:create).and_return(new_game)
 
       expect(subject.current_single_game).to be new_game
     end
