@@ -37,4 +37,19 @@ RSpec.describe Givdo::Facebook, type: :lib do
       end
     end
   end
+
+  describe '.friend' do
+    let(:friend_user) { }
+    let(:user) { double(:provider_token => 'user token') }
+    let(:user_graph) { double }
+    before { allow(Givdo::Facebook).to receive(:graph).with('user token').and_return(user_graph) }
+
+    it 'is the object with the given uid from the given user graph' do
+      profile = {'name' => 'George Foreman', 'id' => 'friend-uid'}
+      expect(user_graph).to receive(:get_object).with('friend-uid', {:param => 'value'}).and_return(profile)
+      expect(Givdo::Facebook::User).to receive(:get).with(profile).and_return(friend_user)
+
+      Givdo::Facebook.friend(user, 'friend-uid', {:param => 'value'})
+    end
+  end
 end

@@ -1,3 +1,5 @@
+require_dependency 'givdo/facebook'
+
 class GamesController < ApplicationController
   before_filter :authenticate_user!
 
@@ -6,7 +8,7 @@ class GamesController < ApplicationController
   end
 
   def versus
-    user = User.for_provider!(current_user.provider, params[:uid])
+    user = Givdo::Facebook.friend(current_user, params[:uid])
     game = current_user.current_game_versus(user)
     render :json => game, :include => 'players,trivia,trivia.options'
   end

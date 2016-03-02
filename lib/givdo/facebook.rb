@@ -1,3 +1,4 @@
+require 'givdo/facebook/user'
 require 'givdo/facebook/friends'
 
 module Givdo
@@ -16,6 +17,10 @@ module Givdo
 
     def self.friends(user, params)
       Friends.new(graph(user.provider_token), params)
+    end
+
+    def self.friend(user, uid, params={})
+      Givdo::Facebook::User.get graph(user.provider_token).get_object(uid, params)
     end
   end
 end
