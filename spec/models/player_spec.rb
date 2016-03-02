@@ -54,6 +54,20 @@ RSpec.describe Player, :type => :model do
     end
   end
 
+  describe '#winner?' do
+    it 'is the winner when game says that player is the winner' do
+      expect(subject.game).to receive(:winner).and_return subject
+
+      expect(subject).to be_winner
+    end
+
+    it 'is not the winner when game says that another player is the winner' do
+      expect(subject.game).to receive(:winner).and_return build(:player)
+
+      expect(subject).to_not be_winner
+    end
+  end
+
   describe '#has_rounds?' do
     let(:trivia1) { create(:trivia, :with_options) }
     let(:trivia2) { create(:trivia, :with_options) }

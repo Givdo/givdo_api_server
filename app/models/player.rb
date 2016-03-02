@@ -46,6 +46,10 @@ class Player < ActiveRecord::Base
     finished_at.present?
   end
 
+  def winner?
+    self.eql?(self.game.winner)
+  end
+
   private
 
   before_validation :copy_user_organization

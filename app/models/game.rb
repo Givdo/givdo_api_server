@@ -6,7 +6,7 @@
 #  creator_id :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  single     :boolean          default(FALSE)
+#  single     :boolean          default(TRUE)
 #
 # Indexes
 #
@@ -31,6 +31,14 @@ class Game < ActiveRecord::Base
   def next_trivia(user)
     answered = player(user).answers.pluck(:trivia_id)
     trivias.excluding(answered).first
+  end
+
+  def winner
+    return unless finished?
+    players
+      .select('count(answers.correct) as points, players.*')
+      .joins(:answers)
+      .order('points DESC').first
   end
 
   def finished?

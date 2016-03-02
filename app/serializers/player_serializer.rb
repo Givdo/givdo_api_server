@@ -1,5 +1,7 @@
 class PlayerSerializer < ActiveModel::Serializer
-  attributes :rounds_left, :organization, :score, :finished?, :name, :image
+  has_one :organization
+  attributes :rounds_left, :score, :finished?, :name, :image, :winner?
+  attribute :organization_name, :key => :organization
 
   def name
     object.user.try(:name)
@@ -9,7 +11,7 @@ class PlayerSerializer < ActiveModel::Serializer
     object.user.try(:image)
   end
 
-  def organization
+  def organization_name
     object.organization.try(:name)
   end
 end

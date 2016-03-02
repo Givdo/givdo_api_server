@@ -12,6 +12,47 @@ RSpec.describe Game, :type => :model do
     expect(game.users).to match_array [user]
   end
 
+  describe '#winner' do
+    let(:trivia2) { create(:trivia, :with_options) }
+
+    it 'is nil when the game have not finished yet' do
+      game.save
+
+      game.answer!(user, {
+        :trivia_id => trivia.id,
+        :trivia_option_id => trivia.correct_option_id
+      })
+
+      expect(game.winner).to be_nil
+    end
+
+    it 'is the player with higher number of correct answers' do
+      user2 = create(:user)
+      game.add_player user2
+      game.save
+
+      game.answer!(user, {
+        :trivia_id => trivia.id,
+        :trivia_option_id => trivia.correct_option_id
+      })
+      game.answer!(user2, {
+        :trivia_id => trivia.id,
+        :trivia_option_id => trivia.correct_option_id
+      })
+
+      game.answer!(user, {
+        :trivia_id => trivia2.id,
+        :trivia_option_id => trivia2.correct_option_id
+      })
+      game.answer!(user2, {
+        :trivia_id => trivia2.id,
+        :trivia_option_id => trivia2.options.last.id
+      })
+
+      expect(game.winner).to eql game.player(user)
+    end
+  end
+
   describe '#next_trivia(user)' do
     before { game.save! }
 
