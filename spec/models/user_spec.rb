@@ -72,29 +72,22 @@ RSpec.describe User, :type => :model do
 
   describe '#current_single_game' do
     let(:finished_game) { double('finished game', :finished? => true) }
+    let(:unfinished_games) { double }
+    before { allow(subject.games).to receive(:unfinished).and_return unfinished_games }
     subject { create(:user) }
 
     it 'is the last single game when it is not yet unfinished' do
       open_game = double('unfinished game', :finished? => false)
 
-      allow(subject.owned_games).to receive(:single).and_return([finished_game, open_game])
+      allow(unfinished_games).to receive(:single).and_return([open_game])
 
       expect(subject.current_single_game).to be open_game
     end
 
-    it 'is a new game when the last single game is unfinished' do
+    it 'is a new game when user has no unfinished single games' do
       new_game = double('new game')
 
-      allow(subject.owned_games).to receive(:single).and_return([finished_game])
-      expect(subject.owned_games).to receive(:create).and_return(new_game)
-
-      expect(subject.current_single_game).to be new_game
-    end
-
-    it 'is a new game when user has no game' do
-      new_game = double('new game')
-
-      allow(subject.owned_games).to receive(:single).and_return([])
+      allow(unfinished_games).to receive(:single).and_return([])
       expect(subject.owned_games).to receive(:create).and_return(new_game)
 
       expect(subject.current_single_game).to be new_game
@@ -105,35 +98,28 @@ RSpec.describe User, :type => :model do
     let(:new_game) { double('new game') }
     let(:open_game) { double('unfinished game', :finished? => false) }
     let(:finished_game) { double('finished game', :finished? => true) }
-    let(:friend) { create(:user, :provider => :facebook, :uid => '9876543') }
+    let(:friend) { create(:user) }
     let(:user) { create(:user) }
+    let(:unfinished_games) { double }
+    before { allow(user.games).to receive(:unfinished).and_return unfinished_games }
     subject { user.current_game_versus(friend) }
 
-    it 'is the last game versus the friend when it is not yet unfinished' do
-      allow(user.owned_games).to receive(:versus).with(friend).and_return([finished_game, open_game])
-      expect(user.owned_games).to_not receive(:create)
+    it 'is the last game versus the friend' do
+      allow(unfinished_games).to receive(:versus).with(friend).and_return([open_game])
 
       expect(subject).to be open_game
     end
 
-    it 'is a new game when the last single game is unfinished' do
-      allow(user.owned_games).to receive(:versus).with(friend).and_return([finished_game])
-      expect(user.owned_games).to receive(:create).and_return(new_game)
+    it 'is a new game when there are no unfinished games' do
+      allow(unfinished_games).to receive(:versus).with(friend).and_return([])
 
-      expect(subject).to be new_game
+      expect(subject).to be_a Game
     end
 
     it 'includes the friend user as a player' do
-      allow(user.owned_games).to receive(:versus).with(friend).and_return([finished_game])
+      allow(unfinished_games).to receive(:versus).with(friend).and_return([])
 
       expect(subject.players.pluck(:user_id)).to match_array [user.id, friend.id]
-    end
-
-    it 'is a new game when user has no game' do
-      allow(user.owned_games).to receive(:single).and_return([])
-      expect(user.owned_games).to receive(:create).and_return(new_game)
-
-      expect(subject).to be new_game
     end
   end
 end

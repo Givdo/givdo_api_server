@@ -21,8 +21,14 @@ class Game < ActiveRecord::Base
 
   attr_accessor :rounds
 
+  scope :unfinished, -> { where('players.finished_at' => nil) }
   scope :single, -> { where(:single => true) }
-  scope :versus, -> (user) { joins(:players).where(:single => false).where('players.user_id' => user.id) }
+  scope :versus, -> (user) do
+    p2_table = connection.quote_table_name('players')
+    p2_alias = connection.quote_table_name('player2')
+    joins("INNER JOIN #{p2_table} #{p2_alias} ON games.id = #{p2_alias}.game_id").
+      where('player2.user_id' => user.id)
+  end
 
   def answer!(user, params)
     player(user).answer! params

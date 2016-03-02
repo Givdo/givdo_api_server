@@ -50,15 +50,11 @@ class User < ActiveRecord::Base
   end
 
   def current_single_game
-    last_single = owned_games.single.last
-    return last_single if last_single.present? && !last_single.finished?
-    owned_games.create
+    games.unfinished.single.last || owned_games.create
   end
 
   def current_game_versus(user)
-    last_game = owned_games.versus(user).last
-    return last_game if last_game.present? && !last_game.finished?
-    owned_games.create do |game|
+    games.unfinished.versus(user).last || owned_games.create do |game|
       game.add_player(user)
     end
   end
