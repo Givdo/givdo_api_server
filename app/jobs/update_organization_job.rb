@@ -4,7 +4,7 @@ class UpdateOrganizationJob < ActiveJob::Base
   queue_as :default
 
   def perform(organization)
-    ograph = Givdo::Facebook.graph.get_object(organization.facebook_id)
+    ograph = Givdo::Facebook.graph.get_object(organization.facebook_id, fields: [:mission, :location])
 
     organization.cache!
 
