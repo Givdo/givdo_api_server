@@ -23,7 +23,7 @@ RSpec.describe UpdateOrganizationJob, type: :job do
         'mission' => 'Save the rainforest'
       }
     end
-    before { allow(graph).to receive(:get_object).with('facebook id', fields: [:mission, :location]).and_return(facebook_data) }
+    before { allow(graph).to receive(:get_object).with('facebook id', fields: [:mission, :location, :name]).and_return(facebook_data) }
 
     it 'saves the cached organization' do
       subject.perform(organization)
