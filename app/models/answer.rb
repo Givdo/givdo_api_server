@@ -23,7 +23,7 @@ class Answer < ActiveRecord::Base
 
   validates :trivia, :presence => true
   validates :trivia_option, :presence => true
-  validates :player,   :presence => true
+  validates :player, :presence => true
 
   default_scope { includes(:trivia_option) }
 

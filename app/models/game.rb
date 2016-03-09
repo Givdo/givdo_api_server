@@ -41,10 +41,7 @@ class Game < ActiveRecord::Base
 
   def winner
     return unless finished?
-    players
-      .select('count(answers.correct) as points, players.*')
-      .joins(:answers)
-      .order('points DESC').first
+    players.order(:score => :desc).first
   end
 
   def finished?
