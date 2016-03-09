@@ -17,7 +17,7 @@
 #
 
 class Organization < ActiveRecord::Base
-  scope :not_cached, -> { where(cached_at: nil) }
+  scope :cache_due, -> { where('cached_at < ?', 10.days.ago) }
 
   def cache!
     self.cached_at = Time.current
