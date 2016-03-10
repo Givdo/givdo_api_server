@@ -2,11 +2,12 @@
 #
 # Table name: games
 #
-#  id         :integer          not null, primary key
-#  creator_id :integer
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  single     :boolean          default(TRUE)
+#  id          :integer          not null, primary key
+#  creator_id  :integer
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  single      :boolean          default(TRUE)
+#  category_id :integer
 #
 # Indexes
 #
@@ -15,6 +16,7 @@
 
 class Game < ActiveRecord::Base
   belongs_to :creator, :class_name => 'User'
+  belongs_to :category
   has_many :players
   has_many :users, :through => :players
   has_and_belongs_to_many :trivias
@@ -64,8 +66,10 @@ class Game < ActiveRecord::Base
 
   private
 
+  # TODO: move callbacks to a builder class
   before_create :setup_creators_player
   before_save :raffle_trivias
+  before_save :assign_default_category
 
   def raffle_trivias
     missing = self.rounds - self.trivias.size
@@ -74,5 +78,9 @@ class Game < ActiveRecord::Base
 
   def setup_creators_player
     add_player(creator)
+  end
+
+  def assign_default_category
+    self.category ||= Category.other
   end
 end

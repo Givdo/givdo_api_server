@@ -7,10 +7,12 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  correct_option_id :integer
+#  category_id       :integer
 #
 
 class Trivia < ActiveRecord::Base
   belongs_to :correct_option, :class_name => 'TriviaOption'
+  belongs_to :category
   has_many :options, :class_name => 'TriviaOption'
   has_many :answers, :through => :options
 

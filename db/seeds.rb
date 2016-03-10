@@ -34,7 +34,7 @@ end
   ['Recycling a single run of the Sunday New York Times would save...', '75 million trees', '10 thousand trees', '1 million'],
   ['On average, how many bags does ONE supermarket go through in one year', '60,500,000', '5,000,000,000', '15,000,000']
 ].each do |args|
-  trivia = Trivia.create(question: args.shift)
+  trivia = Trivia.create(question: args.shift, category: Category.other)
   options = args.map do |option|
     trivia.options.create(text: option)
   end
