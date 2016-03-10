@@ -7,6 +7,8 @@
 #
 
 class Category < ActiveRecord::Base
+  has_many :trivias
+
   def self.other
     Category.find_or_create_by(name: 'Other')
   end
