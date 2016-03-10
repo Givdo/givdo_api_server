@@ -68,8 +68,8 @@ class Game < ActiveRecord::Base
 
   # TODO: move callbacks to a builder class
   before_create :setup_creators_player
-  before_save :raffle_trivias
   before_save :assign_default_category
+  before_save :raffle_trivias
 
   def raffle_trivias
     missing = self.rounds - self.trivias.size

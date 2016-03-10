@@ -17,4 +17,5 @@ class Trivia < ActiveRecord::Base
   has_many :answers, :through => :options
 
   scope :excluding, -> (trivias) { where.not(id: trivias) }
+  scope :category, -> (category) { where(category: category) }
 end

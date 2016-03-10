@@ -5,8 +5,17 @@ class TriviaRaffle < Struct.new(:game, :limit)
 
   def raffle
     current_trivias = game.trivias.map(&:id)
-    remaining_trivias = Trivia.excluding(current_trivias)
-    rnd = rand(remaining_trivias.count - limit)
-    remaining_trivias.offset(rnd).limit(limit)
+    raffle_among scope.excluding(current_trivias)
+  end
+
+  private
+
+  def raffle_among(scope)
+    rnd = rand(scope.count - limit)
+    scope.offset(rnd).limit(limit)
+  end
+
+  def scope
+    Trivia.category(game.category)
   end
 end
