@@ -14,7 +14,7 @@ RSpec.describe GamesController, :type => :controller do
     it_behaves_like 'an authenticated only action'
 
     it 'gets the user current signel player game' do
-      expect(user).to receive(:current_single_game).and_return(game)
+      expect(Match).to receive(:current).with(user).and_return(game)
 
       api_user(user)
 
@@ -30,7 +30,7 @@ RSpec.describe GamesController, :type => :controller do
 
     it 'gets the last game of the current user versus the friend given its uid and the user provider' do
       expect(Givdo::Facebook).to receive(:friend).with(user, '12345').and_return(friend)
-      expect(user).to receive(:current_game_versus).with(friend).and_return(game)
+      expect(Match).to receive(:current).with(user, friend).and_return(game)
 
       api_user(user)
 

@@ -48,14 +48,4 @@ class User < ActiveRecord::Base
 
     User.create(new_users) + existing_users
   end
-
-  def current_single_game
-    games.unfinished.single.last || owned_games.create
-  end
-
-  def current_game_versus(user)
-    games.unfinished.versus(user).last || owned_games.create do |game|
-      game.add_player(user)
-    end
-  end
 end
