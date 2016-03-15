@@ -1,26 +1,18 @@
-module Givdo
-  module TokenAuth
-    class Session
-      include ActiveModel::Model
-      include ActiveModel::Serialization
-      attr_accessor :user
+require 'rails_helper'
+require 'givdo/token_auth/session'
 
-      def initialize(user, exp_in)
-        @user, @exp_in = user, exp_in
-      end
+describe Givdo::TokenAuth::Session, :type => :lib do
+  describe '#token' do
+    let(:user) { double(:to_sgid => 'user.sgid') }
+    let(:session_no_exp) { Givdo::TokenAuth::Session.new(user, false) }
+    let(:session_10_exp) { Givdo::TokenAuth::Session.new(user, 10) }
 
-      def token
-        @token ||= begin
-          data = {:data => user.to_sgid.to_s, :exp => exp}
-          JWT.encode(data, *Config)
-        end
-      end
+    it 'does not include any exp when no exp time is given' do
+      expect(session_no_exp.token).to eql 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoidXNlci5zZ2lkIiwiZXhwIjpudWxsfQ.FZyfir9smbWb_JOnpD4OrB2JhLKkN3f033J88IB_qrE'
+    end
 
-      private
-
-      def exp
-        @exp_in.to_i.seconds.from_now.to_i if @exp_in
-      end
+    it 'does not include any exp when no exp time is given' do
+      expect(session_no_exp.token).to eql 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJkYXRhIjoidXNlci5zZ2lkIiwiZXhwIjpudWxsfQ.FZyfir9smbWb_JOnpD4OrB2JhLKkN3f033J88IB_qrE'
     end
   end
 end
