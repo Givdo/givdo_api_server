@@ -8,7 +8,7 @@ class OauthCallbackController < ApplicationController
     user = Givdo::OAuth::Facebook.validate!(params[:access_token])
     if BetaAccess.granted?(user)
       render :json => Givdo::TokenAuth::Session.new(user, params[:expires_in]),
-             :serializer => SessionSerializer
+             :serializer => SessionSerializer, :include => 'user.*'
     else
       render :json => {:error => 'Beta access not granted', :code => :beta},
              :status => :unauthorized

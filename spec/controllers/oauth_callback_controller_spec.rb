@@ -21,7 +21,7 @@ RSpec.describe OauthCallbackController, :type => :controller do
       expect(Givdo::TokenAuth::Session).to receive(:new).with(user, '5184000').and_return session
 
       expect(subject).to be_success
-      expect(subject).to serialize_object(session).with(SessionSerializer)
+      expect(subject).to serialize_object(session).with(SessionSerializer, :include => 'user.*')
     end
 
     it 'formats oauth errors' do
