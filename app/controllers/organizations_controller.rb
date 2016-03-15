@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_token!
 
   def index
     current_page = organizations.page(page_number).per(page_size)

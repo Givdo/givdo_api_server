@@ -1,5 +1,5 @@
 class PlayerController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_token!
 
   def update
     current_player.update! params.permit(:organization_id)

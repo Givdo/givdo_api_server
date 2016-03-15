@@ -1,4 +1,4 @@
-require 'givdo/token_auth'
+require_dependency 'givdo/token_auth'
 
 class ApplicationController < ActionController::Base
   protect_from_forgery :with => :null_session
@@ -6,12 +6,12 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def authenticate_user!
-    current_user.present? || request_http_token_authentication
-  end
-
   def current_user
     current_session.try(:user)
+  end
+
+  def authenticate_token!
+    current_session.present? || request_http_token_authentication
   end
 
   def current_session

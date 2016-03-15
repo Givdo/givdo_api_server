@@ -5,14 +5,14 @@ RSpec.describe ApplicationController, :type => :controller do
 
   describe 'filters' do
     controller do
-      before_filter :authenticate_user!
+      before_filter :authenticate_token!
 
       def index
         render :text => 'you are in'
       end
     end
 
-    describe 'authenticate_user!' do
+    describe 'authenticate_token!' do
       subject { get :index }
 
       it 'does not authorize unidentified access' do

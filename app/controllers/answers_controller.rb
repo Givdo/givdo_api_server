@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_token!
 
   def create
     answer = current_game.answer! current_user, answer_params
