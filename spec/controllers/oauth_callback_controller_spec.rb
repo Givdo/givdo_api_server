@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe OauthCallbackController, :type => :controller do
   describe 'POST /oauth/facebook/callback' do
-    let(:user) { double(User) }
+    let(:user) { User.new }
+    let(:session) { Givdo::TokenAuth::Session.new(user, 5184000) }
     subject do
       post :facebook, {
         :provider => 'facebook',
@@ -11,14 +12,16 @@ RSpec.describe OauthCallbackController, :type => :controller do
         :expires_in => '5184000'
       }
     end
+    before { allow(session).to receive(:token).and_return('12345') }
     before { allow(BetaAccess).to receive(:granted?).and_return(true) }
 
     it 'generates a token with the provider user' do
+      Timecop.freeze(Date.parse('2015-10-10'))
       expect(Givdo::OAuth::Facebook).to receive(:validate!).with('token 123').and_return(user)
-      expect(UserToken).to receive(:generate).with(user, 5184000).and_return 'generated token'
+      expect(Givdo::TokenAuth::Session).to receive(:new).with(user, '5184000').and_return session
 
       expect(subject).to be_success
-      expect(subject.body).to eql '{"token":"generated token"}'
+      expect(subject).to serialize_object(session).with(SessionSerializer)
     end
 
     it 'formats oauth errors' do

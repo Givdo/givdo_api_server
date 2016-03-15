@@ -4,14 +4,15 @@ module ApiHelper
   end
 
   def api_user(user)
-    token = UserToken.generate(user, false)
-    request.env['HTTP_AUTHORIZATION'] = auth_header(token)
-    allow(UserToken).to receive(:authenticate).with(token).and_return(user)
+    allow(user).to receive(:to_sgid).and_return('test.user')
+    session = Givdo::TokenAuth::Session.new(user, false)
+    request.env['HTTP_AUTHORIZATION'] = auth_header(session.token)
+    allow(Givdo::TokenAuth).to receive(:recover).with(session.token).and_return(session)
     allow(BetaAccess).to receive(:granted?).and_return(true)
   end
 
   def api_logout
-    allow(UserToken).to receive(:authenticate).and_return(nil)
+    allow(Givdo::TokenAuth).to receive(:recover).and_return(nil)
   end
 
   def serialize(object, serializer_klass, options={})

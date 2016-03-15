@@ -14,7 +14,6 @@ RSpec.describe ApplicationController, :type => :controller do
 
     describe 'authenticate_user!' do
       subject { get :index }
-      before { allow(BetaAccess).to receive(:granted?).and_return(true) }
 
       it 'does not authorize unidentified access' do
         expect(subject).to be_unauthorized
@@ -25,14 +24,6 @@ RSpec.describe ApplicationController, :type => :controller do
 
         expect(subject).to be_success
         expect(subject.body).to eql 'you are in'
-      end
-
-      it 'does not authorize users without beta access' do
-        api_user(user)
-
-        expect(BetaAccess).to receive(:granted?).with(user).and_return(false)
-
-        expect(subject).to be_unauthorized
       end
     end
   end
@@ -49,7 +40,8 @@ RSpec.describe ApplicationController, :type => :controller do
 
     it 'denies the access when the user sends an invalid token' do
       api_user(user)
-      allow(UserToken).to receive(:authenticate).and_raise(UserToken::InvalidToken)
+
+      allow(Givdo::TokenAuth).to receive(:recover).and_raise(Givdo::TokenAuth::InvalidToken)
 
       expect(subject.code).to eql '401'
     end
