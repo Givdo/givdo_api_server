@@ -3,6 +3,6 @@ FactoryGirl.define do
     provider 'facebook'
     sequence(:uid) {|n| n.to_s * 5 }
     sequence(:email) {|n| "user#{n}@givdo-user.com"}
-    organization { build(:organization) }
+    organization
   end
 end
