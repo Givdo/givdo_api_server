@@ -4,6 +4,6 @@ class TriviaSerializer < ActiveModel::Serializer
   has_many :_options, :key => :options, :serializer => TriviaOptionSerializer
 
   def _options
-    object.options
+    object.options.shuffle
   end
 end
