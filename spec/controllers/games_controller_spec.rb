@@ -13,7 +13,7 @@ RSpec.describe GamesController, :type => :controller do
 
     it_behaves_like 'an authenticated only action'
 
-    it 'gets the user current signel player game' do
+    it 'gets the user current single player game' do
       expect(Match).to receive(:current).with(user).and_return(game)
 
       api_user(user)
