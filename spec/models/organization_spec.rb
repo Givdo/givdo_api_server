@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe Organization, type: :model do
+  describe '.with_score' do
+    it 'calculates the total score for each organization' do
+      org = create(:organization_with_score, score: 10)
+
+      organizations = Organization.with_score
+
+      expect(organizations).to include org
+      expect(organizations.first.total_score).to eq 10
+    end
+  end
+
   describe '#cache!' do
     it 'stamps the cached time' do
       Timecop.freeze(now = Time.current)

@@ -25,7 +25,8 @@ class Game < ActiveRecord::Base
 
   scope :unfinished, -> { where('players.finished_at' => nil) }
   scope :single, -> { where(:single => true) }
-  scope :versus, -> (user) do
+
+  def self.versus(user)
     p2_table = connection.quote_table_name('players')
     p2_alias = connection.quote_table_name('player2')
     joins("INNER JOIN #{p2_table} #{p2_alias} ON games.id = #{p2_alias}.game_id").
