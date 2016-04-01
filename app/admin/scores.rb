@@ -4,8 +4,12 @@ ActiveAdmin.register Organization, as: 'Current Scores' do
   filter :name, :as => :string
 
   controller do
+    def current_cycle
+      @current_cycle ||= Cycle.current
+    end
+
     def scoped_collection
-      current_cycle = Cycle.current
+      return Organization.none if current_cycle.blank?
       Organization.scores_between(current_cycle.created_at, Time.current)
     end
   end

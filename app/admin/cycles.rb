@@ -34,7 +34,7 @@ ActiveAdmin.register Cycle do
 
   controller do
     def current_cycle
-      @current_cycle || Cycle.current
+      @current_cycle ||= Cycle.current
     end
   end
 end
