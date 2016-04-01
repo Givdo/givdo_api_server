@@ -23,8 +23,14 @@ class Organization < ActiveRecord::Base
 
   def self.with_score
     joins(:players)
-    .select('organizations.*, SUM(players.score) AS total_score')
-    .group('organizations.id')
+      .select('organizations.*, SUM(players.score) AS total_score')
+      .merge(Player.finished)
+      .group('organizations.id')
+  end
+
+  def self.scores_between(start_date, end_date)
+    self.with_score
+      .where('players.created_at BETWEEN ? AND ?', start_date, end_date)
   end
 
   def cache!

@@ -24,7 +24,12 @@ group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'timecop'
+  gem 'database_cleaner'
   gem 'factory_girl_rails'
+end
+
+group :development do
+  gem 'rails-erd'
 end
 
 group :production do

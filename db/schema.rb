@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160310180301) do
+ActiveRecord::Schema.define(version: 20160329220000) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -68,6 +68,23 @@ ActiveRecord::Schema.define(version: 20160310180301) do
     t.string "name"
   end
 
+  create_table "cycle_scores", force: :cascade do |t|
+    t.integer  "score"
+    t.integer  "cycle_id"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "cycle_scores", ["cycle_id"], name: "index_cycle_scores_on_cycle_id"
+  add_index "cycle_scores", ["organization_id"], name: "index_cycle_scores_on_organization_id"
+
+  create_table "cycles", force: :cascade do |t|
+    t.datetime "ended_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "games", force: :cascade do |t|
     t.integer  "creator_id"
     t.datetime "created_at",                 null: false
@@ -90,6 +107,15 @@ ActiveRecord::Schema.define(version: 20160310180301) do
 
   add_index "games_users", ["game_id"], name: "index_games_users_on_game_id"
   add_index "games_users", ["user_id"], name: "index_games_users_on_user_id"
+
+  create_table "organization_score_reports", force: :cascade do |t|
+    t.integer  "score"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "organization_score_reports", ["organization_id"], name: "index_organization_score_reports_on_organization_id"
 
   create_table "organizations", force: :cascade do |t|
     t.string   "facebook_id"

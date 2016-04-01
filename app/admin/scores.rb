@@ -1,11 +1,12 @@
-ActiveAdmin.register Organization, as: 'Scores' do
+ActiveAdmin.register Organization, as: 'Current Scores' do
   actions :all, except: [:new, :create, :edit, :update]
 
   filter :name, :as => :string
 
   controller do
     def scoped_collection
-      Organization.with_score
+      current_cycle = Cycle.current
+      Organization.scores_between(current_cycle.created_at, Time.current)
     end
   end
 

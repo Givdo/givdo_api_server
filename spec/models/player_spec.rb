@@ -1,8 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe Player, :type => :model do
-  let(:user) { subject.user }
   subject { build(:player) }
+
+  let(:user) { subject.user }
+
+  describe ".finished" do
+    it "returns only finished players" do
+      finished_player = create(:player, finished_at: Time.current)
+      unfinished_players = create_list(:player, 3, finished_at: nil)
+
+      players = described_class.finished
+
+      expect(players).to include(finished_player)
+      expect(players).not_to include(unfinished_players)
+    end
+  end
 
   describe '#rounds_left' do
     it 'is the number of rounds a game allows minus the number of rounds the player have played' do

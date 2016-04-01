@@ -76,6 +76,7 @@ GEM
       thor (~> 0.19)
     builder (3.2.2)
     byebug (6.0.2)
+    choice (0.2.0)
     coffee-rails (4.1.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.1.x)
@@ -84,6 +85,7 @@ GEM
       execjs
     coffee-script-source (1.10.0)
     concurrent-ruby (1.0.0)
+    database_cleaner (1.5.1)
     devise (3.5.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -169,6 +171,11 @@ GEM
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
+    rails-erd (1.4.6)
+      activerecord (>= 3.2)
+      activesupport (>= 3.2)
+      choice (~> 0.2.0)
+      ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
     rails_12factor (0.0.3)
@@ -208,6 +215,7 @@ GEM
       rspec-mocks (~> 3.3.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
+    ruby-graphviz (1.2.2)
     sass (3.4.21)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
@@ -245,6 +253,7 @@ DEPENDENCIES
   activeadmin!
   annotate
   byebug
+  database_cleaner
   devise
   factory_girl_rails
   jwt
@@ -254,6 +263,7 @@ DEPENDENCIES
   rack-cors
   rack-handlers
   rails (= 4.2.5)
+  rails-erd
   rails_12factor
   ransack
   rspec-rails
