@@ -24,6 +24,8 @@ class Player < ActiveRecord::Base
   belongs_to :organization
   has_many :answers
 
+  scope :finished, -> { where.not(players: { finished_at: nil }) }
+
   def has_rounds?
     rounds_left > 0
   end

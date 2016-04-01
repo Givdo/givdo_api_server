@@ -12,6 +12,21 @@ RSpec.describe Organization, type: :model do
     end
   end
 
+  describe ".scores_between" do
+    it "calculates scores for players created between the date range" do
+      organization = nil
+      
+      Timecop.travel(1.day.ago) do
+        organization = create(:organization_with_score, score: 10)
+      end
+
+      organizations = described_class.scores_between(2.day.ago, Time.current)
+
+      expect(organizations).to include(organization)
+      expect(organizations.first.total_score).to eq(10)
+    end
+  end
+
   describe '#cache!' do
     it 'stamps the cached time' do
       Timecop.freeze(now = Time.current)

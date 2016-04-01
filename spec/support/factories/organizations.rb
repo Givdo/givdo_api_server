@@ -6,7 +6,7 @@ FactoryGirl.define do
       end
 
       after(:create) do |organization, evalutor|
-        organization.players << FactoryGirl.create(:player, score: evalutor.score)
+        organization.players << FactoryGirl.create(:finished_player, score: evalutor.score)
       end
     end
   end
