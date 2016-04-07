@@ -69,4 +69,25 @@ RSpec.describe User, :type => :model do
       end
     end
   end
+
+  describe "#recent_activities" do
+    it "returns only the requested number of activities" do
+      user = create(:user_with_activities)
+
+      recent_activities = user.recent_activities(2)
+
+      expect(recent_activities.size).to eq(2)
+    end
+
+    it "orders activities in descending order" do
+      user = create(:user)
+      older_activity = create(:activity, user: user, created_at: 2.days.ago)
+      recent_activity = create(:activity, user: user, created_at: 1.day.ago)
+
+      recent_activities = user.recent_activities(2)
+
+      expect(recent_activities.first).to eq(recent_activity)
+      expect(recent_activities.last).to eq(older_activity)
+    end
+  end
 end

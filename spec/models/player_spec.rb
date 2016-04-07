@@ -31,10 +31,19 @@ RSpec.describe Player, :type => :model do
     it 'updates the finished at timestamp' do
       Timecop.freeze(frozen_time = Time.utc(2016, 01, 30, 20, 0, 0))
       player = create(:player)
+      allow(PlayerActivityJob).to receive(:perform_later).with(player.id)
 
       player.finish!
 
       expect(player.finished_at.to_s).to eql frozen_time.utc.to_s
+    end
+
+    it "schedules acitivity creation" do
+      player = create(:player)
+
+      expect(PlayerActivityJob).to receive(:perform_later)
+
+      player.finish!
     end
   end
 

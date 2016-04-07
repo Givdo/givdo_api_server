@@ -24,4 +24,8 @@ module ApiHelper
     adapter = ActiveModel::Serializer::Adapter.create(serializer, options)
     adapter.as_json
   end
+
+  def json
+    JSON.parse(response.body)
+  end
 end

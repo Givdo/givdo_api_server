@@ -42,6 +42,7 @@ class Player < ActiveRecord::Base
 
   def finish!
     touch(:finished_at)
+    PlayerActivityJob.perform_later(id)
   end
 
   def finished?

@@ -26,7 +26,9 @@ class User < ActiveRecord::Base
   validates :provider, :presence => :true
 
   belongs_to :organization
+
   has_many :players
+  has_many :activities
   has_many :games, :through => :players
   has_many :owned_games, :class_name => 'Game', :foreign_key => :creator_id
 
@@ -47,5 +49,9 @@ class User < ActiveRecord::Base
     end
 
     User.create(new_users) + existing_users
+  end
+
+  def recent_activities(limit)
+    activities.order('created_at DESC').limit(limit)
   end
 end

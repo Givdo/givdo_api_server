@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
+
   ActiveAdmin.routes(self)
 
   scope '/api' do
     scope '/v1' do
       post '/oauth/:action/callback', :controller => 'oauth_callback'
+
       resource :user, :only => [:update, :show]
+      resources :activities, only: [:index]
 
       resources :games, :only => [] do
         resource :player, :only => [:update], :controller => :player
