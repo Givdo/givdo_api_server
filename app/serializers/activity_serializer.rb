@@ -1,5 +1,9 @@
 class ActivitySerializer < ActiveModel::Serializer
-  attributes :name, :organization_name, :organization_picture
+  attributes :name, :score, :organization_name, :organization_picture
+
+  def score
+    object.subject.score
+  end
 
   def organization_name
     organization.name

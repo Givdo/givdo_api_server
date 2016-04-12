@@ -54,4 +54,8 @@ class User < ActiveRecord::Base
   def recent_activities(limit)
     activities.order('created_at DESC').limit(limit)
   end
+
+  def total_score
+    players.finished.sum(:score)
+  end
 end

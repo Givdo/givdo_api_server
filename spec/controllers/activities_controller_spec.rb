@@ -17,15 +17,17 @@ RSpec.describe ActivitiesController, type: :controller do
     it "returns 10 most recent activities for the current user" do
       get :index
 
-      expect(json['data'].size).to eq(10)
+      activities = json['data']['relationships']['activities']['data']
+
+      expect(activities.size).to eq(10)
     end
 
     it "returns the total score for the current user" do
-      total = user.recent_activities(10).to_a.sum {|a| a.subject.score }
+      total = user.total_score
 
       get :index
 
-      expect(json['meta']['total']).to eq(total)
+      expect(json['data']['attributes']['total_score']).to eq(total)
     end
   end
 end
