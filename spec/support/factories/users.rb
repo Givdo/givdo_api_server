@@ -13,5 +13,15 @@ FactoryGirl.define do
         evalutor.activities_count.times { user.activities << create(:activity) }
       end
     end
+
+    factory :user_with_finished_player do
+      ignore do
+        player_score 1
+      end
+
+      after(:build) do |user, evalutor|
+        user.players << build(:finished_player, score: evalutor.player_score)
+      end
+    end
   end
 end

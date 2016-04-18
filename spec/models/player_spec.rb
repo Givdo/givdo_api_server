@@ -28,51 +28,29 @@ RSpec.describe Player, :type => :model do
   end
 
   describe '#finish!' do
+    it "returns the player" do
+      player = build(:player)
+      allow(player).to receive(:touch)
+
+      expect(player.finish!).to eq(player)
+    end
+
     it 'updates the finished at timestamp' do
       Timecop.freeze(frozen_time = Time.utc(2016, 01, 30, 20, 0, 0))
       player = create(:player)
-      allow(PlayerActivityJob).to receive(:perform_later).with(player.id)
 
       player.finish!
 
       expect(player.finished_at.to_s).to eql frozen_time.utc.to_s
     end
-
-    it "schedules acitivity creation" do
-      player = create(:player)
-
-      expect(PlayerActivityJob).to receive(:perform_later)
-
-      player.finish!
-    end
   end
 
   describe '#answer!' do
-    let(:player) { create(:player) }
-    let(:trivia) { create(:trivia, :with_options)}
-    let(:game) { player.game }
-    subject! do
-      game.update_attribute(:rounds, 1)
-      player.answer!({
-        :trivia_id => trivia.id,
-        :trivia_option_id => trivia.correct_option_id
-      })
-    end
+    it "creates an answer" do
+      player = create(:player)
+      answer_params = build(:answer).attributes
 
-    it 'finishes the player participation when answers reach the rounds limit' do
-      expect(player.finished_at).to_not be_nil
-    end
-
-    it 'answers with the given user' do
-      expect(subject.player).to eql player
-    end
-
-    it 'answers with the trivia and option' do
-      expect(subject.trivia).to eql trivia
-    end
-
-    it 'answers with the trivia and option' do
-      expect(subject.trivia_option).to eql trivia.correct_option
+      expect{player.answer!(answer_params)}.to change {player.answers.count}.by(1)
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160406113923) do
+ActiveRecord::Schema.define(version: 20160412122312) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -69,6 +69,22 @@ ActiveRecord::Schema.define(version: 20160406113923) do
   add_index "answers", ["player_id"], name: "index_answers_on_player_id"
   add_index "answers", ["trivia_option_id"], name: "index_answers_on_trivia_option_id"
 
+  create_table "badges", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "score"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "badges", ["score"], name: "index_badges_on_score"
+
+  create_table "badges_users", id: false, force: :cascade do |t|
+    t.integer "user_id",  null: false
+    t.integer "badge_id", null: false
+  end
+
+  add_index "badges_users", ["badge_id", "user_id"], name: "index_badges_users_on_badge_id_and_user_id", unique: true
+
   create_table "beta_accesses", force: :cascade do |t|
     t.integer  "user_id"
     t.datetime "granted_at"
@@ -119,15 +135,6 @@ ActiveRecord::Schema.define(version: 20160406113923) do
 
   add_index "games_users", ["game_id"], name: "index_games_users_on_game_id"
   add_index "games_users", ["user_id"], name: "index_games_users_on_user_id"
-
-  create_table "organization_score_reports", force: :cascade do |t|
-    t.integer  "score"
-    t.integer  "organization_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "organization_score_reports", ["organization_id"], name: "index_organization_score_reports_on_organization_id"
 
   create_table "organizations", force: :cascade do |t|
     t.string   "facebook_id"

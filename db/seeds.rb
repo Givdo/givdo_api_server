@@ -40,3 +40,50 @@ end
   end
   trivia.update_attribute(:correct_option_id, options.first.id)
 end
+
+
+# Badges
+[
+  # $1
+  ['Giver', '100'],
+  ['Giver 2', '200'],
+  ['Giver 3', '300'],
+  ['Giver 4', '400'],
+
+  # $5
+  ['Samaritan', '500'],
+  ['Samaritan 2', '1000'],
+  ['Samaritan 3', '1500'],
+  ['Samaritan 4', '2000'],
+
+  # $25
+  ['Altruist', '2500'],
+  ['Altruist 2', '4000'],
+  ['Altruist 3', '6000'],
+  ['Altruist 4', '8000'],
+
+  # $100
+  ['Benefactor', '10000'],
+  ['Benefactor 2', '14000'],
+  ['Benefactor 3', '18000'],
+  ['Benefactor 4', '22000'],
+
+  # $250
+  ['Patron', '25000'],
+  ['Patron 2', '31000'],
+  ['Patron 3', '37000'],
+  ['Patron 4', '43000'],
+
+  # $500
+  ['Philanthropist', '50000'],
+  ['Philanthropist 2', '60000'],
+  ['Philanthropist 3', '75000'],
+  ['Philanthropist 4', '90000'],
+
+  # $1_000
+  ['Grantor', '100000']
+].each do |args|
+  Badge.find_or_create_by(name: args.first) do |badge|
+    badge.score = args.last
+  end
+end

@@ -22,6 +22,7 @@ class Player < ActiveRecord::Base
   belongs_to :user
   belongs_to :game
   belongs_to :organization
+
   has_many :answers
 
   scope :finished, -> { where.not(players: { finished_at: nil }) }
@@ -35,14 +36,13 @@ class Player < ActiveRecord::Base
   end
 
   def answer!(params)
-    answer = answers.create!(params)
-    finish! unless has_rounds?
-    answer
+    answers.create!(params)
   end
 
   def finish!
-    touch(:finished_at)
-    PlayerActivityJob.perform_later(id)
+    self.tap do |player|
+      player.touch(:finished_at)
+    end
   end
 
   def finished?
@@ -53,11 +53,19 @@ class Player < ActiveRecord::Base
     self.eql?(self.game.winner)
   end
 
+  def create_user_activity!
+    user.activities.create!(subject: self, name: activity_name)
+  end
+
   private
 
   before_validation :copy_user_organization
 
   def copy_user_organization
     self.organization ||= user.try(:organization)
+  end
+
+  def activity_name
+    winner? ? 'won_scores' : 'lost_scores'
   end
 end

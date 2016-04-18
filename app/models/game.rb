@@ -34,7 +34,7 @@ class Game < ActiveRecord::Base
   end
 
   def answer!(user, params)
-    player(user).answer! params
+    Player::SaveAnswer.call(player(user), params)
   end
 
   def next_trivia(user)

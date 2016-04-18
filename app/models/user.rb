@@ -32,6 +32,8 @@ class User < ActiveRecord::Base
   has_many :games, :through => :players
   has_many :owned_games, :class_name => 'Game', :foreign_key => :creator_id
 
+  has_and_belongs_to_many :badges
+
   def self.for_provider!(provider, uid, params={})
     where(:uid => uid, :provider => provider).first_or_initialize.tap do |user|
       user.assign_attributes(params)
@@ -57,5 +59,9 @@ class User < ActiveRecord::Base
 
   def total_score
     players.finished.sum(:score)
+  end
+
+  def add_badges(new_badges)
+    badges << new_badges
   end
 end

@@ -90,4 +90,17 @@ RSpec.describe User, :type => :model do
       expect(recent_activities.last).to eq(older_activity)
     end
   end
+
+  describe "#add_badges" do
+    it "adds badges to the user" do
+      user = build(:user)
+      badges = build_list(:badge, 3)
+
+      expect(user.badges).to be_empty
+
+      user.add_badges(badges)
+
+      expect(user.badges.size).to eq(3)
+    end
+  end
 end
