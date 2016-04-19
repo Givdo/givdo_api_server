@@ -1,6 +1,6 @@
 class Api::V1::ApiController < ApplicationController
-  before_filter :authenticate_token!
   protect_from_forgery :with => :null_session
+  before_filter :authenticate_token!
 
   rescue_from Givdo::TokenAuth::InvalidToken do
     head :status => :unauthorized
