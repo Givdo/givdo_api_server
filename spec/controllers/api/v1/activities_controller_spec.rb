@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ActivitiesController, type: :controller do
+RSpec.describe Api::V1::ActivitiesController, type: :controller do
   let(:user) { create(:user_with_activities, activities_count: 20) }
 
   before do

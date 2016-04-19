@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GamesController, :type => :controller do
+RSpec.describe Api::V1::GamesController, :type => :controller do
   let(:game) { Game.new(:id => 10) }
   let(:user) { User.new }
   before do

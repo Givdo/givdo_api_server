@@ -1,6 +1,4 @@
-class UsersController < ApplicationController
-  before_filter :authenticate_token!
-
+class Api::V1::UsersController < Api::V1::ApiController
   def show
     render :json => current_user, :serializer => UserSerializer,
       :include => ['organization', 'badges']

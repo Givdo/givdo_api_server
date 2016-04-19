@@ -1,8 +1,6 @@
 require_dependency 'givdo/facebook'
 
-class GamesController < ApplicationController
-  before_filter :authenticate_token!
-
+class Api::V1::GamesController < Api::V1::ApiController
   def single
     render :json => Match.current(current_user), :include => 'players,trivia,trivia.options'
   end

@@ -1,6 +1,4 @@
-class PlayerController < ApplicationController
-  before_filter :authenticate_token!
-
+class Api::V1::PlayersController < Api::V1::ApiController
   def update
     current_player.update! params.permit(:organization_id)
     render :json => current_game, :include => 'players,trivia,trivia.options'

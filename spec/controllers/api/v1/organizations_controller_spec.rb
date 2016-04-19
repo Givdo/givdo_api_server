@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe OrganizationsController, type: :controller do
+RSpec.describe Api::V1::OrganizationsController, type: :controller do
   describe 'GET /' do
     before { allow(UpdateOrganizationJob).to receive(:perform_later) }
     let(:user) { build(:user) }

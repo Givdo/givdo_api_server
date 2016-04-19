@@ -15,7 +15,7 @@ RSpec.describe UserSerializer, :type => :serializer do
   subject { serialize(user, UserSerializer, :include => 'organization') }
 
   it { is_expected.to serialize_id_and_type('1114', 'users') }
-  it { is_expected.to serialize_link(:self).with(user_url(user)) }
+  it { is_expected.to serialize_link(:self).with(api_v1_user_url(user)) }
 
   it { is_expected.to serialize_attribute(:name).with('John Doe') }
   it { is_expected.to serialize_attribute(:image).with('http://user.com/profile.jpg') }

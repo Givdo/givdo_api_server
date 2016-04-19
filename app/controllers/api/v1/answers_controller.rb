@@ -1,6 +1,4 @@
-class AnswersController < ApplicationController
-  before_filter :authenticate_token!
-
+class Api::V1::AnswersController < Api::V1::ApiController
   def create
     answer = current_game.answer! current_user, answer_params
     render :json => answer, :include => 'game,game.trivia,game.trivia.options,game.players'

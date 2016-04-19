@@ -1,6 +1,4 @@
-class ActivitiesController < ApplicationController
-  before_filter :authenticate_token!
-
+class Api::V1::ActivitiesController < Api::V1::ApiController
   def index
     render json: Activity::Feed.new(current_user), include: ['activities']
   end

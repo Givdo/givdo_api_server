@@ -3,5 +3,5 @@ class UserSerializer < ActiveModel::Serializer
 
   has_one :organization
 
-  link(:self) { user_url(object) }
+  link(:self) { api_v1_user_url(object) }
 end

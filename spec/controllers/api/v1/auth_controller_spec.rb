@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe OauthCallbackController, :type => :controller do
+RSpec.describe Api::V1::AuthController, :type => :controller do
   describe 'POST /oauth/facebook/callback' do
     let(:user) { User.new }
     let(:session) { Givdo::TokenAuth::Session.new(user, 5184000) }

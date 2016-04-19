@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PlayerController, :type => :controller do
+RSpec.describe Api::V1::PlayersController, :type => :controller do
   let(:game) { build(:game, :id => 10) }
   let(:player) { build(:player, :game => game) }
   let(:user) { player.user }

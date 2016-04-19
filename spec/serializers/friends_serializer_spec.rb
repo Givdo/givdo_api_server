@@ -9,7 +9,7 @@ RSpec.describe FriendsSerializer, :type => :serializer do
   before { allow(friends).to receive(:users).and_return([friend_user]) }
   subject { serialize(friends, FriendsSerializer, :scope => user, :include => 'users') }
 
-  it { is_expected.to serialize_link(:next).with(friends_url({page: 2})) }
+  it { is_expected.to serialize_link(:next).with(api_v1_friends_url({page: 2})) }
   it { is_expected.to serialize_id_and_type('user-1234', 'friends') }
   it { is_expected.to serialize_included(friend_user).with(FriendUserSerializer) }
 end

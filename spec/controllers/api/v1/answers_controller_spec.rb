@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AnswersController, :type => :controller do
+RSpec.describe Api::V1::AnswersController, :type => :controller do
   describe 'POST /games/:game_id/answers' do
     it_behaves_like 'an authenticated only action' do
       subject { post(:create, :game_id => 1) }

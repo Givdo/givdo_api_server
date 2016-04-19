@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FriendsController, :type => :controller do
+RSpec.describe Api::V1::FriendsController, :type => :controller do
   let(:user) { build(:user) }
 
   describe "GET #index" do
