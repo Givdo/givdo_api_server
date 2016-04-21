@@ -1,5 +1,4 @@
 class Api::V1::ApiController < ApplicationController
-  protect_from_forgery :with => :null_session
   before_filter :authenticate_token!
 
   rescue_from Givdo::TokenAuth::InvalidToken do
