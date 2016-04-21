@@ -1,13 +1,16 @@
-require_dependency 'givdo/facebook'
-
 class Api::V1::GamesController < Api::V1::ApiController
+  rescue_from Givdo::Error do |exception|
+    render json: { error: exception.message, code: :beta }, status: :method_not_allowed
+  end
+
   def single
-    render :json => Match.current(current_user), :include => 'players,trivia,trivia.options'
+    game = Game::StartSingle.call(current_user)
+    render json: game, include: 'players,trivia,trivia.options'
   end
 
   def versus
-    user = Givdo::Facebook.friend(current_user, params[:uid])
-    game = Match.current(current_user, user)
-    render :json => game, :include => 'players,trivia,trivia.options'
+    friend = Givdo::Facebook.friend(current_user, params[:uid])
+    game = Game::StartVersus.call(current_user, friend)
+    render json: game, include: 'players,trivia,trivia.options'
   end
 end

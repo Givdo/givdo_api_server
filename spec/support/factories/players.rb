@@ -8,5 +8,9 @@ FactoryGirl.define do
     factory :finished_player do
       finished_at Time.current
     end
+
+    factory :unfinished_player do
+      finished_at nil
+    end
   end
 end

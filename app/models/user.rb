@@ -64,4 +64,28 @@ class User < ActiveRecord::Base
   def add_badges(new_badges)
     badges << new_badges
   end
+
+  def create_single_game!
+    last_unfinished_game || create_own_game
+  end
+
+  def create_game_versus!(user)
+    (last_unfinished_game(scope: Game.versus(user)) || create_own_game).tap do |game|
+      game.add_player(user)
+    end
+  end
+
+  def can_create_game?
+    owned_games.size <= 10
+  end
+
+  private
+
+  def create_own_game
+    owned_games.create!
+  end
+
+  def last_unfinished_game(scope: Game.single)
+    games.unfinished.merge(scope).last
+  end
 end

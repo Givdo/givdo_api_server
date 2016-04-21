@@ -17,7 +17,7 @@ RSpec.describe Api::V1::AuthController, :type => :controller do
 
     it 'generates a token with the provider user' do
       Timecop.freeze(Date.parse('2015-10-10'))
-      expect(Givdo::OAuth::Facebook).to receive(:validate!).with('token 123').and_return(user)
+      expect(Givdo::Oauth::Facebook).to receive(:validate!).with('token 123').and_return(user)
       expect(Givdo::TokenAuth::Session).to receive(:new).with(user, '5184000').and_return session
 
       expect(subject).to be_success
@@ -25,14 +25,14 @@ RSpec.describe Api::V1::AuthController, :type => :controller do
     end
 
     it 'formats oauth errors' do
-      expect(Givdo::OAuth::Facebook).to receive(:validate!).and_raise(Givdo::OAuth::Error, 'error message')
+      expect(Givdo::Oauth::Facebook).to receive(:validate!).and_raise(Givdo::Oauth::Error, 'error message')
 
       expect(subject).to be_bad_request
       expect(subject.body).to eql '{"error":"error message","code":"oauth"}'
     end
 
     describe 'beta access' do
-      before { expect(Givdo::OAuth::Facebook).to receive(:validate!).and_return(user) }
+      before { expect(Givdo::Oauth::Facebook).to receive(:validate!).and_return(user) }
 
       it 'does not authenticate fwhen the user is not part of the beta access program' do
         expect(BetaAccess).to receive(:granted?).with(user).and_return(false)

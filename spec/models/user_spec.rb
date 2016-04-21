@@ -103,4 +103,46 @@ RSpec.describe User, :type => :model do
       expect(user.badges.size).to eq(3)
     end
   end
+
+  describe "#create_single_game!" do
+    context "when the user doesn't have unfinished games" do
+      it "creates a new game" do
+        user = create(:user)
+
+        expect { user.create_single_game! }.to change { user.owned_games.size }.by(1)
+      end
+    end
+
+    context "when the user has unfinished games" do
+      it "returns the last unfinished game" do
+        user = create(:user_with_unfinished_game)
+
+        expect { user.create_single_game! }.not_to change { user.owned_games.size }
+      end
+    end
+  end
+
+  describe "#create_game_versus!" do
+    context "whe the user doesn't have unfinished games" do
+      it "creates a new game" do
+        user = create(:user)
+        player_2 = create(:user)
+
+        expect { user.create_game_versus!(player_2) }.to change { user.owned_games.size }.by(1)
+      end
+    end
+
+    context "when the user has unfinished games" do
+      it "returns the last unfinished game against player 2" do
+        user = create(:user)
+        player_2 = create(:user)
+        game = create(:game, creator: user)
+
+        # game.add_player(user)
+        game.add_player(player_2).save
+
+        expect { user.create_game_versus!(player_2) }.not_to change { user.owned_games.size }
+      end
+    end
+  end
 end

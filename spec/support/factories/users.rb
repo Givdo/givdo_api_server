@@ -23,5 +23,15 @@ FactoryGirl.define do
         user.players << build(:finished_player, score: evalutor.player_score)
       end
     end
+
+    factory :user_with_unfinished_game do
+      ignore do
+        player_score 1
+      end
+
+      after(:build) do |user, evalutor|
+        user.players << build(:unfinished_player, score: evalutor.player_score)
+      end
+    end
   end
 end

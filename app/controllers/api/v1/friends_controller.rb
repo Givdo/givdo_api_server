@@ -1,5 +1,3 @@
-require_dependency 'givdo/facebook'
-
 class Api::V1::FriendsController < Api::V1::ApiController
   def index
     render :json => Givdo::Facebook.friends(current_user, filter_params),
