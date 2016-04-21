@@ -1,11 +1,11 @@
 require 'rails_helper'
 require 'givdo/oauth'
 
-RSpec.describe Givdo::OAuth::Facebook, :type => :model do
+RSpec.describe Givdo::Oauth::Facebook, :type => :model do
   describe '#validate!' do
     let(:facebook_profile) { {'id' => 'facebook id'} }
     let(:graph) { double(:get_object => {}, :get_picture => nil) }
-    subject { Givdo::OAuth::Facebook.validate!('access token') }
+    subject { Givdo::Oauth::Facebook.validate!('access token') }
     before { allow(Givdo::Facebook).to receive(:graph).with('access token').and_return(graph) }
     before { allow(graph).to receive(:get_object).with('me', :fields => 'id,name,cover').and_return(facebook_profile) }
 
@@ -49,10 +49,10 @@ RSpec.describe Givdo::OAuth::Facebook, :type => :model do
       expect(subject).to eql 'user'
     end
 
-    it 'raises an OAuth::Error in case of any problem' do
+    it 'raises an Oauth::Error in case of any problem' do
       expect(graph).to receive(:get_object).and_raise(Koala::Facebook::AuthenticationError.new(10, 'message'))
 
-      expect { subject }.to raise_error Givdo::OAuth::Error, 'message [HTTP 10]'
+      expect { subject }.to raise_error Givdo::Oauth::Error, 'message [HTTP 10]'
     end
   end
 end
