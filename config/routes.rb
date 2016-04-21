@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   ActiveAdmin.routes(self)
 
-  namespace :api do
+  namespace :api, defaults: { format: :json } do
     namespace :v1 do
       post '/oauth/:action/callback', controller: :auth
 
