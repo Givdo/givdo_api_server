@@ -11,6 +11,7 @@ gem 'jwt'
 gem 'activeadmin', :github => 'activeadmin'
 gem 'devise' # Used for activeadmin only
 gem 'ransack'
+gem 'rpush'
 
 # App Server
 gem 'unicorn'
