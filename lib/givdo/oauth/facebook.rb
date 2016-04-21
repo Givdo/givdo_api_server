@@ -1,7 +1,5 @@
-require 'givdo/facebook'
-
 module Givdo
-  module OAuth
+  module Oauth
     class Facebook
       def self.validate!(*args)
         new(*args).validate!
@@ -14,7 +12,7 @@ module Givdo
       def validate!
         update_user_data
       rescue Koala::Facebook::AuthenticationError => e
-        raise Givdo::OAuth::Error, e
+        raise Givdo::Oauth::Error, e
       end
 
       private

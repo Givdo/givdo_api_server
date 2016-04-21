@@ -1,8 +1,11 @@
-require 'givdo/facebook/user'
-require 'givdo/facebook/friends'
-
 module Givdo
   module Facebook
+    extend ActiveSupport::Autoload
+
+    autoload :User
+    autoload :Friends
+    autoload :PaginatedConnections
+
     def self.oauth
       @_oauth ||= begin
         credentials = Rails.application.secrets.facebook.values_at('app_id', 'secret')

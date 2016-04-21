@@ -1,7 +1,9 @@
-require 'givdo/oauth/facebook'
-
 module Givdo
-  module OAuth
+  module Oauth
+    extend ActiveSupport::Autoload
+
+    autoload :Facebook
+    
     class Error < StandardError; end
   end
 end

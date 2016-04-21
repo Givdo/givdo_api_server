@@ -1,7 +1,9 @@
-require 'givdo/token_auth/session'
-
 module Givdo
   module TokenAuth
+    extend ActiveSupport::Autoload
+
+    autoload :Session
+
     Config = [Rails.application.secrets.secret_key_base, 'HS256']
 
     class InvalidToken < StandardError; end

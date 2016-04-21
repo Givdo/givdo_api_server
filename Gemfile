@@ -19,11 +19,11 @@ gem 'rack-cors', :require => 'rack/cors'
 
 group :development, :test do
   gem 'annotate'
-  gem 'byebug'
   gem 'spring'
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'timecop'
+  gem 'pry-byebug'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
 end
