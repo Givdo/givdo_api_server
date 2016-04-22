@@ -9,19 +9,19 @@ Rails.application.routes.draw do
 
       resources :activities, only: [:index]
       resources :friends, only: [:index]
+      resources :organizations, only: [:index]
+      resource :user, only: [:update, :show]
+      resources :devices, only: [:create]
 
-      resources :games, :only => [] do
+      resources :games, only: [] do
         resources :answers, only: [:create]
         resource :player, only: [:update]
 
         collection do
-          get '/single', :action => :single
-          get '/versus/:uid', :action => :versus
+          get '/single', action: :single
+          get '/versus/:uid', action: :versus
         end
       end
-
-      resources :organizations, only: [:index]
-      resource :user, only: [:update, :show]
     end
   end
 end

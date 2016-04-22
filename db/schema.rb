@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160421190246) do
+ActiveRecord::Schema.define(version: 20160421202148) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -112,6 +112,17 @@ ActiveRecord::Schema.define(version: 20160421190246) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "devices", force: :cascade do |t|
+    t.string   "token"
+    t.string   "platform"
+    t.boolean  "enabled",    default: true
+    t.integer  "user_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "devices", ["user_id"], name: "index_devices_on_user_id"
 
   create_table "games", force: :cascade do |t|
     t.integer  "creator_id"
