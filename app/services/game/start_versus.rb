@@ -1,6 +1,8 @@
 class Game::StartVersus
-  def self.call(player_1, player_2)
-    return player_1.create_game_versus!(player_2) if player_1.can_create_game?
-    raise Givdo::Error, "You can't start a new game"
+  def self.call(user_1, user_2)
+    raise Givdo::Error, "You can't start a new game" unless user_1.can_create_game?
+    user_1.create_game_versus!(user_2).tap do |game|
+      Game::SendInvitation.call(user_2, game)
+    end
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160412122312) do
+ActiveRecord::Schema.define(version: 20160421202148) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -113,6 +113,17 @@ ActiveRecord::Schema.define(version: 20160412122312) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "devices", force: :cascade do |t|
+    t.string   "token"
+    t.string   "platform"
+    t.boolean  "enabled",    default: true
+    t.integer  "user_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "devices", ["user_id"], name: "index_devices_on_user_id"
+
   create_table "games", force: :cascade do |t|
     t.integer  "creator_id"
     t.datetime "created_at",                 null: false
@@ -135,6 +146,15 @@ ActiveRecord::Schema.define(version: 20160412122312) do
 
   add_index "games_users", ["game_id"], name: "index_games_users_on_game_id"
   add_index "games_users", ["user_id"], name: "index_games_users_on_user_id"
+
+  create_table "organization_score_reports", force: :cascade do |t|
+    t.integer  "score"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "organization_score_reports", ["organization_id"], name: "index_organization_score_reports_on_organization_id"
 
   create_table "organizations", force: :cascade do |t|
     t.string   "facebook_id"
@@ -163,6 +183,68 @@ ActiveRecord::Schema.define(version: 20160412122312) do
   add_index "players", ["game_id"], name: "index_players_on_game_id"
   add_index "players", ["organization_id"], name: "index_players_on_organization_id"
   add_index "players", ["user_id"], name: "index_players_on_user_id"
+
+  create_table "rpush_apps", force: :cascade do |t|
+    t.string   "name",                                null: false
+    t.string   "environment"
+    t.text     "certificate"
+    t.string   "password"
+    t.integer  "connections",             default: 1, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "type",                                null: false
+    t.string   "auth_key"
+    t.string   "client_id"
+    t.string   "client_secret"
+    t.string   "access_token"
+    t.datetime "access_token_expiration"
+  end
+
+  create_table "rpush_feedback", force: :cascade do |t|
+    t.string   "device_token", limit: 64, null: false
+    t.datetime "failed_at",               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "app_id"
+  end
+
+  add_index "rpush_feedback", ["device_token"], name: "index_rpush_feedback_on_device_token"
+
+  create_table "rpush_notifications", force: :cascade do |t|
+    t.integer  "badge"
+    t.string   "device_token",      limit: 64
+    t.string   "sound",                        default: "default"
+    t.text     "alert"
+    t.text     "data"
+    t.integer  "expiry",                       default: 86400
+    t.boolean  "delivered",                    default: false,     null: false
+    t.datetime "delivered_at"
+    t.boolean  "failed",                       default: false,     null: false
+    t.datetime "failed_at"
+    t.integer  "error_code"
+    t.text     "error_description"
+    t.datetime "deliver_after"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "alert_is_json",                default: false
+    t.string   "type",                                             null: false
+    t.string   "collapse_key"
+    t.boolean  "delay_while_idle",             default: false,     null: false
+    t.text     "registration_ids"
+    t.integer  "app_id",                                           null: false
+    t.integer  "retries",                      default: 0
+    t.string   "uri"
+    t.datetime "fail_after"
+    t.boolean  "processing",                   default: false,     null: false
+    t.integer  "priority"
+    t.text     "url_args"
+    t.string   "category"
+    t.boolean  "content_available",            default: false
+    t.text     "notification"
+  end
+
+  add_index "rpush_notifications", ["app_id", "delivered", "failed", "deliver_after"], name: "index_rapns_notifications_multi"
+  add_index "rpush_notifications", ["delivered", "failed"], name: "index_rpush_notifications_multi"
 
   create_table "trivia", force: :cascade do |t|
     t.text     "question"

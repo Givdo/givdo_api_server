@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
 
   belongs_to :organization
 
+  has_many :devices
   has_many :players
   has_many :activities
   has_many :games, :through => :players
