@@ -8,8 +8,21 @@ RSpec.describe Game::StartVersus do
     player_1 = double(User)
     player_2 = double(User)
     allow(player_1).to receive(:can_create_game?).and_return(true)
+    allow(Game::SendInvitation).to receive(:call)
 
     expect(player_1).to receive(:create_game_versus!).with(player_2)
+
+    service.call(player_1, player_2)
+  end
+
+  it "sends a game invitation to player 2" do
+    game = double(Game)
+    player_1 = double(User)
+    player_2 = double(User)
+    allow(player_1).to receive(:can_create_game?).and_return(true)
+    allow(player_1).to receive(:create_game_versus!).with(player_2).and_return(game)
+
+    expect(Game::SendInvitation).to receive(:call).with(player_2, game)
 
     service.call(player_1, player_2)
   end

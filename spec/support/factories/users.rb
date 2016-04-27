@@ -5,6 +5,12 @@ FactoryGirl.define do
     sequence(:email) {|n| "user#{n}@givdo-user.com"}
     organization
 
+    trait :with_device do
+      after(:create) do |user|
+        user.devices << FactoryGirl.create(:device)
+      end
+    end
+
     factory :user_with_activities do
       ignore do
         activities_count 5

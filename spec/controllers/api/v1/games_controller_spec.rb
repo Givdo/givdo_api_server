@@ -2,7 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::GamesController, :type => :controller do
   let(:game) { create(:game) }
-  let(:user) { create(:user) }
+  let(:user) { create(:user, :with_device) }
+
+  before do
+    app_name = 'test-app'
+    Rpush::Gcm::App.create!(name: app_name, auth_key: 'foobar')
+    allow(ENV).to receive(:[]).with('RPUSH_APP_NAME').and_return(app_name)
+  end
 
   describe "on GET to /single" do
     it "starts a single game" do
@@ -26,7 +32,7 @@ RSpec.describe Api::V1::GamesController, :type => :controller do
 
   describe "on GET /versus/:uid" do
     it "starts a versus game" do
-      friend = User.new
+      friend = create(:user, :with_device)
       allow(Givdo::Facebook).to receive(:friend).with(user, '12345').and_return(friend)
 
       api_user user
@@ -37,7 +43,7 @@ RSpec.describe Api::V1::GamesController, :type => :controller do
     end
 
     it "returns a game versus the friend" do
-      friend = User.new
+      friend = create(:user, :with_device)
       allow(Givdo::Facebook).to receive(:friend).with(user, '12345').and_return(friend)
 
       api_user user
