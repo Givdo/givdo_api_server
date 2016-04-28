@@ -19,6 +19,7 @@ gem 'rack-handlers'
 gem 'rack-cors', :require => 'rack/cors'
 
 group :development, :test do
+  gem 'apitome'
   gem 'annotate'
   gem 'spring'
   gem 'sqlite3'
@@ -31,6 +32,7 @@ end
 
 group :development do
   gem 'rails-erd'
+  gem 'rspec_api_documentation'
 end
 
 group :production do

@@ -68,6 +68,10 @@ GEM
       activerecord (>= 3.2, <= 4.3)
       rake (~> 10.4)
     ansi (1.5.0)
+    apitome (0.1.0)
+      kramdown
+      railties
+      rspec_api_documentation
     arbre (1.0.3)
       activesupport (>= 3.0.0)
     arel (6.0.3)
@@ -135,6 +139,7 @@ GEM
       addressable
       faraday
       multi_json
+    kramdown (1.10.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -145,6 +150,7 @@ GEM
     minitest (5.8.3)
     multi_json (1.11.2)
     multipart-post (2.0.0)
+    mustache (0.99.8)
     net-http-persistent (2.9.4)
     nokogiri (1.6.7.1)
       mini_portile2 (~> 2.0.0.rc2)
@@ -216,6 +222,10 @@ GEM
       net-http-persistent
       railties
       thor (>= 0.18.1, < 2.0)
+    rspec (3.3.0)
+      rspec-core (~> 3.3.0)
+      rspec-expectations (~> 3.3.0)
+      rspec-mocks (~> 3.3.0)
     rspec-core (3.3.2)
       rspec-support (~> 3.3.0)
     rspec-expectations (3.3.1)
@@ -233,6 +243,11 @@ GEM
       rspec-mocks (~> 3.3.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
+    rspec_api_documentation (4.7.0)
+      activesupport (>= 3.0.0)
+      json (~> 1.4, >= 1.4.6)
+      mustache (~> 0.99, >= 0.99.4)
+      rspec (>= 3.0.0)
     ruby-graphviz (1.2.2)
     sass (3.4.21)
     sass-rails (5.0.4)
@@ -271,6 +286,7 @@ DEPENDENCIES
   active_model_serializers!
   activeadmin!
   annotate
+  apitome
   database_cleaner
   devise
   factory_girl_rails
@@ -287,6 +303,7 @@ DEPENDENCIES
   ransack
   rpush
   rspec-rails
+  rspec_api_documentation
   spring
   sqlite3
   timecop
