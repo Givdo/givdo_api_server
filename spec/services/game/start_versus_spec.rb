@@ -35,7 +35,7 @@ RSpec.describe Game::StartVersus do
 
       expect(player_1).to receive(:can_create_game?)
 
-      expect { service.call(player_1, player_2) }.to raise_exception(Givdo::Error)
+      expect { service.call(player_1, player_2) }.to raise_exception(Givdo::Exceptions::GamesQuotaExeeded)
     end
   end
 end

@@ -1,3 +1,6 @@
+require 'givdo/error_codes'
+require 'givdo/exceptions'
+
 module Givdo
   extend ActiveSupport::Autoload
 

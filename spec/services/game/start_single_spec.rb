@@ -18,7 +18,7 @@ RSpec.describe Game::StartSingle, type: :service do
       user = double(User)
       allow(user).to receive(:can_create_game?).and_return(false)
 
-      expect { service.call(user) }.to raise_exception(Givdo::Error)
+      expect { service.call(user) }.to raise_exception(Givdo::Exceptions::GamesQuotaExeeded)
     end
   end
 end
