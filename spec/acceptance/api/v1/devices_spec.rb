@@ -9,8 +9,8 @@ resource "Devices" do
   let(:user_token) { "Token token=#{Givdo::TokenAuth::Session.new(user, '3600').token}" }
 
   post "/api/v1/devices" do
-    parameter :token, 'Registration ID', required: true
-    parameter :platform, 'Platform name', required: true
+    parameter :token, 'Registration ID returned from the notifications provider', required: true
+    parameter :platform, 'Platform name of the device', required: true
 
     let(:token) { 'some-token' }
     let(:platform) { 'Android' }
