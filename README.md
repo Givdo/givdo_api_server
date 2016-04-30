@@ -48,3 +48,9 @@ The documentation with examples and details about the API is avaliable, in devel
 at `http://localhost:3000/api/docs`.
 
 For more low level details check `spec/acceptance`.
+
+If needed generate docs with
+
+```bash
+$ bin/rake docs:generate
+```
