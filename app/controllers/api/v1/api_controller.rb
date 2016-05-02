@@ -20,4 +20,8 @@ class Api::V1::ApiController < ApplicationController
       Givdo::TokenAuth.recover(token)
     end
   end
+
+  def render_exception(exception, status: :bad_request)
+    render json: { errors: exception.errors }, status: status
+  end
 end

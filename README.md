@@ -41,3 +41,16 @@ $ rspec
 ```
 
 This will ensure to run the specs in the most reliable, consistent and fast way.
+
+## Browsing the API
+
+The documentation with examples and details about the API is avaliable, in development,
+at `http://localhost:3000/api/docs`.
+
+For more low level details check `spec/acceptance`.
+
+If needed generate docs with
+
+```bash
+$ bin/rake docs:generate
+```

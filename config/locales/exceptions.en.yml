@@ -1,0 +1,6 @@
+en:
+  givdo:
+    exceptions:
+      games_quota_exceeded:
+        title: You already created 10 games
+        detail: While in beta you are allowed to create only 10 games.

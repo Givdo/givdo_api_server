@@ -1,6 +1,6 @@
 class Api::V1::GamesController < Api::V1::ApiController
-  rescue_from Givdo::Error do |exception|
-    render json: { error: exception.message, code: :beta }, status: :method_not_allowed
+  rescue_from Givdo::Exceptions::GamesQuotaExeeded do |exception|
+    render_exception exception, status: :method_not_allowed
   end
 
   def single

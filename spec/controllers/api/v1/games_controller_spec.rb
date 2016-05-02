@@ -5,9 +5,8 @@ RSpec.describe Api::V1::GamesController, :type => :controller do
   let(:user) { create(:user, :with_device) }
 
   before do
-    app_name = 'test-app'
-    Rpush::Gcm::App.create!(name: app_name, auth_key: 'foobar')
-    allow(ENV).to receive(:[]).with('RPUSH_APP_NAME').and_return(app_name)
+    app = Rpush::Gcm::App.create!(name: 'test-app', auth_key: 'foobar')
+    allow(Rpush::Gcm::App).to receive(:find_by_name).and_return(app)
   end
 
   describe "on GET to /single" do
