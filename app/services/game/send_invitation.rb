@@ -1,5 +1,7 @@
 class Game::SendInvitation
   def self.call(user, game)
+    return if user.devices.empty?
+
     params = {
       priority: :high,
       content_available: true,

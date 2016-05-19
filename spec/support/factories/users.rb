@@ -6,7 +6,7 @@ FactoryGirl.define do
     organization
 
     trait :with_device do
-      after(:create) do |user|
+      after(:build, :create) do |user|
         user.devices << FactoryGirl.create(:device)
       end
     end

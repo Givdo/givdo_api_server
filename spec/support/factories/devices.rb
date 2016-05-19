@@ -1,5 +1,7 @@
 FactoryGirl.define do
+  sequence(:token) { |n| "token##{n}" }
+
   factory :device do
-    token 'foobar'
+    token
   end
 end
