@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160421202148) do
+ActiveRecord::Schema.define(version: 20160523233138) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -95,6 +95,19 @@ ActiveRecord::Schema.define(version: 20160421202148) do
   create_table "categories", force: :cascade do |t|
     t.string "name"
   end
+
+  create_table "causes", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "causes_users", id: false, force: :cascade do |t|
+    t.integer "user_id",  null: false
+    t.integer "cause_id", null: false
+  end
+
+  add_index "causes_users", ["user_id", "cause_id"], name: "index_causes_users_on_user_id_and_cause_id"
 
   create_table "cycle_scores", force: :cascade do |t|
     t.integer  "score"

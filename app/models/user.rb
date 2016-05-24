@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
   has_many :owned_games, :class_name => 'Game', :foreign_key => :creator_id
 
   has_and_belongs_to_many :badges
+  has_and_belongs_to_many :causes
 
   def self.for_provider!(provider, uid, params={})
     where(:uid => uid, :provider => provider).first_or_initialize.tap do |user|

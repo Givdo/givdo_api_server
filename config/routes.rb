@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :organizations, only: [:index]
       resource :user, only: [:update, :show]
       resources :devices, only: [:create]
+      resources :causes, only: [:index, :update]
 
       resources :games, only: [] do
         resources :answers, only: [:create]
