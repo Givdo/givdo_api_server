@@ -1,4 +1,4 @@
-class CausesController < Api::V1::ApiController
+class Api::V1::CausesController < Api::V1::ApiController
   def index
     current_page = causes.page(page_number).per(page_size)
     render json: current_page
