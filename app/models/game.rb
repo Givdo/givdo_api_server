@@ -17,8 +17,10 @@
 class Game < ActiveRecord::Base
   belongs_to :creator, :class_name => 'User'
   belongs_to :category
+
   has_many :players
   has_many :users, :through => :players
+
   has_and_belongs_to_many :trivias
 
   attr_accessor :rounds

@@ -22,7 +22,6 @@ class Answer < ActiveRecord::Base
   has_one :game, :through => :player
 
   validates :trivia, :presence => true
-  validates :trivia_option, :presence => true
   validates :player, :presence => true
 
   default_scope { includes(:trivia_option) }
