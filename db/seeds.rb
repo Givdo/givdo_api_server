@@ -87,3 +87,21 @@ end
     badge.score = args.last
   end
 end
+
+
+[
+  'animal-welfare',
+  'art-theatre',
+  'community',
+  'environment',
+  'family-services',
+  'health-wellness',
+  'human-rights',
+  'hunger',
+  'international-support',
+  'mental-health',
+  'science-research',
+  'youth-education'
+].each do |args|
+  Cause.create(name: args)
+end
