@@ -4,7 +4,7 @@ class Api::V1::CausesController < Api::V1::ApiController
     render json: current_page
   end
 
-  def update
+  def create
     causes = Cause.find(params[:id])
     current_user.causes << causes
     render json: causes, status: :created
