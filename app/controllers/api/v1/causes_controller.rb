@@ -5,8 +5,7 @@ class Api::V1::CausesController < Api::V1::ApiController
   end
 
   def create
-    causes = Cause.find(params[:id] - current_user.causes.pluck(:id))
-    current_user.causes << causes
+    current_user.causes = Cause.find(params[:id])
     render json: causes, status: :created
   rescue ActiveRecord::ActiveRecordError
     render json: {}, status: :not_found
