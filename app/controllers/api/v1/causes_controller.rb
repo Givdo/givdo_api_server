@@ -6,7 +6,7 @@ class Api::V1::CausesController < Api::V1::ApiController
 
   def create
     current_user.causes = Cause.find(params[:id])
-    render json: causes, status: :created
+    render json: current_user.causes, status: :created
   rescue ActiveRecord::ActiveRecordError
     render json: {}, status: :not_found
   end
