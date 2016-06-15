@@ -30,6 +30,7 @@ class User < ActiveRecord::Base
   has_many :devices
   has_many :players
   has_many :activities
+  has_many :notifications
   has_many :games, :through => :players
   has_many :owned_games, :class_name => 'Game', :foreign_key => :creator_id
 

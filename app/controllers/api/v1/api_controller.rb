@@ -7,6 +7,14 @@ class Api::V1::ApiController < ApplicationController
 
   protected
 
+  def page_size
+    params[:page].try(:[], :size) || 10
+  end
+
+  def page_number
+    params[:page].try(:[], :number)
+  end
+
   def current_user
     current_session.try(:user)
   end

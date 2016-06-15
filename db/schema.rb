@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160523233138) do
+ActiveRecord::Schema.define(version: 20160611151757) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace"
@@ -159,6 +159,19 @@ ActiveRecord::Schema.define(version: 20160523233138) do
 
   add_index "games_users", ["game_id"], name: "index_games_users_on_game_id"
   add_index "games_users", ["user_id"], name: "index_games_users_on_user_id"
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "game_id"
+    t.integer  "user_id"
+    t.integer  "sender_id"
+    t.integer  "status",     default: 0
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "notifications", ["game_id"], name: "index_notifications_on_game_id"
+  add_index "notifications", ["sender_id"], name: "index_notifications_on_sender_id"
+  add_index "notifications", ["user_id"], name: "index_notifications_on_user_id"
 
   create_table "organization_score_reports", force: :cascade do |t|
     t.integer  "score"

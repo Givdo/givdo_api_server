@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       post '/oauth/:action/callback', controller: :auth
 
+      resources :notifications, only: [:index, :update]
       resources :activities, only: [:index]
       resources :friends, only: [:index]
       resources :organizations, only: [:index]

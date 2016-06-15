@@ -3,25 +3,13 @@ require 'rails_helper'
 RSpec.describe Game::SendInvitation do
   subject(:service) { described_class }
 
-  context "when the user has devices" do
-    it "creates a GCM notification" do
-      user = build(:user, :with_device)
-      game = build(:game)
+  it "creates a new notification for the user" do
+    user = build(:user)
+    game_owner = build(:user)
+    game = build(:game, creator: game_owner)
 
-      expect(Rpush::Gcm::Notification).to receive(:create!)
+    expect(Notification).to receive(:create!).with(game: game, user: user, sender: game_owner)
 
-      service.call(user, game)
-    end
-  end
-
-  context "when the user don't has devices" do
-    it "doesn't creates a GCM notification" do
-      user = build(:user, devices: [])
-      game = build(:game)
-
-      expect(Rpush::Gcm::Notification).not_to receive(:create!)
-
-      service.call(user, game)
-    end
+    service.call(user, game)
   end
 end
