@@ -18,7 +18,7 @@
 #
 
 class Notification < ActiveRecord::Base
-  enum status: { no_answer: 0, accepted: 1, rejected: 2 }
+  enum status: { not_answered: 0, accepted: 1, rejected: 2 }
 
   belongs_to :game
   belongs_to :user

@@ -1,6 +1,7 @@
 class NotificationSerializer < ActiveModel::Serializer
   attributes :id, :status, :category, :sender_name, :sender_image, :game_id
 
+  belongs_to :game
 
   def category
     object.game.try(:category).try(:name)
