@@ -19,7 +19,7 @@ class Api::V1::CausesController < Api::V1::ApiController
   end
 
   def page_size
-    params[:page].try(:[], :size) || 10
+    params[:page].try(:[], :size) || 20
   end
 
   def page_number
