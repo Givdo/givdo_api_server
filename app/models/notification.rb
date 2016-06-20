@@ -23,4 +23,14 @@ class Notification < ActiveRecord::Base
   belongs_to :game
   belongs_to :user
   belongs_to :sender, class_name: 'User'
+
+  def reject!
+    self[:status] = self.class.statuses[:rejected]
+    save!
+  end
+
+  def accept!
+    self[:status] = self.class.statuses[:accepted]
+    save!
+  end
 end

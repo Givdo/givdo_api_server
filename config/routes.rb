@@ -7,7 +7,6 @@ Rails.application.routes.draw do
     namespace :v1 do
       post '/oauth/:action/callback', controller: :auth
 
-      resources :notifications, only: [:index, :update]
       resources :activities, only: [:index]
       resources :friends, only: [:index]
       resources :organizations, only: [:index]
@@ -22,6 +21,13 @@ Rails.application.routes.draw do
         collection do
           get '/single', action: :single
           get '/versus/:uid', action: :versus
+        end
+      end
+
+      resources :notifications, only: [:index] do
+        member do
+          put :accept
+          put :reject
         end
       end
     end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::NotificationsController, type: :controller do
   let(:user) { create(:user) }
-  let(:notification) { create(:notification, status: 'no_answer') }
+  let(:notification) { create(:notification, status: :not_answered) }
 
   describe "GET #index" do
     it "responds with success" do
@@ -23,11 +23,11 @@ RSpec.describe Api::V1::NotificationsController, type: :controller do
     end
   end
 
-  describe "PUT #update" do
+  describe "PUT #accept" do
     it "responds with success" do
       api_user user
 
-      put :update, id: notification.id, status: 'rejected'
+      put :accept, id: notification.id
 
       expect(response.status).to eq(200)
     end
@@ -35,9 +35,27 @@ RSpec.describe Api::V1::NotificationsController, type: :controller do
     it "updates notification's status" do
       api_user user
 
-      put :update, id: notification.id, status: 'accepted'
+      put :accept, id: notification.id
 
       expect(notification.reload).to be_accepted
+    end
+  end
+
+  describe "PUT #reject" do
+    it "responds with success" do
+      api_user user
+
+      put :reject, id: notification.id
+
+      expect(response.status).to eq(200)
+    end
+
+    it "updates notification's status" do
+      api_user user
+
+      put :reject, id: notification.id
+
+      expect(notification.reload).to be_rejected
     end
   end
 end
