@@ -1,7 +1,9 @@
 class Api::V1::NotificationsController < Api::V1::ApiController
   def index
     notifications = current_user.notifications.not_answered
-    render json: notifications.page(params[:page][:number]).per(params[:page][:size])
+    notifications = notifications.page(page_number).per(page_size)
+
+    render json: notifications
   end
 
   def update

@@ -8,11 +8,11 @@ class Api::V1::ApiController < ApplicationController
   protected
 
   def page_size
-    params[:size].presence || 10
+    params[:page].try(:[], :size) || 10
   end
 
   def page_number
-    params[:page].presence || 1
+    params[:page].try(:[], :number) || 1
   end
 
   def current_user
