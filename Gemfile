@@ -32,6 +32,7 @@ end
 
 group :development do
   gem 'rails-erd'
+  gem 'quiet_assets'
   gem 'rspec_api_documentation'
 end
 
