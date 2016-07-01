@@ -13,6 +13,9 @@ gem 'devise' # Used for activeadmin only
 gem 'ransack'
 gem 'rpush'
 
+# Importation
+gem 'roo'
+
 # App Server
 gem 'unicorn'
 gem 'rack-handlers'

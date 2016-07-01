@@ -8,4 +8,5 @@ module Givdo
   autoload :Oauth
   autoload :Facebook
   autoload :TokenAuth
+  autoload :TriviaImporter
 end
