@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :name, :image, :cover, :email, :total_score
+  attributes :id, :name, :uid, :image, :cover, :email, :total_score
 
   has_many :badges
   has_many :causes
