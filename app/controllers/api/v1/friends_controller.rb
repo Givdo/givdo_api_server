@@ -1,7 +1,11 @@
 class Api::V1::FriendsController < Api::V1::ApiController
   def index
     render :json => Givdo::Facebook.friends(current_user, filter_params),
-            :serializer => FriendsSerializer, :include => 'users'
+           :serializer => FriendsSerializer, :include => 'users'
+  end
+
+  def show
+    render :json => User.find(params[:id])
   end
 
   private
