@@ -1,7 +1,9 @@
 class Api::V1::UsersController < Api::V1::ApiController
   def show
-    render :json => current_user, :serializer => UserSerializer,
-      :include => ['organization', 'badges', 'causes']
+    new_session = Givdo::TokenAuth::Session.new(current_user, 14.days.seconds)
+
+    render :json => new_session, :serializer => SessionSerializer, include: 'user.*'
+      #:include => ['organization', 'badges', 'causes']
   end
 
   def update

@@ -16,8 +16,6 @@ module Givdo
         end
       end
 
-      private
-
       def exp
         @exp_in.to_i.seconds.from_now.to_i if @exp_in
       end
