@@ -5,7 +5,9 @@ class Api::V1::FriendsController < Api::V1::ApiController
   end
 
   def show
-    render :json => User.find(params[:id])
+    render :json => User.find(params[:id]),
+           serializer: FriendUserSerializer,
+           include: ['badges,causes,organization']
   end
 
   private

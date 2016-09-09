@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
     uids_to_create = (uids - existing_users.map(&:uid))
     new_users = uids_to_create.map do |uid|
       extra_data = user_data.find{|data| data['id'].eql?(uid)} || {}
-      {:provider => provider, :uid => uid}.merge(extra_data.slice('name', 'image'))
+      {:provider => provider, :uid => uid}.merge(extra_data.slice('name', 'image', 'cover'))
     end
 
     User.create(new_users) + existing_users
