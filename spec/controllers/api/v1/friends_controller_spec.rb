@@ -9,7 +9,7 @@ RSpec.describe Api::V1::FriendsController, :type => :controller do
     it_behaves_like 'an authenticated only action'
 
     describe 'authenticated user' do
-      let(:friends) { Givdo::Facebook::Friends.new(nil, nil) }
+      let(:friends) { Givdo::Facebook::Friends.new(nil, {}) }
       before { allow(friends).to receive(:next_page_params).and_return({}) }
       before { allow(friends).to receive(:users).and_return([user]) }
       before { allow(Givdo::Facebook).to receive(:friends).with(user, {}).and_return(friends) }
