@@ -16,7 +16,7 @@ module Givdo
       def self.map_attributes(data)
         data.dup.tap do |user|
           user['image'] ||= picture_url(data['id'])
-          user['cover'] = user['cover']['source']
+          user['cover'] = user['cover']['source'] if user.has_key?('cover')
         end
       end
 
