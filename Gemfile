@@ -13,6 +13,9 @@ gem 'devise' # Used for activeadmin only
 gem 'ransack'
 gem 'rpush'
 
+# Others
+gem 'rollbar'
+
 # Importation
 gem 'roo'
 

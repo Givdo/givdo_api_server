@@ -217,6 +217,8 @@ GEM
       polyamorous (~> 1.2)
     responders (2.1.1)
       railties (>= 4.2.0, < 5.1)
+    rollbar (2.13.2)
+      multi_json
     roo (2.4.0)
       nokogiri (~> 1)
       rubyzip (~> 1.1, < 2.0.0)
@@ -308,6 +310,7 @@ DEPENDENCIES
   rails-erd
   rails_12factor
   ransack
+  rollbar
   roo
   rpush
   rspec-rails
