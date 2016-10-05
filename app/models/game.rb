@@ -84,6 +84,6 @@ class Game < ActiveRecord::Base
   end
 
   def assign_default_category
-    self.category ||= Category.other
+    self.category ||= Category.order('RANDOM()').first
   end
 end
