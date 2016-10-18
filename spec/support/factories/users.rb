@@ -1,8 +1,12 @@
 FactoryGirl.define do
+  sequence :email do |n|
+    "user#{n}@givdo-user.com"
+  end
+
   factory :user do
     provider 'facebook'
     sequence(:uid) {|n| n.to_s * 5 }
-    sequence(:email) {|n| "user#{n}@givdo-user.com"}
+    email { generate(:email) }
     organization
 
     trait :with_device do

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe BetaAccess, :type => :model do
-  let(:user) { create(:user, :provider => 'facebook', :uid => '123456') }
+  let(:user) { create(:user, provider: 'facebook', uid: '123456') }
 
   describe 'scopes' do
     let!(:granted) { create(:beta_access, :granted_at => 1.day.ago) }
@@ -21,8 +21,8 @@ RSpec.describe BetaAccess, :type => :model do
   end
 
   describe '.granted?' do
-    it 'is granted when the provider/uid pair have been granted beta access' do
-      BetaAccess.create(:user => user).grant!
+    it 'is true when the user have been granted beta access' do
+      BetaAccess.create(email: user.email).grant!
 
       expect(BetaAccess).to be_granted(user)
     end

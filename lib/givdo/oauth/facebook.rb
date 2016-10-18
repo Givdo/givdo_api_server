@@ -1,6 +1,8 @@
 module Givdo
   module Oauth
     class Facebook
+      USER_FIELDS = 'id,name,cover,email'.freeze
+
       def self.validate!(*args)
         new(*args).validate!
       end
@@ -18,14 +20,16 @@ module Givdo
       private
 
       def update_user_data
-        profile = graph.get_object('me', :fields => 'id,name,cover')
+        profile = graph.get_object('me', fields: USER_FIELDS)
         picture = graph.get_picture('me')
+        cover = profile['cover'].try(:fetch, 'source')
 
         User.for_provider!(:facebook,  profile['id'], {
-          :image => picture,
-          :cover => profile['cover'].try(:fetch, 'source'),
-          :name => profile['name'],
-          :provider_token => @access_token
+          cover: cover,
+          image: picture,
+          name: profile['name'],
+          email: profile['email'],
+          provider_token: @access_token
         })
       end
 

@@ -3,11 +3,15 @@ require 'givdo/oauth'
 
 RSpec.describe Givdo::Oauth::Facebook, :type => :model do
   describe '#validate!' do
+    subject { Givdo::Oauth::Facebook.validate!('access token') }
+
     let(:facebook_profile) { {'id' => 'facebook id'} }
     let(:graph) { double(:get_object => {}, :get_picture => nil) }
-    subject { Givdo::Oauth::Facebook.validate!('access token') }
-    before { allow(Givdo::Facebook).to receive(:graph).with('access token').and_return(graph) }
-    before { allow(graph).to receive(:get_object).with('me', :fields => 'id,name,cover').and_return(facebook_profile) }
+
+    before do
+      allow(Givdo::Facebook).to receive(:graph).with('access token').and_return(graph)
+      allow(graph).to receive(:get_object).with('me', :fields => 'id,name,cover,email').and_return(facebook_profile)
+    end
 
     it 'fetches the user given the token and name' do
       facebook_profile['name'] = 'User Real Name'

@@ -7,6 +7,11 @@
 #  granted_at :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  email      :string
+#
+# Indexes
+#
+#  index_beta_accesses_on_email  (email) UNIQUE
 #
 
 class BetaAccess < ActiveRecord::Base
@@ -15,11 +20,15 @@ class BetaAccess < ActiveRecord::Base
   delegate :name, :to => :user, :prefix => true, :allow_nil => true
   delegate :image, :to => :user, :prefix => true, :allow_nil => true
 
-  scope :awaiting, -> { where(:granted_at => nil) }
-  scope :granted, -> { where.not(:granted_at => nil) }
+  scope :awaiting, -> { where(granted_at: nil).where.not(user: nil) }
+  scope :granted, -> { where.not(user: nil, granted_at: nil) }
+
+  validates_uniqueness_of :email
 
   def self.user_beta_access(user)
-    where(:user => user).first_or_create
+    where(email: user.email).first_or_create do |beta_access|
+      beta_access.user = user
+    end
   end
 
   def self.granted?(user)

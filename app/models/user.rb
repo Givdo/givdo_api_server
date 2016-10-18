@@ -22,9 +22,6 @@
 #
 
 class User < ActiveRecord::Base
-  validates :uid, :presence => :true
-  validates :provider, :presence => :true
-
   belongs_to :organization
 
   has_many :devices
@@ -36,6 +33,9 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :badges
   has_and_belongs_to_many :causes
+
+  validates :uid, :presence => :true
+  validates :provider, :presence => :true
 
   def self.for_provider!(provider, uid, params={})
     where(:uid => uid, :provider => provider).first_or_initialize.tap do |user|

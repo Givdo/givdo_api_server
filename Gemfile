@@ -19,6 +19,9 @@ gem 'rollbar'
 # Importation
 gem 'roo'
 
+# External APIs
+gem 'gibbon'
+
 # App Server
 gem 'unicorn'
 gem 'rack-handlers'
