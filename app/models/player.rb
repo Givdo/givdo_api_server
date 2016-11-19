@@ -9,7 +9,6 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  finished_at     :datetime
-#  score           :integer          default(0)
 #
 # Indexes
 #

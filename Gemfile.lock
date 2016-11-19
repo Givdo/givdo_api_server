@@ -323,3 +323,9 @@ DEPENDENCIES
   sqlite3
   timecop
   unicorn
+
+RUBY VERSION
+   ruby 2.0.0p451
+
+BUNDLED WITH
+   1.13.6
