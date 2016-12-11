@@ -323,3 +323,6 @@ DEPENDENCIES
   sqlite3
   timecop
   unicorn
+
+BUNDLED WITH
+   1.13.6
