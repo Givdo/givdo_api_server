@@ -34,7 +34,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'timecop'
-  gem 'pry-byebug'
+  #gem 'pry-byebug'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
 end
@@ -46,6 +46,6 @@ group :development do
 end
 
 group :production do
-  gem 'pg'
+#  gem 'pg'
   gem 'rails_12factor'
 end

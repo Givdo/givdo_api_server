@@ -275,9 +275,6 @@ ActiveRecord::Schema.define(version: 20161016194656) do
   add_index "rpush_notifications", ["app_id", "delivered", "failed", "deliver_after"], name: "index_rapns_notifications_multi"
   add_index "rpush_notifications", ["delivered", "failed"], name: "index_rpush_notifications_multi"
 
-# Could not dump table "surveys" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
-
   create_table "trivia", force: :cascade do |t|
     t.text     "question"
     t.datetime "created_at",        null: false

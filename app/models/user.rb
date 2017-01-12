@@ -13,6 +13,7 @@
 #  updated_at      :datetime
 #  provider_token  :text
 #  organization_id :integer
+#  cover           :string
 #
 # Indexes
 #
