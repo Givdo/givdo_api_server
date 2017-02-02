@@ -21,7 +21,7 @@ module ApiHelper
       serializer_klass = ActiveModel::Serializer::CollectionSerializer
     end
     serializer = serializer_klass.new(object, options)
-    adapter = ActiveModel::Serializer::Adapter.create(serializer, options)
+    adapter = ActiveModelSerializers::Adapter.create(serializer, options)
     adapter.as_json
   end
 

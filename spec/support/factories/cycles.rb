@@ -5,7 +5,7 @@ FactoryGirl.define do
     end
 
     trait :with_score do
-      ignore do
+      transient do
         scores 3
         cycle_score 10
       end

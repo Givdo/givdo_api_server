@@ -1,9 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::AuthController, :type => :controller do
+RSpec.describe Api::V1::AuthController, type: :controller do
+  before { allow(session).to receive(:token).and_return('12345') }
+  before { allow(BetaAccess).to receive(:granted?).and_return(true) }
+
   describe 'POST /oauth/facebook/callback' do
     let(:user) { User.new }
     let(:session) { Givdo::TokenAuth::Session.new(user, 5184000) }
+
     subject do
       post :facebook, {
         :provider => 'facebook',
@@ -12,8 +16,6 @@ RSpec.describe Api::V1::AuthController, :type => :controller do
         :expires_in => '5184000'
       }
     end
-    before { allow(session).to receive(:token).and_return('12345') }
-    before { allow(BetaAccess).to receive(:granted?).and_return(true) }
 
     it 'generates a token with the provider user' do
       Timecop.freeze(Date.parse('2015-10-10'))

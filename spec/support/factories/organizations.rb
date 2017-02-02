@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :organization do
     factory :organization_with_score do
-      ignore do
+      transient do
         score 5
       end
 

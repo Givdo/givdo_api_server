@@ -16,7 +16,7 @@ FactoryGirl.define do
     end
 
     factory :user_with_activities do
-      ignore do
+      transient do
         activities_count 5
       end
       after(:create) do |user, evalutor|
@@ -25,7 +25,7 @@ FactoryGirl.define do
     end
 
     factory :user_with_finished_player do
-      ignore do
+      transient do
         player_score 1
       end
 
@@ -35,7 +35,7 @@ FactoryGirl.define do
     end
 
     factory :user_with_unfinished_game do
-      ignore do
+      transient do
         player_score 1
       end
 

@@ -1,14 +1,14 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
+ruby '2.3.1'
 
 gem 'rails', '4.2.5'
 
 # App Logic
 gem 'koala', '~> 2.2'
-gem 'active_model_serializers', :github => 'rails-api/active_model_serializers'
+gem 'active_model_serializers', '~> 0.10'
 gem 'kaminari'
 gem 'jwt'
-gem 'activeadmin', :github => 'activeadmin'
+gem 'activeadmin', github: 'activeadmin'
 gem 'devise' # Used for activeadmin only
 gem 'ransack'
 gem 'rpush'
