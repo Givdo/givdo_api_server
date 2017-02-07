@@ -6,7 +6,7 @@ RSpec.describe Givdo::Oauth::Facebook, :type => :model do
     subject { Givdo::Oauth::Facebook.validate!('access token') }
 
     let(:facebook_profile) { {'id' => 'facebook id'} }
-    let(:graph) { double(:get_object => {}, :get_picture => nil) }
+    let(:graph) { double(:get_object => {}, :get_picture_data => {}) }
 
     before do
       allow(Givdo::Facebook).to receive(:graph).with('access token').and_return(graph)
@@ -34,7 +34,7 @@ RSpec.describe Givdo::Oauth::Facebook, :type => :model do
     end
 
     it 'fetches the user picture' do
-      expect(graph).to receive(:get_picture).with('me').and_return('picture')
+      expect(graph).to receive(:get_picture_data).with('me').and_return({ 'url' => 'picture' })
 
       expect(User).to receive(:for_provider!).with(anything, anything, a_hash_including({
         :image => 'picture'
@@ -44,7 +44,7 @@ RSpec.describe Givdo::Oauth::Facebook, :type => :model do
     end
 
     it 'saves the new token' do
-      expect(graph).to receive(:get_picture).with('me').and_return('picture')
+      expect(graph).to receive(:get_picture_data).with('me').and_return({ 'url' => 'picture' })
 
       expect(User).to receive(:for_provider!).with(anything, anything, a_hash_including({
         :provider_token => 'access token'

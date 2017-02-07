@@ -21,12 +21,12 @@ module Givdo
 
       def update_user_data
         profile = graph.get_object('me', fields: USER_FIELDS)
-        picture = graph.get_picture('me')
+        picture = graph.get_picture_data('me')
         cover = profile['cover'].try(:fetch, 'source')
 
         User.for_provider!(:facebook,  profile['id'], {
           cover: cover,
-          image: picture,
+          image: picture['url'],
           name: profile['name'],
           email: profile['email'],
           provider_token: @access_token

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe UpdateOrganizationJob, type: :job do
   let(:organization) { Organization.new(facebook_id: 'facebook id') }
-  let(:graph) { double(:get_object => {}, :get_picture => nil) }
+  let(:graph) { double(:get_object => {}, :get_picture_data => {}) }
   before { allow(Givdo::Facebook).to receive(:graph).and_return(graph) }
 
   describe 'facebook error' do
@@ -73,7 +73,7 @@ RSpec.describe UpdateOrganizationJob, type: :job do
   end
 
   it 'updates the organization picture' do
-    allow(Givdo::Facebook.graph).to receive(:get_picture).with('facebook id', {type: 'large'}).and_return('image url')
+    allow(Givdo::Facebook.graph).to receive(:get_picture_data).with('facebook id', {type: 'large'}).and_return({ 'url' => 'image url' })
 
     subject.perform(organization)
 

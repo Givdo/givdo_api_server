@@ -4,7 +4,8 @@ class UpdateOrganizationJob < ActiveJob::Base
   queue_as :default
 
   def perform(organization)
-    ograph = Givdo::Facebook.graph.get_object(organization.facebook_id, fields: [:mission, :location, :name])
+    ograph = graph.get_object(organization.facebook_id, fields: [:mission, :location, :name])
+    picture = graph.get_picture_data(organization.facebook_id, {:type => "large"})
 
     organization.cache!
 
@@ -18,10 +19,16 @@ class UpdateOrganizationJob < ActiveJob::Base
       organization.street  = location['street']
     end
 
-    organization.picture = Givdo::Facebook.graph.get_picture(organization.facebook_id, {:type => "large"})
+    organization.picture = picture['url']
 
     organization.save
   rescue Koala::Facebook::ClientError => error
     logger.error error
+  end
+
+  private
+
+  def graph
+    Givdo::Facebook.graph
   end
 end
