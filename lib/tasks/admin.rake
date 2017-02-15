@@ -1,3 +1,5 @@
+# Usage: rake "givdo:admin:create['USER_EMAIL', 'USER_PASSWORD']"
+
 namespace :givdo do
   namespace :admin do
     desc "Create admin user"
