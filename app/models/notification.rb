@@ -34,6 +34,8 @@ class Notification < ActiveRecord::Base
   end
 
   def accept!
+    game.add_player user
+    game.save!
     self[:status] = self.class.statuses[:accepted]
     save!
   end
