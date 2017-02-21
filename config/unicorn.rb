@@ -1,6 +1,11 @@
-worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
-timeout Integer(ENV["WEB_TIMEOUT"] || 15)
-preload_app true
+if ENV["RAILS_ENV"] == "development"
+  worker_processes 1
+  timeout 10000
+else
+  worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
+  timeout Integer(ENV["WEB_TIMEOUT"] || 15)
+  preload_app true
+end
 
 before_fork do |server, worker|
   Signal.trap 'TERM' do

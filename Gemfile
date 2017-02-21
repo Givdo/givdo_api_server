@@ -35,6 +35,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'timecop'
   gem 'pry-byebug'
+  gem 'pry-rails'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
 end

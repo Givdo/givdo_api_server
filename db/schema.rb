@@ -176,15 +176,6 @@ ActiveRecord::Schema.define(version: 20161016194656) do
   add_index "notifications", ["sender_id"], name: "index_notifications_on_sender_id"
   add_index "notifications", ["user_id"], name: "index_notifications_on_user_id"
 
-  create_table "organization_score_reports", force: :cascade do |t|
-    t.integer  "score"
-    t.integer  "organization_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-  end
-
-  add_index "organization_score_reports", ["organization_id"], name: "index_organization_score_reports_on_organization_id"
-
   create_table "organizations", force: :cascade do |t|
     t.string   "facebook_id"
     t.string   "name"
@@ -274,9 +265,6 @@ ActiveRecord::Schema.define(version: 20161016194656) do
 
   add_index "rpush_notifications", ["app_id", "delivered", "failed", "deliver_after"], name: "index_rapns_notifications_multi"
   add_index "rpush_notifications", ["delivered", "failed"], name: "index_rpush_notifications_multi"
-
-# Could not dump table "surveys" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
 
   create_table "trivia", force: :cascade do |t|
     t.text     "question"
