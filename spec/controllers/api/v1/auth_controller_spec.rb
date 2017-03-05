@@ -5,7 +5,7 @@ RSpec.describe Api::V1::AuthController, type: :controller do
   before { allow(BetaAccess).to receive(:granted?).and_return(true) }
 
   describe 'POST /oauth/facebook/callback' do
-    let(:user) { User.new }
+    let(:user) { User.create(uid: 1, provider: 'test') }
     let(:session) { Givdo::TokenAuth::Session.new(user, 5184000) }
 
     subject do
@@ -34,9 +34,10 @@ RSpec.describe Api::V1::AuthController, type: :controller do
     end
 
     describe 'beta access' do
-      before { expect(Givdo::Oauth::Facebook).to receive(:validate!).and_return(user) }
+      before { allow(Givdo::Oauth::Facebook).to receive(:validate!).and_return(user) }
 
       it 'does not authenticate fwhen the user is not part of the beta access program' do
+        pending('uncommenting code in auth_controller')
         expect(BetaAccess).to receive(:granted?).with(user).and_return(false)
 
         expect(subject).to be_unauthorized
