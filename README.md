@@ -21,7 +21,7 @@ You might want to reset your database to initial state if you will:
 ```bash
 $ rake db:seed
 $ rake givdo:organizations:cache
-$ rake givdo:admin:create
+$ rake givdo:admin:create[<EMAIL>, <PASSWORD>]
 ```
 
 And finally, to run the application:
