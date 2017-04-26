@@ -18,4 +18,14 @@ class Advertisement < ActiveRecord::Base
     validates :image
     validates :link
   end
+
+  def add_click!
+    self.clicks =+ 1
+    save!
+  end
+
+  def add_impression!
+    self.impressions =+ 1
+    save!
+  end
 end

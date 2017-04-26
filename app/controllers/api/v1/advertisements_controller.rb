@@ -1,11 +1,11 @@
 class AdvertisementsController < ApplicationController
   def show
-    current_ad.impressions += 1
+    current_ad.add_impression!
     render json: current_ad, serializer: AdvertisementSerializer
   end
 
   def click
-    current_ad.clicks += 1
+    current_ad.add_click!
     redirect_to current_ad.link
   end
 
