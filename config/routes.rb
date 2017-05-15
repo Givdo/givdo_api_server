@@ -8,6 +8,10 @@ Rails.application.routes.draw do
       post '/oauth/:action/callback', controller: :auth
 
       resources :activities, only: [:index]
+      resources :advertisements, only: [:index] do
+        put :record_click
+        put :record_impression
+      end
       resources :friends, only: [:show, :index]
       resources :organizations, only: [:index]
       resource :user, only: [:update, :show]
