@@ -1,0 +1,20 @@
+machine:
+  ruby:
+    version: 2.3.1
+  post:
+    - |
+      if [[ -e ~/rvm_binaries/ruby-2.3.1.tar.bz2 ]]
+      then
+        rvm mount ~/rvm_binaries/ruby-2.3.1.tar.bz2
+      else
+        mkdir -p ~/rvm_binaries
+        rvm install 2.3.1
+        cd ~/rvm_binaries && rvm prepare 2.3.1
+      fi
+    - rvm --default use 2.3.1
+
+dependencies:
+  cache_directories:
+    - ~/rvm_binaries
+  pre:
+    - gem install bundler
