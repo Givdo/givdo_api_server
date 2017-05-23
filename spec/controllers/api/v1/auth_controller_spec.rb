@@ -33,10 +33,10 @@ RSpec.describe Api::V1::AuthController, type: :controller do
       expect(subject.body).to eql '{"error":"error message","code":"oauth"}'
     end
 
-    describe 'beta access' do
+    xdescribe 'beta access' do
       before { expect(Givdo::Oauth::Facebook).to receive(:validate!).and_return(user) }
 
-      it 'does not authenticate fwhen the user is not part of the beta access program' do
+      it 'does not authenticate when the user is not part of the beta access program' do
         expect(BetaAccess).to receive(:granted?).with(user).and_return(false)
 
         expect(subject).to be_unauthorized
