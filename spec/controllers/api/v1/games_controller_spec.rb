@@ -4,11 +4,6 @@ RSpec.describe Api::V1::GamesController, :type => :controller do
   let(:game) { create(:game) }
   let(:user) { create(:user, :with_device) }
 
-  before do
-    app = Rpush::Gcm::App.create!(name: 'test-app', auth_key: 'foobar')
-    allow(Rpush::Gcm::App).to receive(:find_by_name).and_return(app)
-  end
-
   describe "on GET to /single" do
     it "starts a single game" do
       api_user user

@@ -9,10 +9,12 @@
 #  status     :integer          default(0)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  read       :boolean          default(FALSE)
 #
 # Indexes
 #
 #  index_notifications_on_game_id    (game_id)
+#  index_notifications_on_read       (read)
 #  index_notifications_on_sender_id  (sender_id)
 #  index_notifications_on_user_id    (user_id)
 #
@@ -23,6 +25,8 @@ class Notification < ActiveRecord::Base
   belongs_to :game
   belongs_to :user
   belongs_to :sender, class_name: 'User'
+
+  scope :unread, -> { where(read: false) }
 
   def reject!
     self[:status] = self.class.statuses[:rejected]

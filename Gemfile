@@ -11,7 +11,6 @@ gem 'jwt'
 gem 'activeadmin', github: 'activeadmin'
 gem 'devise' # Used for activeadmin only
 gem 'ransack'
-gem 'rpush'
 
 # Image upload
 gem 'paperclip', '~> 5.0.0'

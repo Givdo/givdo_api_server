@@ -16,9 +16,8 @@
 #
 
 class Device < ActiveRecord::Base
-  validates :token, presence: true
-
-  validates_uniqueness_of :token, scope: :user_id
-
   belongs_to :user
+
+  validates :token, presence: true
+  validates_uniqueness_of :token, scope: :user_id
 end
