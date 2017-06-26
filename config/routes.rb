@@ -28,12 +28,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :notifications, only: [:index] do
-        member do
-          put :accept
-          put :reject
-        end
-      end
+      resources :notifications, only: [:index, :update]
     end
   end
 end

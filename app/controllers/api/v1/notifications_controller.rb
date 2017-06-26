@@ -1,26 +1,18 @@
 class Api::V1::NotificationsController < Api::V1::ApiController
-  before_action :find_notification, only: [:accept, :reject]
-
   def index
-    notifications = current_user.notifications.not_answered
+    notifications = current_user.notifications.not_answered.unread
     notifications = notifications.page(page_number).per(page_size)
 
     render json: notifications
   end
 
-  def accept
-    @notification.accept!
-    render json: @notification.game
-  end
+  def update
+    notification = current_user.notifications.find(params[:id])
 
-  def reject
-    @notification.reject!
-    render json: @notificaion
-  end
-
-  private
-
-  def find_notification
-    @notification ||= Notification.find(params[:id])
+    if notification.update_attributes(params.permit(:read, :status))
+      render json: {}
+    else
+      render json: {}, status: :bad_request
+    end
   end
 end
