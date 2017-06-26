@@ -27,7 +27,7 @@ RSpec.describe Api::V1::ActivitiesController, type: :controller do
 
       get :index
 
-      expect(json['data']['attributes']['total_score']).to eq(total)
+      expect(json['data']['attributes']['totalScore']).to eq(total)
     end
   end
 end

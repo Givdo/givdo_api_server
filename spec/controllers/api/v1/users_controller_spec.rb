@@ -50,7 +50,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
         get :show
 
         expect(json).to have_key('data')
-        expect(json['data']['type']).to eq('givdo_token_auth_sessions')
+        expect(json['data']['type']).to eq('givdoTokenAuthSessions')
       end
     end
   end

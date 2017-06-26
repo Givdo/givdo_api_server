@@ -21,7 +21,7 @@ RSpec.describe OrganizationSerializer do
   end
 
   it { is_expected.to serialize_attribute(:name).with('Save the NGOs Foundation') }
-  it { is_expected.to serialize_attribute(:facebook_id).with('123') }
+  it { is_expected.to serialize_attribute(:facebookId).with('123') }
   it { is_expected.to serialize_attribute(:name).with('Save the NGOs Foundation') }
   it { is_expected.to serialize_attribute(:picture).with('image.jpg') }
   it { is_expected.to serialize_attribute(:state).with('CA') }

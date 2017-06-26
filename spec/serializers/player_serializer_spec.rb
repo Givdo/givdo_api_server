@@ -8,7 +8,7 @@ RSpec.describe PlayerSerializer, :type => :serializer do
   before { allow(player).to receive(:winner?).and_return(true) }
   subject { serialize(player, PlayerSerializer, :include => 'organization') }
 
-  it { is_expected.to serialize_attribute(:rounds_left).with(5) }
+  it { is_expected.to serialize_attribute(:roundsLeft).with(5) }
   it { is_expected.to serialize_attribute(:organization).with('Save Dave') }
   it { is_expected.to serialize_attribute(:finished?).with(true) }
   it { is_expected.to serialize_attribute(:name).with('John Doe') }

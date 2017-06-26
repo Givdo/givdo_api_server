@@ -9,7 +9,7 @@ RSpec.describe AnswerSerializer, :type => :serializer do
   subject { serialize(answer, AnswerSerializer, :scope => game.creator, :include => 'game,player') }
 
   it { is_expected.to serialize_attribute(:correct).with(true) }
-  it { is_expected.to serialize_attribute(:correct_option_id).with(15) }
+  it { is_expected.to serialize_attribute(:correctOptionId).with(15) }
 
   it { is_expected.to serialize_included(game).with(GameSerializer, :scope => game.creator) }
   it { is_expected.to serialize_included(player).with(PlayerSerializer) }
