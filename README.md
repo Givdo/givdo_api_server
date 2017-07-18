@@ -1,56 +1,70 @@
-# Givdo API Server
+# Givdo API Server [![CircleCI](https://circleci.com/gh/Givdo/givdo_api_server.svg?style=svg)](https://circleci.com/gh/Givdo/givdo_api_server)
 
-[![Build Status](https://semaphoreci.com/api/v1/projects/0a11f28a-6e3e-4e24-a3a8-8682ac4b8b1a/575200/badge.svg)](https://semaphoreci.com/chjunior/givdo_api_server)
+## Getting Started
 
-## Development dependencies
+1) Make sure you have the following dependencies installed
 
-* Ruby 2.0.0
+* Ruby 2.3.1
+* Gem
 * Bundler
 
-## Work Flow
+2) After installing all dependencies, clone the repository
 
-After cloning or updating your working copy, run the following to get your environment up to date:
+```
+$ git clone git@github.com:Givdo/givdo_api_server.git && cd givdo_api_server
+```
 
-```bash
+3) From project root run the following commands to install bundle packages
+and create development database
+
+```
 $ bundle install
-$ rake db:migrate
+$ bin/rake db:setup
 ```
 
-You might want to reset your database to initial state if you will:
+4) Seed your database, cache organizations from Facebook and create an admin
+account with
 
-```bash
-$ rake db:seed
-$ rake givdo:organizations:cache
-$ rake givdo:admin:create
+```
+$ bin/rake db:seed
+$ bin/rake givdo:organizations:cache
+$ bin/rake givdo:admin:create
 ```
 
-And finally, to run the application:
+5) Start development server with
 
-```bash
-$ rails server
+```
+$ bin/rails s -b 0.0.0.0
 ```
 
-As of now, you shouldn't have to worry about database setup, as we're developing on top of sqlite, and deploying to mysql. If you feel you'll need a database dependent feature or any external service dependency, **talk to the team**.
+Happy coding!
 
 ## Running the tests
 
-To run all of the specs, just run:
+We use RSpec to exercise Givdo's API endpoints. To run all the specs, run:
 
-```bash
+```
 $ rspec
 ```
 
 This will ensure to run the specs in the most reliable, consistent and fast way.
 
-## Browsing the API
+## Browsable API documentation
 
-The documentation with examples and details about the API is avaliable, in development,
-at `http://localhost:3000/api/docs`.
+**Documentation is incomplete and outdated**
 
-For more low level details check `spec/acceptance`.
+Givdo's API documentation is accessible, in development, at `http://localhost:3000/api/docs`. Documentation generated from acceptance specs at `spec/acceptance` and includes details and simple usage examples.
 
-If needed generate docs with
+At any time run the following command to (re)generate the documentation
 
-```bash
+```
 $ bin/rake docs:generate
 ```
+
+Check `spec/acceptance` for implementation details.
+
+## Tools and Guides
+
+- [Better Specs](http://www.betterspecs.org)
+- [REST Client (Mac, Windows and Linux)](https://insomnia.rest)
+- [RSpec API Documentation DSL](https://github.com/zipmark/rspec_api_documentation#dsl)
