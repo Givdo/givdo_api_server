@@ -1,5 +1,5 @@
 ActiveAdmin.register Organization do
-  permit_params :name, :facebook_id
+  permit_params :name, :facebook_id, :mission, :state, :city, :zip, :street
 
   filter :name, :as => :string
   filter :mission, :as => :string
@@ -39,7 +39,13 @@ ActiveAdmin.register Organization do
   form do |f|
     f.semantic_errors
     f.inputs "Organization details" do
-      input :facebook_id
+      f.input :facebook_id
+      f.input :name
+      f.input :mission
+      f.input :state
+      f.input :city
+      f.input :zip
+      f.input :street
     end
     f.actions
   end
