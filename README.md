@@ -28,7 +28,6 @@ account with
 ```
 $ bin/rake db:seed
 $ bin/rake givdo:organizations:cache
-$ bin/rake givdo:admin:create
 $ bin/rake "givdo:admin:create['USER_EMAIL', 'USER_PASSWORD']"
 ```
 Where 'USER_EMAIL' and 'USER_PASSWORD' are the email and password you wish to record.
