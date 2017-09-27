@@ -37,7 +37,10 @@ class User < ActiveRecord::Base
   validates :uid, :presence => :true
   validates :provider, :presence => :true
 
+  after_save :notify_facebook_friends
+
   def self.for_provider!(provider, uid, params={})
+    @access_token = params[:provider_token]
     where(:uid => uid, :provider => provider).first_or_initialize.tap do |user|
       user.assign_attributes(params)
       user.save!
@@ -80,6 +83,14 @@ class User < ActiveRecord::Base
 
   def can_create_game?
     owned_games.size <= 10
+  end
+
+  def notify_facebook_friends
+    friends = Givdo::Facebook.friends(current_user).users
+    facebook_emails = friends.map(&:email) 
+    user_emails = User.all.map(&:email)
+    friends_on_givdo_emails = user_emails - facebook_emails
+    #Notify users
   end
 
   private
